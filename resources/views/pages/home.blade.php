@@ -1,6 +1,9 @@
 @extends('layouts.app', ['title' => '3IQ Trading — Business & Investment'])
 
 @section('content')
+<x-ticker-tape></x-ticker-tape>
+
+
 <section class="hero-wrap">
     <div class="container">
         <div class="hero-card row g-0 align-items-center overflow-hidden">
@@ -20,17 +23,17 @@
                 </div>
             </div>
             <div class="col-lg-6 hero-visual">
-                <img src="{{ asset('assets/img/hero-investment.svg') }}" alt="Investment illustration">
+                <img src="{{ asset('images/20260914_135802.png') }}" style="width: 600px"alt="Investment illustration">
             </div>
         </div>
     </div>
 </section>
 
 <section class="section" id="about">
-    <div class="container">
+    <div class="containe">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6">
-                <div class="about-image"><img src="{{ asset('assets/img/about-investment.svg') }}" alt="Investment growth illustration"></div>
+                <div class="about-image"><img style="200px" src="{{ asset('assets/img/about-investment.svg') }}" alt="Investment growth illustration"></div>
             </div>
             <div class="col-lg-6">
                 <div class="eyebrow">About us</div>
@@ -69,6 +72,405 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+    </div>
+</section>
+<section class="iq-trading-section py-5">
+    <div class="contai">
+        <div class="row align-items-center g-5">
+
+            {{-- COLUMN 1: IMAGE --}}
+            <div class="col-lg-6">
+                <div class="iq-trading-image-wrapper">
+                    <img style="width: 200px; border-radius: 30px" src="{{ asset('images/file_0000000014dc82088624d15e3fc29b96.png') }}"
+                        alt="3IQTrading Trading Platform"
+                        class="img-fluid iq-trading-image"
+                    >
+                </div>
+            </div>
+
+
+            {{-- COLUMN 2: CAPTION --}}
+            <div class="col-lg-6">
+                <div class="iq-trading-content">
+
+                    <span class="iq-trading-label">
+                        3IQTRADING
+                    </span>
+
+                    <div class="eyebrow">
+                        Trade from anywhere around the world
+                        <h2 class="section-title mt-2">from your fingertips.</h2>
+                    </div>
+
+                    <a href="{{ url('/register') }}"
+                       class="btn iq-trading-btn">
+                        Start Trading
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<style>
+    /* ==============================
+       3IQTRADING SECTION
+    ============================== */
+
+    .iq-trading-section {
+        background: #ffffff;
+        padding: 100px 0 !important;
+        overflow: hidden;
+    }
+
+
+    /* ==============================
+       IMAGE COLUMN
+    ============================== */
+
+    .iq-trading-image-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .iq-trading-image {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        display: block;
+
+        filter: drop-shadow(
+            0 25px 45px rgba(13, 71, 161, 0.15)
+        );
+
+        transition: transform 0.3s ease;
+    }
+
+    .iq-trading-image:hover {
+        transform: translateY(-8px);
+    }
+
+
+    /* ==============================
+       CONTENT COLUMN
+    ============================== */
+
+    .iq-trading-content {
+        max-width: 570px;
+        padding: 20px 0;
+    }
+
+
+    /* ==============================
+       BRAND LABEL
+    ============================== */
+
+    .iq-trading-label {
+        display: inline-block;
+
+        padding: 8px 16px;
+
+        background: #eaf2ff;
+        color: #1261d6;
+
+        border-radius: 30px;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        letter-spacing: 1px;
+        text-transform: uppercase;
+
+        margin-bottom: 20px;
+    }
+
+
+    /* ==============================
+       HEADING
+    ============================== */
+
+    .iq-trading-title {
+        margin: 0;
+
+        color: #102a43;
+
+        font-size: 48px;
+        line-height: 1.15;
+
+        font-weight: 800;
+
+        letter-spacing: -1px;
+    }
+
+    .iq-trading-title span {
+        display: block;
+        color: #1261d6;
+        margin-top: 5px;
+    }
+
+
+    /* ==============================
+       DESCRIPTION
+    ============================== */
+
+    .iq-trading-description {
+        margin-top: 25px;
+        margin-bottom: 30px;
+
+        color: #68778d;
+
+        font-size: 17px;
+        line-height: 1.8;
+    }
+
+
+    /* ==============================
+       BUTTON
+    ============================== */
+
+    .iq-trading-btn {
+        display: inline-flex;
+        align-items: center;
+
+        padding: 14px 26px;
+
+        background: #1261d6;
+        color: #ffffff;
+
+        border: 1px solid #1261d6;
+        border-radius: 8px;
+
+        font-size: 15px;
+        font-weight: 700;
+
+        transition: all 0.25s ease;
+    }
+
+    .iq-trading-btn:hover {
+        background: #0b4fab;
+        border-color: #0b4fab;
+        color: #ffffff;
+
+        transform: translateY(-2px);
+    }
+
+
+    /* ==============================
+       TABLET
+    ============================== */
+
+    @media (max-width: 991px) {
+
+        .iq-trading-section {
+            padding: 70px 0 !important;
+        }
+
+        .iq-trading-content {
+            max-width: 100%;
+        }
+
+        .iq-trading-title {
+            font-size: 42px;
+        }
+
+        .iq-trading-image {
+            max-width: 430px;
+        }
+    }
+
+
+    /* ==============================
+       MOBILE
+    ============================== */
+
+    @media (max-width: 767px) {
+
+        .iq-trading-section {
+            padding: 60px 0 !important;
+        }
+
+        .iq-trading-image-wrapper {
+            padding: 0 15px;
+        }
+
+        .iq-trading-image {
+            max-width: 350px;
+        }
+
+        .iq-trading-content {
+            text-align: center;
+            padding: 10px 15px;
+        }
+
+        .iq-trading-title {
+            font-size: 36px;
+        }
+
+        .iq-trading-description {
+            font-size: 15px;
+            line-height: 1.7;
+        }
+    }
+
+
+    /* ==============================
+       SMALL MOBILE
+    ============================== */
+
+    @media (max-width: 400px) {
+
+        .iq-trading-title {
+            font-size: 32px;
+        }
+
+        .iq-trading-label {
+            font-size: 11px;
+        }
+    }
+
+</style>
+
+<!-- IRA Section -->
+<section class="ira-section py-5">
+    <div class="container py-lg-5">
+        <div class="row align-items-center g-5">
+
+            <!-- Left Column: Image -->
+            <div class="col-lg-6">
+                <div class="ira-image-wrapper">
+                    <img src="{{ asset('images/ira-retirement.jpg') }}"
+                         alt="Secure retirement with IRA"
+                         class="img-fluid ira-image">
+
+                    <div class="ira-image-badge">
+                        <i class="bi bi-shield-check"></i>
+                        <div>
+                            <strong>Plan for Tomorrow</strong>
+                            <small>Build your retirement with confidence</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-6">
+
+                <span class="ira-label">RETIREMENT PLANNING</span>
+
+                <h2 class="ira-title mt-2">
+                    Build a More <span>Secure Retirement</span>
+                </h2>
+
+                <p class="ira-description">
+                    Take control of your financial future with an Individual
+                    Retirement Account. 3IQ Trading provides tools and
+                    investment solutions designed to help you prepare for
+                    the retirement you envision.
+                </p>
+
+                <!-- FAQ Accordion -->
+                <div class="accordion ira-accordion mt-4" id="iraAccordion">
+
+                    <!-- Question 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="iraHeadingOne">
+                            <button class="accordion-button"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#iraCollapseOne"
+                                    aria-expanded="true"
+                                    aria-controls="iraCollapseOne">
+                                What is an IRA?
+                            </button>
+                        </h2>
+
+                        <div id="iraCollapseOne"
+                             class="accordion-collapse collapse show"
+                             aria-labelledby="iraHeadingOne"
+                             data-bs-parent="#iraAccordion">
+
+                            <div class="accordion-body">
+                                An Individual Retirement Account (IRA) is a
+                                retirement savings account that can provide
+                                tax advantages while you save and invest for
+                                your future.
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="iraHeadingTwo">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#iraCollapseTwo"
+                                    aria-expanded="false"
+                                    aria-controls="iraCollapseTwo">
+                                Why should I consider an IRA?
+                            </button>
+                        </h2>
+
+                        <div id="iraCollapseTwo"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="iraHeadingTwo"
+                             data-bs-parent="#iraAccordion">
+
+                            <div class="accordion-body">
+                                An IRA can help you set aside money specifically
+                                for retirement and potentially benefit from
+                                tax-advantaged growth, depending on the type
+                                of IRA and applicable rules.
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="iraHeadingThree">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#iraCollapseThree"
+                                    aria-expanded="false"
+                                    aria-controls="iraCollapseThree">
+                                How can I get started?
+                            </button>
+                        </h2>
+
+                        <div id="iraCollapseThree"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="iraHeadingThree"
+                             data-bs-parent="#iraAccordion">
+
+                            <div class="accordion-body">
+                                Start by reviewing the available retirement
+                                options and determining which account and
+                                investment strategy fits your goals. You can
+                                then follow the account-opening process and
+                                begin planning for your retirement.
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <a href="{{ route('ira') }}" class="btn ira-btn mt-4">
+                    Explore IRA Options
+                    <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+
+            </div>
         </div>
     </div>
 </section>

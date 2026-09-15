@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in · 3IQTrading Admin</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></head>
+<body class="login-page"><style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:#f6f8fc;color:#111827}.login-page{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 10%,#dbeafe,transparent 30%),#f8fafc}.login-card{width:min(430px,100%);background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:32px;box-shadow:0 25px 70px rgba(15,23,42,.12)}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#2563eb,#60a5fa);display:grid;place-items:center;color:#fff;font-weight:800;margin-bottom:20px}.login-card h1{margin:0;font-size:24px}.login-card p{color:#6b7280;font-size:13px;line-height:1.6}.field{margin:16px 0}.field label{display:block;font-size:12px;font-weight:600;margin-bottom:7px}.field input{width:100%;border:1px solid #e5e7eb;border-radius:11px;padding:12px 13px;font:inherit;font-size:13px;outline:none}.field input:focus{border-color:#93c5fd;box-shadow:0 0 0 4px #eff6ff}.btn{width:100%;border:0;border-radius:11px;padding:13px;background:#2563eb;color:#fff;font-weight:700;cursor:pointer}.alert{padding:11px 13px;border-radius:10px;font-size:12px;margin:12px 0}.error{background:#fef2f2;color:#991b1b}.success{background:#f0fdf4;color:#166534}.small{font-size:11px;color:#94a3b8;margin-top:16px;text-align:center}
+</style>
+<div class="login-card"><div class="logo">3IQ</div><h1>Welcome back</h1><p>Sign in to manage your 3IQTrading administration portal.</p>
+@if(session('error'))<div class="alert error">{{ session('error') }}</div>@endif
+@if(session('success'))<div class="alert success">{{ session('success') }}</div>@endif
+@if($errors->any())<div class="alert error">{{ $errors->first() }}</div>@endif
+<form method="POST" action="{{ route('login.submit') }}">@csrf
+<div class="field"><label>Username / phone</label><input name="username" value="{{ old('username') }}" required autocomplete="username"></div>
+<div class="field"><label>Password</label><input type="password" name="password" required autocomplete="current-password"></div>
+<button class="btn">Sign in</button></form><div class="small">Laravel administration · modernized interface</div></div></body></html>

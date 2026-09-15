@@ -34,5 +34,9 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    
+    'marketdata' => [
+    'token' => env('MARKET_DATA_TOKEN'),
+],
 
 ];
