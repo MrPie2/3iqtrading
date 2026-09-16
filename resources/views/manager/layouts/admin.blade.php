@@ -45,7 +45,7 @@
           <li class="nav-item"><a href="/stocks" class="navbar-link"><span>Stocks</span></a></li>
           <li class="nav-item"><a href="/resources" class="navbar-link"><span>Resources</span></a></li>
           <li class="nav-item"><a hef="/chat" class="navbar-link"><span>Chat and Support</span></a></li>
-          <li class="nav-item"><a href="faq" class="navbar-link"><span>FAQs</span></a></li>
+          <li class="nav-item"><a href="/faqs" class="navbar-link"><span>FAQs</span></a></li>
           <li class="nav-item"><a href="/pages" class="navbar-link"><span>Site Pages</span></a></li>
       </ul>
   </nav>

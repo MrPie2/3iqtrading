@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
-
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ClientAuthController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -28,9 +28,10 @@ Route::post('/logout', [ClientAuthController::class, 'logout'])->name('logout');
 
 Route::get('/market/ticker', [MarketController::class, 'ticker']);
 
-Route::get('/pages', [PagesController::class, 'pages']);
+Route::get('/pages', [PagesController::class, 'pages'])->name('pages');
+Route::get('/faqs', [FaqController::class, 'faq'])->name('faqs');
 
-    Route::get('/manager', function(){return view('/manager/auth/login');});
+Route::get('/manager', function(){return view('/manager/auth/login');});
     
 Route::middleware('guest')->group(function () {
     Route::get('/login-admin', [AuthController::class, 'showLogin'])->name('login.admin');

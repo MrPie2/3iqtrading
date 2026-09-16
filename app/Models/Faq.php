@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Faq extends Model
 {
-    protected $fillable = ['question', 'answer', 'sort_order', 'active'];
+    protected $table="faqs";
+    
+    protected $fillable = ['question', 'answer'];
 
     protected function casts(): array
     {
