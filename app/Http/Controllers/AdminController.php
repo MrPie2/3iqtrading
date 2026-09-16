@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use App\Models\Investors;
 
 class AdminController extends Controller
 {
@@ -21,8 +22,8 @@ class AdminController extends Controller
             'wallets' => $this->countTable('walletaddress'),
             'posts' => $this->countTable('posts'),
         ];
-
-        return view('manager.admin.dashboard', compact('stats'));
+        $clients= Investors::all();
+        return view('manager.admin.dashboard', ['stats'=>$stats, 'clients'=>$clients]);
     }
 
     public function page(string $module)
@@ -93,5 +94,9 @@ class AdminController extends Controller
         } catch (\Throwable) {
             return 0;
         }
+    }
+    
+    public function getclients(){
+       
     }
 }

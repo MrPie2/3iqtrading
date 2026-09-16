@@ -20,8 +20,10 @@
 <form method="POST" action="{{ route('admin.operation.'.$key) }}">
 @csrf
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
-<div><label style="font-size:12px;font-weight:600">Operation</label><input value="{{ $meta['legacy'] }}" readonly style="width:100%;margin-top:7px;padding:11px;border:1px solid var(--line);border-radius:10px;background:#f8fafc"></div>
-<div><label style="font-size:12px;font-weight:600">Data source</label><input value="{{ $table ?: 'No direct table detected' }}" readonly style="width:100%;margin-top:7px;padding:11px;border:1px solid var(--line);border-radius:10px;background:#f8fafc"></div>
+<div><label style="font-size:12px;font-weight:600">Operation</label>
+<input value="{{ $meta['legacy'] }}" readonly style="width:100%;margin-top:7px;padding:11px;border:1px solid var(--line);border-radius:10px;background:#f8fafc"></div>
+<div><label style="font-size:12px;font-weight:600">Data source</label>
+<input value="{{ $table ?: 'No direct table detected' }}" readonly style="width:100%;margin-top:7px;padding:11px;border:1px solid var(--line);border-radius:10px;background:#f8fafc"></div>
 </div>
 <button class="btn btn-primary" style="margin-top:16px" type="submit">Run Laravel endpoint</button>
 </form></div>

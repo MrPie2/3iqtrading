@@ -1,5 +1,4 @@
 @extends('layouts.app', ['title' => '3IQ Trading — Business & Investment'])
-
 @section('content')
 <x-ticker-tape></x-ticker-tape>
 
@@ -82,7 +81,7 @@
             {{-- COLUMN 1: IMAGE --}}
             <div class="col-lg-6">
                 <div class="iq-trading-image-wrapper">
-                    <img style="width: 200px; border-radius: 30px" src="{{ asset('images/file_0000000014dc82088624d15e3fc29b96.png') }}"
+                    <img style="width: 300px; border-radius: 50px" src="{{ asset('images/file_0000000014dc82088624d15e3fc29b96.png') }}"
                         alt="3IQTrading Trading Platform"
                         class="img-fluid iq-trading-image"
                     >
@@ -94,13 +93,12 @@
             <div class="col-lg-6">
                 <div class="iq-trading-content">
 
-                    <span class="iq-trading-label">
-                        3IQTRADING
-                    </span>
-
+             
+<h2 class="section-title mt-2">Trade from anywhere around the world</h2>
                     <div class="eyebrow">
+
                         Trade from anywhere around the world
-                        <h2 class="section-title mt-2">from your fingertips.</h2>
+                        
                     </div>
 
                     <a href="{{ url('/register') }}"

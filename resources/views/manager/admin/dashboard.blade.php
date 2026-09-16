@@ -10,13 +10,39 @@
  ['Investment plans','plans','layers'],
  ['Stocks','stocks','bar-chart'],
 ] as $s)
-<div class="card stat"><div class="stat-top"><span>{{ $s[0] }}</span><i class="bi bi-{{ $s[2] }}"></i></div><strong>{{ number_format($stats[$s[1]]) }}</strong><small>Records in database</small></div>
+<div class="card stat"><div class="stat-top"><span>{{ $s[0] }}</span><i class="bi bi-{{ $s[2] }}"></i></div>
+<strong>{{ number_format($stats[$s[1]]) }}</strong><small>Records in database</small></div>
 @endforeach
 </div>
-<div class="card panel"><div class="panel-head"><h2>Management modules</h2><span class="badge">{{ count(config('admin_pages.pages')) }} migrated files</span></div>
-<div class="module-grid">
-@foreach(config('admin_pages.pages') as $key => $item)
-<a class="module" href="{{ route('admin.module.'.$key) }}"><div class="icon"><i class="bi bi-layers"></i></div><b>{{ $item['title'] }}</b><span>{{ $item['kind']==='page' ? 'Admin page' : 'Controller endpoint' }} · {{ $item['legacy'] }}</span></a>
-@endforeach
-</div></div>
+
+<br>
+<div class="row">
+    <div class="col-lg-8 col-md-12">
+        <div class="card panel"><div class="panel-head">
+    <h2>Clients</h2><span class="badge"> Total Clients {{ count($clients) }}</span>
+    </div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-light"><th>S/No</th><th>Name</th><th>Email</th><th>Status</th><th>Action</th></thead>
+        <tbody>
+              @foreach($clients as $client)
+
+            <tr><td>{{$loop->iteration}}</td><td>{{$client->First_Name}}</td><td>{{$client->Email}}</td><td>@if($client->LockStatus>0) <span class="badge badge-danger">Locked</span> @else <span class="badge text-bg-primary">Active</span> @endif</td><td><a class="btn btn-primary"href="/action/{{$client->id}}">Manage</a></td></tr>
+              @endforeach
+
+        </tbody>
+    </table>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-lg-4">
+    
+</div>
+</div>
+
+
 @endsection

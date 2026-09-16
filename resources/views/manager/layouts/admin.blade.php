@@ -4,10 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'Admin' }} · 3IQTrading</title>
+    <title>{{ $title ?? 'Admin' }} 3IQTrading</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <style>
       :root{--blue:#2563eb;--blue2:#1d4ed8;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--surface:#fff;--bg:#f6f8fc;--green:#16a34a;--red:#dc2626}
       *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif}
@@ -26,17 +29,27 @@
 <body>
 <div class="shell">
 <aside class="sidebar">
-  <a class="brand" href="{{ route('admin.dashboard') }}"><span class="brand-mark"><i class="bi bi-grid-1x2-fill"></i></span><span>3IQTrading Admin</span></a>
+  <a class="brand" href="{{ route('admin.dashboard') }}"><span class="brand-mark"><i class="bi bi-grid-1x2-fill"></i></span><span>3iQ Admin</span></a>
   <div class="nav-title">Overview</div>
   <nav class="nav">
     <a href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
   </nav>
   <div class="nav-title">Management</div>
   <nav class="nav">
-  @foreach(array_slice(config('admin_pages.pages'), 0, 18, true) as $key => $item)
-    <a href="{{ route('admin.module.'.$key) }}"><i class="bi bi-layers"></i><span>{{ $item['title'] }}</span></a>
-  @endforeach
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a href="my_agents" class="navbar-link"><span>Agents</span></a></li>
+          <li class="nav-item"><a href="investment_plans" class="navbar-link"><span>Investment Plans</span></a></li>
+          <li class="nav-item"><a href="my_wallets" class="navbar-link"><span>My Wallets</span></a></li>
+          <li class="nav-item"><a  href="/bulk_email" class="navbar-link" ><span>Send Bulk Email</span></a></li>
+          <li class="nav-item"><a href="/verificaion" class="navbar-link"><span>Verification and Limits</span></a></li>
+          <li class="nav-item"><a href="/stocks" class="navbar-link"><span>Stocks</span></a></li>
+          <li class="nav-item"><a href="/resources" class="navbar-link"><span>Resources</span></a></li>
+          <li class="nav-item"><a hef="/chat" class="navbar-link"><span>Chat and Support</span></a></li>
+          <li class="nav-item"><a href="faq" class="navbar-link"><span>FAQs</span></a></li>
+          <li class="nav-item"><a href="/pages" class="navbar-link"><span>Site Pages</span></a></li>
+      </ul>
   </nav>
+  
   <div class="nav-title">System</div>
   <nav class="nav">
     <form method="POST" action="{{ route('admin.logout') }}">
