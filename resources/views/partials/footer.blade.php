@@ -36,7 +36,7 @@
         <hr class="border-secondary my-4">
         <div class="d-flex flex-column flex-md-row justify-content-between gap-2 small text-white-50">
             <span>© {{ date('Y') }} 3IQTrading. All rights reserved.</span>
-            <span>Built with Laravel · Bootstrap · jQuery</span>
+           
         </div>
     </div>
 </footer>

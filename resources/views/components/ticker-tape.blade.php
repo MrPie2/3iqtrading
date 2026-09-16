@@ -147,63 +147,6 @@
     </div>
 
 </div>
-<script> 
 
-function loadMarketTicker() {
 
-    $.ajax({
-        url: 'https://3iqtrading.org/market/ticker',
-        type: 'GET',
-        dataType: 'json',
 
-        success: function(response) {
-
-            if (!response.success) {
-                console.log('Market data failed:', response.message);
-                return;
-            }
-            alert(response.message)
-
-            let html = '';
-
-            response.data.forEach(function(stock) {
-
-                const price = Number(stock.price || 0);
-                const change = Number(stock.change || 0);
-                const percent = Number(stock.change_percent || 0);
-
-                const direction = change >= 0 ? 'up' : 'down';
-
-                html += `
-                    <div class="iq-stock">
-                        <strong>${stock.symbol}</strong>
-
-                        <span class="iq-price">
-                            $${price.toFixed(2)}
-                        </span>
-
-                        <span class="iq-change ${direction}">
-                            ${change >= 0 ? '▲' : '▼'}
-                            ${Math.abs(percent).toFixed(2)}%
-                        </span>
-                    </div>
-                `;
-            });
-
-            // Duplicate for continuous scrolling
-            $('#iqTicker').html(html + html);
-        },
-
-        error: function(xhr, status, error) {
-            console.error('Market API Error:', error);
-            console.error('Response:', xhr.responseText);
-        }
-    });
-}
-
-// Initial load
-loadMarketTicker();
-
-// Refresh every 60 seconds
-setInterval(loadMarketTicker, 60000);
-</script>

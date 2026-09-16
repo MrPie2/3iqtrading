@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="col-lg-6 hero-visual">
-                <img src="{{ asset('images/20260914_135802.png') }}" style="width: 600px"alt="Investment illustration">
+                <img src="{{ asset('assets/images/20260914_135802.png') }}" style="width: 600px"alt="Investment illustration">
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
     <div class="containe">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6">
-                <div class="about-image"><img style="200px" src="{{ asset('assets/img/about-investment.svg') }}" alt="Investment growth illustration"></div>
+                <div class="about-image"><img style="200px" src="{{ asset('assets/images/about-investment.svg') }}" alt="Investment growth illustration"></div>
             </div>
             <div class="col-lg-6">
                 <div class="eyebrow">About us</div>
@@ -81,7 +81,7 @@
             {{-- COLUMN 1: IMAGE --}}
             <div class="col-lg-6">
                 <div class="iq-trading-image-wrapper">
-                    <img style="width: 300px; border-radius: 50px" src="{{ asset('images/file_0000000014dc82088624d15e3fc29b96.png') }}"
+                    <img style="width: 300px; border-radius: 50px" src="{{ asset('assets/images/file_0000000014dc82088624d15e3fc29b96.png') }}"
                         alt="3IQTrading Trading Platform"
                         class="img-fluid iq-trading-image"
                     >
@@ -343,7 +343,7 @@
             <!-- Left Column: Image -->
             <div class="col-lg-6">
                 <div class="ira-image-wrapper">
-                    <img src="{{ asset('images/ira-retirement.jpg') }}"
+                    <img src="{{ asset('assets/images/ira-retirement.jpg') }}"
                          alt="Secure retirement with IRA"
                          class="img-fluid ira-image">
 
@@ -476,7 +476,7 @@
 <section class="section" id="ira-preview">
     <div class="container">
         <div class="row g-5 align-items-center">
-            <div class="col-lg-6 order-lg-2"><div class="about-image"><img src="{{ asset('assets/img/retirement.svg') }}" alt="Retirement planning illustration"></div></div>
+            <div class="col-lg-6 order-lg-2"><div class="about-image"><img src="{{ asset('assets/images/retirement.svg') }}" alt="Retirement planning illustration"></div></div>
             <div class="col-lg-6 order-lg-1">
                 <div class="eyebrow">IRA account</div>
                 <h2 class="section-title mt-2">Keep retirement planning in view.</h2>
@@ -508,7 +508,7 @@
     <div class="container">
         <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
             <div><div class="eyebrow">Trading charts</div><h2 class="section-title mt-2 mb-0">Market snapshot</h2></div>
-            <div class="small text-secondary">Demo market data for UI presentation only.</div>
+            <div class="small text-secondary"> market data for UI presentation only.</div>
         </div>
         <div class="row g-4">
             <div class="col-lg-8"><div class="chart-box"><canvas id="marketChart" height="135"></canvas></div></div>
@@ -524,10 +524,14 @@
 <section class="section section-soft" id="faq">
     <div class="container">
         <div class="text-center mb-5"><div class="eyebrow">FAQ</div><h2 class="section-title mt-2">Questions, answered.</h2></div>
-        <div class="accordion" id="faqAccordion">
+        <div class="accordio" id="faqAccordion">
             @foreach($faqs as $faq)
-                <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#faq-{{ $faq->id }}">{{ $faq->question }}</button></h2><div id="faq-{{ $faq->id }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" data-bs-parent="#faqAccordion"><div class="accordion-body text-secondary">{{ $faq->answer }}</div></div></div>
-            @endforeach
+                <div class="accordion-item"><h2 class="accordion-header">
+                    <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" style="background-color: #007bff; color: #fff;" type="button" data-bs-toggle="collapse" data-bs-target="#faq-{{ $faq->id }}">{{ $faq->question }}</button>
+                </h2><div id="faq-{{ $faq->id }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body text-secondary" style="padding: 20px">{{ $faq->answer }}</div></div></div>
+            <br>
+                @endforeach
         </div>
     </div>
 </section>

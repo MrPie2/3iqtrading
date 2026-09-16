@@ -9,6 +9,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ClientAuthController;
+use App\Http\Controllers\GetChildController;
+use App\Http\Controllers\GetallPagesController;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -30,6 +33,11 @@ Route::get('/market/ticker', [MarketController::class, 'ticker']);
 
 Route::get('/pages', [PagesController::class, 'pages'])->name('pages');
 Route::get('/faqs', [FaqController::class, 'faq'])->name('faqs');
+
+Route::get('/getchild_of', [GetChildController::class, 'getchild_of'])->name('getchild_of');
+Route::get('/getallpages', [GetallPagesController::class, 'getallPages'])->name('getallpages');
+
+Route::get('/create-page', function(){return view('manager/admin/create-page');})->name('create-page');
 
 Route::get('/manager', function(){return view('/manager/auth/login');});
     

@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
+      @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -8,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <style>
@@ -25,6 +27,8 @@
       .login-page{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 10%,#dbeafe,transparent 30%),#f8fafc}.login-card{width:min(430px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:32px;box-shadow:0 25px 70px rgba(15,23,42,.12)}.login-logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#2563eb,#60a5fa);display:grid;place-items:center;color:#fff;font-size:21px;margin-bottom:20px}.login-card h1{margin:0;font-size:24px}.login-card p{color:var(--muted);font-size:13px;line-height:1.6}.field{margin:16px 0}.field label{display:block;font-size:12px;font-weight:600;margin-bottom:7px}.field input{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px 13px;font:inherit;font-size:13px;outline:none}.field input:focus{border-color:#93c5fd;box-shadow:0 0 0 4px #eff6ff}.login-card .btn{width:100%;padding:13px}.alert{padding:11px 13px;border-radius:10px;font-size:12px;margin:12px 0}.alert-error{background:#fef2f2;color:#991b1b}.alert-success{background:#f0fdf4;color:#166534}
       @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}.module-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:800px){.sidebar{width:76px;padding:18px 8px}.brand span,.nav a span,.nav-title{display:none}.brand{justify-content:center}.nav a{justify-content:center}.main{margin-left:76px}.topbar{padding:0 18px}.content{padding:20px}.module-grid{grid-template-columns:1fr}}@media(max-width:520px){.grid{grid-template-columns:1fr}.heading{align-items:flex-start;flex-direction:column}}
     </style>
+    	<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+
 </head>
 <body>
 <div class="shell">

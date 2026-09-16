@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Faq;
 
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
-    public function fa(){
-        return view('manager.admin.faq');
+    
+    public function faq(){
+        $faqs=Faq::latest()->get();
+        return view('manager.admin.faq', compact('faqs'));
     }
+ 
 }

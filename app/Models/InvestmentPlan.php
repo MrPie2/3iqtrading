@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class InvestmentPlan extends Model
 {
+    protected $table = 'investment_plans';
     protected $fillable = [
         'name', 'minimum_amount', 'maximum_amount', 'term_label',
         'risk_level', 'illustrative_rate', 'description', 'features', 'featured',
