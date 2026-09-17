@@ -81,9 +81,9 @@
             {{-- COLUMN 1: IMAGE --}}
             <div class="col-lg-6">
                 <div class="iq-trading-image-wrapper">
-                    <img style="width: 300px; border-radius: 50px" src="{{ asset('assets/images/file_0000000014dc82088624d15e3fc29b96.png') }}"
+                    <img style="width: 90%;" src="{{ asset('assets/images/mt5-mobile.png') }}"
                         alt="3IQTrading Trading Platform"
-                        class="img-fluid iq-trading-image"
+                        class="-img-flid "
                     >
                 </div>
             </div>
@@ -476,7 +476,7 @@
 <section class="section" id="ira-preview">
     <div class="container">
         <div class="row g-5 align-items-center">
-            <div class="col-lg-6 order-lg-2"><div class="about-image"><img src="{{ asset('assets/images/retirement.svg') }}" alt="Retirement planning illustration"></div></div>
+            <div class="col-lg-6 order-lg-2"><div class="about-image"><img src="{{ asset('assets/images/smiling-couples.png') }}" alt="Retirement planning illustration"></div></div>
             <div class="col-lg-6 order-lg-1">
                 <div class="eyebrow">IRA account</div>
                 <h2 class="section-title mt-2">Keep retirement planning in view.</h2>
