@@ -28,11 +28,128 @@
     </div>
 </section>
 
+<section class="services-section py-5">
+    <div class="container">
+
+        <!-- Heading -->
+        <div class="text-center mb-5">
+            <span class="services-eyebrow">WHAT WE OFFER</span>
+
+            <h2 class="services-title">
+                Our Services
+            </h2>
+
+            <p class="services-subtitle mx-auto">
+                Powerful financial solutions designed to help you access,
+                manage, and grow your investments with confidence.
+            </p>
+        </div>
+
+        <!-- Horizontal Services -->
+        <div class="services-scroll">
+
+            <!-- Service 1 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="{{ asset('assets/images/trading@1x.webp') }}"
+                         alt="Investment Management">
+                </div>
+
+                <div class="service-content">
+                    <h3>Forex</h3>
+                    <p>
+                       Forex Currency Pairs
+                    </p>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="{{ asset('assets/images/cfd@2x.webp') }}"
+                         alt="Market Trading">
+                </div>
+
+                <div class="service-content">
+                    <h3>Shares</h3>
+                    <p>
+                       More than 10,000 stocks on global exchanges
+                    </p>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="{{ asset('assets/images/indices@2x.webp') }}"
+                         alt="Portfolio Management">
+                </div>
+
+                <div class="service-content">
+                    <h3>Indices</h3>
+                    <p>
+                        19 major global indices
+                    </p>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="{{ asset('assets/images/commodities@2x.webp') }}"
+                         alt="Wealth Planning">
+                </div>
+
+                <div class="service-content">
+                    <h3>Commodities</h3>
+                    <p>
+                        Coffee, Oil, Natural Gas, Corn and More
+                    </p>
+                </div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="{{ asset('assets/images/bonds@1x.webp') }}"
+                         alt="Market Analytics">
+                </div>
+
+                <div class="service-content">
+                    <h3>Bond</h3>
+                    <p>
+                        US10YR & UK Long Gilt Futures GILTS
+                    </p>
+                </div>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="service-card">
+                <div class="service-image">
+                    <img src="{{ asset('assets/images/metals@2x.webp') }}"
+                         alt="Financial Advisory">
+                </div>
+
+                <div class="service-content">
+                    <h3>Metal</h3>
+                    <p>
+                       Global, Silver and More
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+
 <section class="section" id="about">
     <div class="containe">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6">
-                <div class="about-image"><img style="200px" src="{{ asset('assets/images/about-investment.svg') }}" alt="Investment growth illustration"></div>
+                <div class="about-imag"><img style=" width: 50%; float: right; " src="{{ asset('assets/images/serverimage@2x.webp') }}" alt="Investment growth illustration"></div>
             </div>
             <div class="col-lg-6">
                 <div class="eyebrow">About us</div>
