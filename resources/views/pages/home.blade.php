@@ -1,12 +1,10 @@
 @extends('layouts.app', ['title' => '3IQ Trading — Business & Investment'])
 @section('content')
 <x-ticker-tape></x-ticker-tape>
-
-
-<section class="hero-wrap">
-    <div class="container">
-        <div class="hero-card row g-0 align-items-center overflow-hidden">
-            <div class="col-lg-6">
+<section class="hero-wrap" >
+    <div class="container-fluid">
+        <div class="hero-card row g-0 align-items-center overflow-hidden" >
+            <div class="col-lg-6" >
                 <div class="hero-copy">
                     <div class="eyebrow"><i class="bi bi-stars"></i> Business & investment</div>
                     <h1 class="hero-title">Build toward your <span>financial goals.</span></h1>
@@ -149,9 +147,9 @@
     <div class="containe">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6">
-                <div class="about-imag"><img style=" width: 50%; float: right; " src="{{ asset('assets/images/serverimage@2x.webp') }}" alt="Investment growth illustration"></div>
+                <div class="about-imag"><center><img style=" width: 80%;text-align: center margin: 0 auto;left: 0; right: 0 " src="{{ asset('assets/images/serverimage@2x.webp') }}" alt="Investment growth illustration"></center></div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6" style="padding: 50px">
                 <div class="eyebrow">About us</div>
                 <h2 class="section-title mt-2">A simpler way to organize your investment journey.</h2>
                 <p class="section-lead mt-3">3IQ Trading is presented here as a polished website foundation where visitors can learn about investment products, compare options and create an account.</p>
@@ -628,8 +626,7 @@
             <div class="small text-secondary"> market data for UI presentation only.</div>
         </div>
         <div class="row g-4">
-            <div class="col-lg-8"><div class="chart-box"><canvas id="marketChart" height="135"></canvas></div></div>
-            <div class="col-lg-4"><div class="chart-box h-100"><h5 class="fw-bold mb-3">Watchlist</h5><div class="table-responsive"><table class="table market-table mb-0"><tbody>
+            <div class="col-md-12"><div class="chart-box h-100"><h5 class="fw-bold mb-3">Watchlist</h5><div class="table-responsive"><table class="table market-table mb-0"><tbody>
                 @foreach($market as $asset)
                     <tr><td><div class="fw-bold">{{ $asset['symbol'] }}</div><div class="small text-secondary">{{ $asset['name'] }}</div></td><td class="text-end"><div class="fw-bold">${{ number_format($asset['price'], 2) }}</div><div class="small change-up">+{{ number_format($asset['change'], 2) }}%</div></td></tr>
                 @endforeach

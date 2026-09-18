@@ -135,7 +135,7 @@
 
 }
 </style>
-<div class="iq-market-ticker">
+<div class="iq-market-ticker d-none">
 
     <div class="iq-live">
         <span class="iq-live-dot"></span>
@@ -148,5 +148,7 @@
 
 </div>
 
+<script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-ticker-tape.js"></script>
 
+<tv-ticker-tape symbols="FOREXCOM:SPXUSD,FOREXCOM:NSXUSD,FOREXCOM:DJI,FX:EURUSD,BITSTAMP:BTCUSD,BITSTAMP:ETHUSD,CMCMARKETS:GOLD"></tv-ticker-tape>
 

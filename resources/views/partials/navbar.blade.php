@@ -10,7 +10,6 @@ window.smartsupp||(function(d) {
 })(document);
 </script>
 <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
-<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3">
     <div class="container">
         <a class="navbar-brand fw-800 d-flex align-items-center gap-2" href="{{ route('home') }}">
@@ -39,6 +38,10 @@ window.smartsupp||(function(d) {
     </div>
 </nav>
 
-
+<style>
+    body{
+        overflow-x: hidden;
+    }
+</style>
 
 

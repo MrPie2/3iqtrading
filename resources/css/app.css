@@ -7,9 +7,7 @@
 .navbar .nav-link{color:#475467;font-weight:600;padding:.65rem .7rem!important}.navbar .nav-link:hover,.navbar .nav-link.active{color:var(--iq-blue)}
 .hero-wrap{background:var(--iq-bg);padding:70px 0 90px;overflow:hidden;position:relative}.hero-wrap:before{content:"";position:absolute;width:560px;height:560px;border-radius:50%;background:#d9e9ff;top:-300px;right:-130px;opacity:.8}.hero-card{background:#fff;border-radius:2px;min-height:540px;box-shadow:0 24px 70px rgba(16,40,95,.08);position:relative;z-index:1}.hero-copy{padding:72px 64px}.eyebrow{display:inline-flex;align-items:center;gap:.5rem;color:var(--iq-blue);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:.78rem}.hero-title{font-size:clamp(2.7rem,5vw,4.6rem);line-height:1.02;letter-spacing:-.055em;font-weight:800;margin:14px 0 20px}.hero-title span{color:var(--iq-blue)}.hero-copy p{color:var(--iq-muted);font-size:1.08rem;line-height:1.8;max-width:570px}.hero-visual{min-height:540px;display:flex;align-items:center;justify-content:center;padding:40px}.hero-visual img{width:100%;max-width:590px;height:auto;filter:drop-shadow(0 22px 22px rgba(30,62,112,.12))}
 .section{padding:90px 0}.section-soft{background:#f8fbff}.section-title{font-weight:800;letter-spacing:-.04em;font-size:clamp(2rem,3vw,3rem)}.section-lead{color:var(--iq-muted);max-width:680px;line-height:1.8}.feature-card,.plan-card,.content-card,.auth-card{border:1px solid var(--iq-border);border-radius:24px;background:#fff;box-shadow:0 15px 40px rgba(16,40,95,.05)}.feature-card{padding:30px;height:100%}.icon-box{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;background:#edf4ff;color:var(--iq-blue);font-size:1.4rem;margin-bottom:20px}.feature-card p,.content-card p{color:var(--iq-muted);line-height:1.75}.about-image{background:#eef6ff;border-radius:28px;padding:30px}.about-image img{width:100%}.plan-card{padding:32px;position:relative;overflow:hidden;height:100%}.plan-card.featured{border:2px solid var(--iq-blue);transform:translateY(-6px)}.plan-badge{position:absolute;top:18px;right:18px;background:#eaf1ff;color:var(--iq-blue);font-size:.75rem;font-weight:800;border-radius:100px;padding:7px 11px}.price{font-size:2.15rem;font-weight:800;letter-spacing:-.04em}.plan-list{padding:0;margin:22px 0;list-style:none}.plan-list li{margin:11px 0;color:#475467}.plan-list i{color:#1fa774;margin-right:8px}.steps .step{display:flex;gap:18px;margin-bottom:28px}.step-num{flex:0 0 44px;height:44px;border-radius:50%;background:var(--iq-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}.step h5{font-weight:800;margin-bottom:7px}.step p{color:var(--iq-muted);margin:0;line-height:1.7}.chart-box{border-radius:24px;border:1px solid var(--iq-border);background:#fff;padding:24px;box-shadow:0 15px 40px rgba(16,40,95,.05)}.market-table td{border:0;padding:14px 8px}.change-up{color:#149b6e;font-weight:700}.accordion-item{border:1px solid var(--iq-border);margin-bottom:12px;border-radius:14px!important;overflow:hidden}.accordion-button{font-weight:700;padding:20px;box-shadow:none!important}.accordion-button:not(.collapsed){color:var(--iq-blue);background:#f6f9ff}.page-hero{background:var(--iq-bg);padding:75px 0}.page-hero h1{font-size:clamp(2.4rem,4vw,4rem);font-weight:800;letter-spacing:-.05em}.page-hero p{color:var(--iq-muted);max-width:720px;line-height:1.8;font-size:1.08rem}.content-card{padding:36px;height:100%}.content-icon{font-size:2.1rem;color:var(--iq-blue);margin-bottom:18px}.auth-page{min-height:calc(100vh - 82px);background:var(--iq-bg);padding:70px 0}.auth-card{max-width:520px;margin:0 auto;padding:42px}.form-control{padding:.85rem 1rem;border-radius:12px;border-color:#dfe5ee}.form-control:focus{border-color:#83aaff;box-shadow:0 0 0 .25rem rgba(25,87,232,.1)}.footer-dark{background:#0e1a32;color:#fff}.footer-links li{margin-bottom:11px}.footer-links a{color:rgba(255,255,255,.65)}.footer-links a:hover{color:#fff}.disclaimer{font-size:.78rem;color:#8a95a8;line-height:1.65}
-/* =========================
-   IRA SECTION
-========================= */
+
 
 .ira-section {
     background: #ffffff;
@@ -171,7 +169,41 @@
     }
 
 }
-@media(max-width:991px){.hero-copy{padding:48px 32px 20px}.hero-card{min-height:auto}.hero-visual{min-height:auto;padding:25px 30px 50px}.navbar .nav-item{margin-top:4px}}@media(max-width:575px){.hero-wrap{padding:25px 0 55px}.hero-title{font-size:2.65rem}.section{padding:65px 0}.auth-card{padding:28px 22px}}
+
+@media(max-width:991px){
+    .hero-copy{
+        padding:48px 32px 20px
+        
+    }
+        .hero-card{min-height:auto
+            
+        }
+        .hero-visual{
+            min-height:auto;
+            padding:25px 30px 50px
+            
+        }
+.navbar .nav-item{
+    margin-top:4px
+    
+}}
+
+@media(max-width:575px){
+    .hero-wrap{
+        padding:25px 0 55px}
+        .hero-title{
+            font-size:2.65rem
+            
+        }.section{
+            padding:65px 0
+            
+        }
+            .auth-card{
+                padding:28px 22px
+                
+            }
+    
+}
 
         .services-section {
         background: #f8fafc;
@@ -224,33 +256,23 @@
 
     /* Cards */
     .service-card {
-        flex: 0 0 360px;
-
+        flex: 0 0 260px;
         min-width: 360px;
-
         overflow: hidden;
-
         background: #ffffff;
-
         border: 1px solid #eaecf0;
-
         border-radius: 18px;
-
         box-shadow: 0 8px 30px rgba(16, 24, 40, 0.06);
-
         scroll-snap-align: start;
-
         transition:
-            transform .3s ease,
-            box-shadow .3s ease;
+        transform .3s ease,
+        box-shadow .3s ease;
     }
 
 
     .service-card:hover {
         transform: translateY(-6px);
-
-        box-shadow:
-            0 18px 45px rgba(16, 24, 40, 0.12);
+        box-shadow: 0 18px 45px rgba(16, 24, 40, 0.12);
     }
 
 
@@ -261,14 +283,11 @@
         overflow: hidden;
     }
 
-    .service-image img {
+    .service-image img{
         width: 100%;
         height: 100%;
-
         object-fit: cover;
-
         display: block;
-
         transition: transform .45s ease;
     }
 
