@@ -1,0 +1,11 @@
+@extends('layouts.app')
+@section('title','Profile')
+@section('heading','Profile')
+@section('content')
+<div class="row"><div class="col-lg-7"><div class="card table-card"><div class="card-body"><h5>Personal details</h5><form id="profileForm">@csrf<div class="form-group"><label>Full name</label><input name="full_name" value="{{ $investor->First_Name }}" class="form-control" required></div><div class="form-group"><label>Email</label><input name="email" type="email" value="{{ $investor->Email }}" class="form-control" required></div><div class="form-group"><label>Phone</label><input name="phone" value="{{ $investor->Phone }}" class="form-control" required></div><button class="btn btn-brand">Save changes</button></form></div></div><div class="card table-card mt-4"><div class="card-body"><h5>Change password</h5><form id="passForm">@csrf<input type="hidden" name="email" value="{{ $investor->Email }}"><div class="form-group"><label>New password</label><input name="password" type="password" minlength="6" class="form-control" required></div><button class="btn btn-outline-secondary">Update password</button></form></div></div></div><div class="col-lg-5"><div class="card table-card"><div class="card-body"><h5>Profile picture</h5><form id="picForm" enctype="multipart/form-data">@csrf<input type="file" name="user_image" accept=".jpg,.jpeg,.png,.gif" class="form-control mb-3" required><button class="btn btn-brand">Upload</button></form></div></div></div></div>
+@endsection
+@push('scripts')<script>
+document.getElementById('profileForm').onsubmit=async e=>{e.preventDefault();try{alert((await api('{{ route('profile.update') }}',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(e.target))})).message)}catch(x){alert(x.message)}};
+document.getElementById('passForm').onsubmit=async e=>{e.preventDefault();try{alert((await api('{{ route('profile.password') }}',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(e.target))})).message)}catch(x){alert(x.message)}};
+document.getElementById('picForm').onsubmit=async e=>{e.preventDefault();try{alert((await api('{{ route('profile.image') }}',{method:'POST',body:new FormData(e.target)})).message);location.reload()}catch(x){alert(x.message)}};
+</script>@endpush

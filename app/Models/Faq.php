@@ -6,12 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Faq extends Model
 {
-    protected $table="faqs";
-    
-    protected $fillable = ['question', 'answer'];
-
-    protected function casts(): array
-    {
-        return ['active' => 'boolean'];
-    }
+    protected $table = 'faqs';
+    public $timestamps = false;
+    protected $guarded = [];
+    protected $casts = [
+        'id' => 'integer',
+    ];
 }

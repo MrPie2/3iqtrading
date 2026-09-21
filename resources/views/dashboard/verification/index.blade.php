@@ -1,0 +1,7 @@
+@extends('layouts.app')
+@section('title','Verification')
+@section('heading','Verification')
+@section('content')
+<div class="card table-card"><div class="card-body"><h5>Upload verification document</h5><p class="text-muted">Upload a clear image of the requested document. Review status is stored in the VerificationDocs table.</p><form id="verifyForm" enctype="multipart/form-data">@csrf<div class="form-group"><label>Verification level</label><input name="level" class="form-control" value="1" required></div><div class="form-group"><label>Document image</label><input name="verification_image" type="file" class="form-control" accept=".jpg,.jpeg,.png,.gif" required></div><button class="btn btn-brand">Upload document</button></form><div id="msg" class="small mt-3"></div></div></div>
+@endsection
+@push('scripts')<script>document.getElementById('verifyForm').onsubmit=async e=>{e.preventDefault();try{const d=await api('{{ route('verification.upload') }}',{method:'POST',body:new FormData(e.target)});document.getElementById('msg').innerHTML='<span class="text-success">'+d.message+'</span>'}catch(x){document.getElementById('msg').innerHTML='<span class="text-danger">'+x.message+'</span>'}}</script>@endpush

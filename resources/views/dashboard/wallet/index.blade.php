@@ -1,0 +1,12 @@
+@extends('layouts.app')
+@section('title','Wallet')
+@section('heading','Wallet')
+@section('content')
+<div class="row"><div class="col-lg-4"><div class="card metric mb-4"><div class="card-body"><div class="text-muted">Available balance</div><div class="value">{{ $investor->curAbbr }}{{ number_format($investor->Total_Deposit*(float)$investor->exchangerate,2) }}</div></div></div>
+<div class="card table-card"><div class="card-body"><h5>Add bank account</h5><form id="bankForm">@csrf<div class="form-group"><label>Bank name</label><input name="bank_name" class="form-control" required></div><div class="form-group"><label>Account name</label><input name="account_name" class="form-control" required></div><div class="form-group"><label>Account number</label><input name="account_number" class="form-control" required></div><div class="form-group"><label>Routing number</label><input name="routing_number" class="form-control"></div><button class="btn btn-brand">Save bank</button></form></div></div></div>
+<div class="col-lg-8"><div class="card table-card mb-4"><div class="card-body"><h5>Deposit proof</h5><form id="proofForm" enctype="multipart/form-data">@csrf<input name="proof_image" type="file" accept=".jpg,.jpeg,.png,.gif" class="form-control mb-3" required><button class="btn btn-brand">Upload proof</button></form></div></div><div class="card table-card"><div class="card-body"><h5>Deposit history</h5>@forelse($deposits as $d)<div class="d-flex justify-content-between border-bottom py-2"><span>{{ $d->Date }}</span><strong>{{ $investor->curAbbr }}{{ number_format($d->Amount_Deposited*(float)$investor->exchangerate,2) }}</strong></div>@empty<p class="text-muted">No deposits.</p>@endforelse</div></div></div></div>
+@endsection
+@push('scripts')<script>
+document.getElementById('bankForm').onsubmit=async e=>{e.preventDefault();try{const d=await api('{{ route('ajax.bank') }}',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(e.target))});alert(d.message);e.target.reset()}catch(x){alert(x.message)}};
+document.getElementById('proofForm').onsubmit=async e=>{e.preventDefault();try{const d=await api('{{ route('ajax.proof') }}',{method:'POST',body:new FormData(e.target)});alert(d.message);e.target.reset()}catch(x){alert(x.message)}};
+</script>@endpush
