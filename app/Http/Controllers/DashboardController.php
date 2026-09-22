@@ -15,7 +15,7 @@ class DashboardController extends Controller
 {
     public function index(){
         /** @var Investor $investor */
-        $investor=Auth::guard('investor')->user();
+        $investor=Auth::user();
         $contracts=Contract::where('Investor_id',$investor->Investor_id)->latest('id')->get();
         $stockContracts=StockContract::where('Investor_id',$investor->Investor_id)->latest('id')->get();
         $deposits=Deposit::where('Investor_id',$investor->Investor_id)->latest('id')->limit(5)->get();

@@ -11,7 +11,7 @@
                     <p>Explore investment, stock, share and retirement account solutions through a clean, modern platform designed to make the next step easy to understand.</p>
                     <div class="d-flex flex-wrap gap-3 mt-4">
                         <a href="{{ route('register') }}" class="btn btn-primary btn-lg rounded-pill px-4">Get started <i class="bi bi-arrow-right ms-2"></i></a>
-                        <a href="#plans" class="btn btn-light btn-lg rounded-pill px-4 border">Explore plans</a>
+                        <a href="/login" class="btn btn-light btn-lg rounded-pill px-4 border">Login</a>
                     </div>
                     <div class="d-flex gap-4 mt-5 small text-secondary">
                         <span><i class="bi bi-shield-check text-primary me-1"></i> Secure account flow</span>

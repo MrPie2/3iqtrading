@@ -32,7 +32,7 @@ class ClientAuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('home')->with('success', 'Welcome back to 3IQ Trading.');
+        return redirect()->route('dashboard')->with('success', 'Welcome back to 3IQ Trading.');
     }
 
     public function showRegister(): View

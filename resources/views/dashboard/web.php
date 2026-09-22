@@ -1,64 +1,30 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PageController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MarketController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\PagesController;
-use App\Http\Controllers\FaqController;
-use App\Http\Controllers\ClientAuthController;
-use App\Http\Controllers\GetChildController;
-use App\Http\Controllers\GetallPagesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvestmentController;
+use App\Http\Controllers\LegacyController;
+use App\Http\Controllers\MarketController;
+use App\Http\Controllers\TermsController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\TransferController;
+use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\WalletController;
+use App\Http\Controllers\WithdrawalController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', fn()=>redirect()->route('login'));
+Route::get('/login',[AuthController::class,'showLogin'])->name('login');
+Route::get('/register',[AuthController::class,'showRegister'])->name('register');
+Route::post('/login',[AuthController::class,'login'])->name('login.submit');
+Route::post('/register',[AuthController::class,'register'])->name('register.submit');
+Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
-Route::get('/services', [PageController::class, 'services'])->name('services');
-Route::get('/ira', [PageController::class, 'ira'])->name('ira');
-Route::get('/stocks', [PageController::class, 'stocks'])->name('stocks');
-Route::get('/401k', [PageController::class, 'fourOhOneK'])->name('401k');
-Route::get('/shares', [PageController::class, 'shares'])->name('shares');
-
-Route::get('/login', [ClientAuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [ClientAuthController::class, 'login'])->name('login.store');
-
-Route::get('/register', [ClientAuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [ClientAuthController::class, 'register'])->name('register.store');
-
-Route::post('/logout', [ClientAuthController::class, 'logout'])->name('logout');
-
-Route::get('/market/ticker', [MarketController::class, 'ticker']);
-
-Route::get('/pages', [PagesController::class, 'pages'])->name('pages');
-Route::get('/faqs', [FaqController::class, 'faq'])->name('faqs');
-
-Route::get('/getchild_of', [GetChildController::class, 'getchild_of'])->name('getchild_of');
-Route::get('/getallpages', [GetallPagesController::class, 'getallPages'])->name('getallpages');
-
-Route::get('/create-page', function(){return view('manager/admin/create-page');})->name('create-page');
-
-Route::get('/manager', function(){return view('/manager/auth/login');});
-    
-Route::middleware('guest')->group(function () {
-    Route::get('/login-admin', [AuthController::class, 'showLogin'])->name('login.admin');
-    Route::post('/login-admin', [AuthController::class, 'login'])->name('login.submit');
-});
-
-Route::middleware('admin.session')->prefix('admin')->name('admin.')->group(function () {
-    
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
-
-    foreach (array_keys(config('admin_pages.pages', [])) as $module) {
-        Route::get('/modules/'.$module, [AdminController::class, 'page'])->name('module.'.$module);
-        Route::post('/operations/'.$module, [AdminController::class, 'operation'])->name('operation.'.$module);
-    }
-});
-
-Route::middleware('auth')->group(function(){
-    Route::get('/dashboard/index/index',[DashboardController::class,'index'])->name('dashboard');
+Route::middleware('auth:investor')->group(function(){
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
     Route::get('/account',[LegacyController::class,'account'])->name('account');
     Route::get('/deposit',[LegacyController::class,'deposit'])->name('deposit');
     Route::get('/wallet',[WalletController::class,'index'])->name('wallet');
@@ -102,5 +68,3 @@ Route::middleware('auth')->group(function(){
     Route::post('/ajax/bank',[WalletController::class,'addBank'])->name('ajax.bank');
     Route::post('/ajax/proof',[WalletController::class,'uploadProof'])->name('ajax.proof');
 });
-
-
