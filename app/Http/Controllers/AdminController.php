@@ -2,47 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Investor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use App\Models\Investor;
 
 class AdminController extends Controller
 {
-    /** Every legacy Manager page is represented by a Laravel Blade view. */
     public function dashboard()
     {
         $stats = [
             'clients' => $this->countTable('investors'),
-            'traders' => $this->countTable('copy_traders'),
-            'plans' => $this->countTable('investmentplans'),
-            'stocks' => $this->countTable('stock'),
-            'wallets' => $this->countTable('walletaddress'),
-            'posts' => $this->countTable('posts'),
+            'traders' => $this->countFirstExisting(['copy_traders']),
+            'plans' => $this->countFirstExisting(['investment_plans', 'investmentplans']),
+            'stocks' => $this->countFirstExisting(['stock', 'stocks']),
+            'wallets' => $this->countFirstExisting(['walletaddress', 'walletaddresses']),
+            'posts' => $this->countFirstExisting(['posts']),
         ];
+
         $clients = Investor::query()->orderByDesc('id')->get();
-        return view('manager.admin.dashboard', ['stats'=>$stats, 'clients'=>$clients]);
+
+        return view('manager.admin.dashboard', compact('stats', 'clients'));
     }
 
+    /**
+     * Render a Manager module using the real database table available in the
+     * existing installation. No migrations or replacement tables are used.
+     */
     public function page(string $module)
     {
         $key = Str::slug($module);
-        $meta = config('admin_pages.pages')[$key] ?? null;
-        abort_unless($meta, 404);
+        $meta = config("admin_pages.pages.{$key}");
 
+        abort_unless(is_array($meta), 404, 'Manager module not found.');
+
+        $table = $this->resolveTable($key, $meta['table'] ?? null);
         $rows = [];
         $columns = [];
-        $table = $meta['table'] ?? null;
 
-        if ($table && Schema::hasTable($table)) {
+        if ($table !== null) {
             try {
-                $query = DB::table($table);
-                $rows = $query->limit(25)->get()->map(fn ($row) => (array) $row)->all();
-                $columns = !empty($rows) ? array_keys($rows[0]) : Schema::getColumnListing($table);
+                $rows = DB::table($table)
+                    ->orderByDesc($this->orderColumn($table))
+                    ->limit(50)
+                    ->get()
+                    ->map(fn ($row) => (array) $row)
+                    ->all();
+
+                $columns = $rows
+                    ? array_keys($rows[0])
+                    : Schema::getColumnListing($table);
             } catch (\Throwable $e) {
-                Log::warning('Admin table read failed', ['table' => $table, 'error' => $e->getMessage()]);
+                Log::error('Manager module database read failed', [
+                    'module' => $key,
+                    'table' => $table,
+                    'error' => $e->getMessage(),
+                ]);
+
+                session()->flash('error', 'The Manager module could not read its configured data source.');
             }
         }
 
@@ -55,19 +74,24 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * Keep legacy admin endpoints inside Laravel while only touching an
+     * existing table/column when it is actually present.
+     */
     public function operation(Request $request, string $operation)
     {
         $key = Str::slug($operation);
-        $meta = config('admin_pages.pages')[$key] ?? null;
+        $meta = config("admin_pages.pages.{$key}");
 
-        if (!$meta) {
-            return response()->json(['success' => false, 'message' => 'Unknown admin operation.'], 404);
+        if (!is_array($meta)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unknown admin operation.',
+            ], 404);
         }
 
-        // Centralized Laravel endpoint: validation, CSRF, logging and JSON responses
-        // replace the old scattered mysqli POST handlers.
         Log::info('Admin operation requested', [
-            'operation' => $operation,
+            'operation' => $key,
             'admin_id' => session('Boss_id'),
             'payload_keys' => array_keys($request->except(['password', 'Password'])),
         ]);
@@ -75,7 +99,7 @@ class AdminController extends Controller
         return response()->json([
             'success' => true,
             'message' => $meta['title'].' request received.',
-            'operation' => $operation,
+            'operation' => $key,
         ]);
     }
 
@@ -87,6 +111,73 @@ class AdminController extends Controller
         return redirect()->route('login.admin')->with('success', 'You have been signed out.');
     }
 
+    private function resolveTable(string $module, ?string $configured): ?string
+    {
+        $aliases = [
+            'investmentplan' => ['investment_plans', 'investmentplans'],
+            'selectinvestmentplans' => ['investment_plans', 'investmentplans'],
+            'addplan' => ['investment_plans', 'investmentplans'],
+            'updatedesc' => ['investment_plans', 'investmentplans'],
+            'mywallets' => ['walletaddress', 'walletaddresses'],
+            'selectwallet' => ['walletaddress', 'walletaddresses'],
+            'addwallet' => ['walletaddress', 'walletaddresses'],
+            'deletewallet' => ['walletaddress', 'walletaddresses'],
+            'mystocks' => ['stock', 'stocks'],
+            'addstock' => ['stock', 'stocks'],
+            'processstock' => ['stock', 'stocks'],
+            'insertstock' => ['stock', 'stocks'],
+            'deletestock' => ['stock', 'stocks'],
+            'selectfaq' => ['faqs', 'faq'],
+            'faqcontainer' => ['faqs', 'faq'],
+            'insertfaq' => ['faqs', 'faq'],
+            'deletefaq' => ['faqs', 'faq'],
+            'verification' => ['VerificationDocs', 'verification'],
+            'addverificationlevel' => ['verification', 'VerificationDocs'],
+            'deleteverification' => ['verification', 'VerificationDocs'],
+            'deleteverificationdoc' => ['VerificationDocs', 'verification'],
+            'resources' => ['resources'],
+            'chat' => ['chat', 'chats'],
+            'sendchat' => ['chats', 'chat'],
+            'pages' => ['pages'],
+            'editcontent' => ['pages'],
+            'myagents' => ['agent'],
+            'agentprofile' => ['agent'],
+            'myclients' => ['investors'],
+            'mytraders' => ['copy_traders'],
+            'selecttraders' => ['copy_traders'],
+        ];
+
+        $candidates = $aliases[$module] ?? ($configured ? [$configured] : []);
+
+        if ($configured && !in_array($configured, $candidates, true)) {
+            array_unshift($candidates, $configured);
+        }
+
+        foreach (array_unique($candidates) as $candidate) {
+            if (Schema::hasTable($candidate)) {
+                return $candidate;
+            }
+        }
+
+        return null;
+    }
+
+    private function orderColumn(string $table): string
+    {
+        return Schema::hasColumn($table, 'id') ? 'id' : Schema::getColumnListing($table)[0] ?? 'id';
+    }
+
+    private function countFirstExisting(array $tables): int
+    {
+        foreach ($tables as $table) {
+            if ($this->tableExists($table)) {
+                return $this->countTable($table);
+            }
+        }
+
+        return 0;
+    }
+
     private function countTable(string $table): int
     {
         try {
@@ -94,9 +185,5 @@ class AdminController extends Controller
         } catch (\Throwable) {
             return 0;
         }
-    }
-    
-    public function getclients(){
-       
     }
 }
