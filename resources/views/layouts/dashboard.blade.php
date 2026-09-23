@@ -21,7 +21,7 @@
 <a href="{{ route('dashboard') }}" class="dashboard-brand"><span class="brand-symbol"><i class="bi bi-graph-up-arrow"></i></span><span>3IQ <strong>Trading</strong></span></a>
 </div>
 <div class="d-flex align-items-center gap-2">
-<a href="{{ route('notifications') }}" class="topbar-icon" aria-label="Notifications"><i class="bi bi-bell"></i>@if(($notifications ?? collect())->count())<span class="notification-dot"></span>@endif</a>
+<button type="button" class="topbar-icon theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="bi bi-moon-stars" id="themeIcon"></i></button><a href="{{ route('notifications') }}" class="topbar-icon" aria-label="Notifications"><i class="bi bi-bell"></i>@if(($notifications ?? collect())->count())<span class="notification-dot"></span>@endif</a>
 <a href="{{ route('profile') }}" class="profile-chip"><span class="profile-avatar">{{ strtoupper(substr($investor->First_Name ?? $investor->name ?? 'U',0,1)) }}</span><span class="d-none d-md-inline">{{ $investor->First_Name ?? $investor->name ?? 'Account' }}</span><i class="bi bi-chevron-down d-none d-md-inline"></i></a>
 </div>
 </div>
@@ -38,6 +38,7 @@
 <a href="{{ route('wallet') }}"><i class="bi bi-wallet2"></i>Wallet</a>
 <a href="{{ route('transfer') }}"><i class="bi bi-arrow-left-right"></i>Transfer</a>
 <a href="{{ route('referrals') }}"><i class="bi bi-people-fill"></i>Referrals</a>
+<a href="{{ route('ira') }}" class="{{ request()->routeIs('ira') ? 'active' : '' }}"><i class="bi bi-safe2-fill"></i>IRA</a>
 </nav>
 <div class="sidebar-label">Account</div>
 <nav class="dashboard-nav">
@@ -60,7 +61,58 @@
 <a href="{{ route('profile') }}"><i class="bi bi-person-circle"></i><span>Account</span></a>
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<div id="activityToast" class="activity-toast" role="status" aria-live="polite" aria-atomic="true">
+<div class="activity-toast-head"><span><i class="bi bi-activity"></i> Recent activity</span><button type="button" id="activityToastClose" aria-label="Close">&times;</button></div>
+<div class="activity-toast-body"><div class="activity-avatar" id="activityAvatar">3I</div><div class="activity-copy"><strong id="activityName">Investor</strong><span id="activityMeta"></span><small id="activityDisclosure">Illustrative activity example — not a verified transaction.</small></div></div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+(function(){
+const root=document.documentElement,toggle=document.getElementById('themeToggle'),icon=document.getElementById('themeIcon');const saved=localStorage.getItem('3iq-theme');if(saved)root.setAttribute('data-theme',saved);function sync(){const light=root.getAttribute('data-theme')==='light';icon.className=light?'bi bi-sun':'bi bi-moon-stars';}sync();toggle.addEventListener('click',()=>{const light=root.getAttribute('data-theme')!=='light';root.setAttribute('data-theme',light?'light':'dark');localStorage.setItem('3iq-theme',light?'light':'dark');sync();});
+const investors=[
+{name:'Amara Okafor',country:'Nigeria',invested:4200,profit:756},{name:'Daniel Brooks',country:'United Kingdom',invested:8500,profit:1360},
+{name:'Sofia Martins',country:'Portugal',invested:3200,profit:544},{name:'Liam Carter',country:'Canada',invested:12750,profit:1912.5},
+{name:'Aisha Bello',country:'Nigeria',invested:6100,profit:976},{name:'Noah Williams',country:'United States',invested:9800,profit:1568},
+{name:'Mia Rossi',country:'Italy',invested:5400,profit:918},{name:'Ethan Smith',country:'Australia',invested:15000,profit:2400},
+{name:'Chloe Martin',country:'France',invested:7300,profit:1095},{name:'Samuel Adeyemi',country:'Ghana',invested:4600,profit:736},
+{name:'Elena Garcia',country:'Spain',invested:11800,profit:1770},{name:'Owen Jones',country:'Ireland',invested:3900,profit:624},
+{name:'Fatima Yusuf',country:'Nigeria',invested:6800,profit:1088},{name:'Lucas Silva',country:'Brazil',invested:9200,profit:1472},
+{name:'Grace Kim',country:'South Korea',invested:7600,profit:1216},{name:'James Wilson',country:'New Zealand',invested:13400,profit:2144},
+{name:'Nora Ahmed',country:'Egypt',invested:5100,profit:816},{name:'Benjamin Clark',country:'United States',invested:11200,profit:1680},
+{name:'Yuki Tanaka',country:'Japan',invested:6400,profit:1024},{name:'Oliver Brown',country:'South Africa',invested:8700,profit:1305},
+{name:'Layla Hassan',country:'United Arab Emirates',invested:14500,profit:2320},{name:'Henry Evans',country:'Germany',invested:5800,profit:928},
+{name:'Zainab Musa',country:'Nigeria',invested:3500,profit:560},{name:'Jack Taylor',country:'United Kingdom',invested:10100,profit:1616},
+{name:'Isabella Costa',country:'Portugal',invested:4700,profit:752},{name:'Michael King',country:'Canada',invested:12600,profit:1890},
+{name:'Sarah White',country:'Australia',invested:7900,profit:1264},{name:'David Mensah',country:'Ghana',invested:4300,profit:688},
+{name:'Clara Dubois',country:'France',invested:9600,profit:1536},{name:'Adam Rossi',country:'Italy',invested:6200,profit:992},
+{name:'Mariam Ali',country:'Kenya',invested:7300,profit:1168},{name:'Thomas Green',country:'Ireland',invested:11800,profit:1888},
+{name:'Hannah Lee',country:'Singapore',invested:8900,profit:1424},{name:'Ryan Moore',country:'United States',invested:15600,profit:2496},
+{name:'Priya Nair',country:'India',invested:5200,profit:832},{name:'George Smith',country:'Australia',invested:6700,profit:1072},
+{name:'Nadia Khan',country:'Pakistan',invested:4100,profit:656},{name:'William Scott',country:'United Kingdom',invested:9400,profit:1504},
+{name:'Aya Nakamura',country:'Japan',invested:13800,profit:2208},{name:'Daniel Mensah',country:'Ghana',invested:5600,profit:896},
+{name:'Maya Patel',country:'India',invested:8300,profit:1328},{name:'Alex Turner',country:'Canada',invested:10800,profit:1728},
+{name:'Sarah Adams',country:'United States',invested:7100,profit:1136},{name:'Emeka Nwosu',country:'Nigeria',invested:12400,profit:1984},
+{name:'Sophie Laurent',country:'France',invested:4800,profit:768},{name:'Marco Bianchi',country:'Italy',invested:9900,profit:1584},
+{name:'Amina Sule',country:'Nigeria',invested:5700,profit:912},{name:'Elias Weber',country:'Germany',invested:11600,profit:1856},
+{name:'Victoria Brown',country:'New Zealand',invested:6800,profit:1088},{name:'Ahmed Farouk',country:'Egypt',invested:8200,profit:1312}
+];
+const toast=document.getElementById('activityToast'); if(!toast)return;
+const money=n=>new Intl.NumberFormat(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+function showActivity(){
+const x=investors[Math.floor(Math.random()*investors.length)];
+document.getElementById('activityAvatar').textContent=x.name.split(' ').map(v=>v[0]).join('').slice(0,2).toUpperCase();
+document.getElementById('activityName').textContent=x.name;
+document.getElementById('activityMeta').textContent=x.country+' · Invested 
+</body>
+</html>+money(x.invested)+' · Profit 
+</body>
+</html>+money(x.profit);
+toast.classList.add('show'); clearTimeout(window.activityToastTimer); window.activityToastTimer=setTimeout(()=>toast.classList.remove('show'),10000);
+}
+document.getElementById('activityToastClose').addEventListener('click',()=>toast.classList.remove('show'));
+setTimeout(showActivity,3000); setInterval(showActivity,30000);
+})();
+</script>
 @stack('scripts')
 </body>
 </html>
