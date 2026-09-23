@@ -36,7 +36,7 @@
 
         .manager-shell { min-height:100vh; }
 
-        /* Desktop navigation */
+        /* Manager top navigation */
         .manager-navbar {
             position:sticky;
             top:0;
@@ -159,9 +159,9 @@
             background:#fef2f2;
         }
 
-        /* Mobile topbar + offcanvas */
+        /* Topbar + offcanvas navigation */
         .manager-mobilebar {
-            display:none;
+            display:block;
             position:sticky;
             top:0;
             z-index:1030;
@@ -289,18 +289,21 @@
         .legacy-note { background:#fffbeb; border:1px solid #fde68a; color:#92400e; padding:12px 14px; border-radius:12px; font-size:12px; margin-bottom:18px; }
 
         @media (max-width:1199.98px) {
-            .manager-nav { margin-left:10px; }
-            .manager-nav-link,.manager-dropdown-toggle { padding-left:9px; padding-right:9px; }
-            .manager-user-name { display:none; }
             .grid { grid-template-columns:repeat(2,1fr); }
             .module-grid { grid-template-columns:repeat(2,1fr); }
         }
 
-        @media (max-width:991.98px) {
-            .manager-navbar { display:none; }
-            .manager-mobilebar { display:block; }
-            .manager-topline { padding-top:14px; }
+        @media (max-width:767.98px) {
+            .manager-topline { display:none; }
+            .manager-content { padding:22px 15px 34px; }
+            .heading { align-items:flex-start; flex-direction:column; margin-bottom:18px; }
+            .heading h1 { font-size:23px; }
+            .grid { grid-template-columns:1fr; gap:12px; }
+            .module-grid { grid-template-columns:1fr; }
+            .panel { padding:15px; }
         }
+
+        @media (max-width:420px) {
 
         @media (max-width:767.98px) {
             .manager-topline { display:none; }
@@ -323,7 +326,7 @@
 <body>
 <div class="manager-shell">
 
-    <!-- Desktop: full horizontal navbar -->
+    <!-- All screen sizes: compact top navbar + offcanvas manager menu -->
     <nav class="manager-navbar">
         <div class="container-fluid px-4 d-flex align-items-center">
             <a class="manager-brand" href="{{ route('admin.dashboard') }}">
@@ -376,7 +379,7 @@
         </div>
     </nav>
 
-    <!-- Mobile/tablet: compact navbar + Bootstrap offcanvas -->
+    <!-- Bootstrap offcanvas manager menu -->
     <nav class="manager-mobilebar">
         <div class="container-fluid px-3 d-flex align-items-center justify-content-between">
             <button class="manager-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#managerOffcanvas" aria-controls="managerOffcanvas" aria-label="Open administration menu">
