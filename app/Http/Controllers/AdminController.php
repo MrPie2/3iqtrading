@@ -178,6 +178,15 @@ class AdminController extends Controller
         return 0;
     }
 
+    private function tableExists(string $table): bool
+    {
+        try {
+            return Schema::hasTable($table);
+        } catch (\Throwable) {
+            return false;
+        }
+    }
+
     private function countTable(string $table): int
     {
         try {
