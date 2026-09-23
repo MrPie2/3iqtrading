@@ -29,7 +29,7 @@ class DashboardController extends Controller
             'referral_earnings'=>(float)$referrals->sum('Refferal_Earnings'),
         ];
         $chart=DB::table('data')->where('user_id',$investor->Investor_id)->orderBy('id')->limit(30)->get();
-        return view('dashboard.index',compact('investor','contracts','stockContracts','deposits','withdrawals','notifications','referrals','stats','chart'));
+        return view('dashboard/index/index',compact('investor','contracts','stockContracts','deposits','withdrawals','notifications','referrals','stats','chart'));
     }
 
     public function balance(){
