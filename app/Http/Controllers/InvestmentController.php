@@ -14,7 +14,8 @@ class InvestmentController extends Controller
 {
     public function plans(){
         $plans=InvestmentPlanLegacy::orderBy('id')->get();
-        return view('dashboard.investments.plans',compact('plans','investor'))->with('investor',Auth::guard('investor')->user());
+        $investor=Auth::guard('investor')->user();
+        return view('dashboard.investments.plans',compact('plans','investor'));
     }
     public function create(InvestmentPlanLegacy $plan){
         return view('dashboard.investments.create',compact('plan'))->with('investor',Auth::guard('investor')->user());
