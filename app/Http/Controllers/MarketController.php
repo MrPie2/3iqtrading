@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\MarketChartService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class MarketController extends Controller
@@ -16,15 +17,24 @@ class MarketController extends Controller
     public function crypto()
     {
         try {
-            $data=Http::timeout(8)->get('https://api.coingecko.com/api/v3/coins/markets',[
-                'vs_currency'=>'usd',
-                'ids'=>'bitcoin,ethereum,binancecoin,solana,ripple',
-                'sparkline'=>'true'
-            ])->throw()->json();
+            $data = Cache::remember('dashboard.crypto.market', now()->addSeconds(45), function () {
+                return Http::timeout(10)->retry(2, 300)
+                    ->get('https://api.coingecko.com/api/v3/coins/markets', [
+                        'vs_currency' => 'usd',
+                        'ids' => 'bitcoin,ethereum,tether,binancecoin,solana,ripple,usd-coin,dogecoin,cardano,avalanche-2',
+                        'order' => 'market_cap_desc',
+                        'per_page' => 10,
+                        'page' => 1,
+                        'sparkline' => 'true',
+                        'price_change_percentage' => '24h,7d',
+                    ])->throw()->json();
+            });
 
-            return response()->json($data);
-        } catch(\Throwable $e) {
-            return response()->json(['message'=>'Market feed is temporarily unavailable.'],502);
+            return response()->json($data)->header('Cache-Control', 'no-store');
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Market feed is temporarily unavailable. Please try again shortly.',
+            ], 502);
         }
     }
 }
