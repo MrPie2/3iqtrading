@@ -225,3 +225,8 @@ html[data-theme="light"] .dashboard-main input[type="file"]::file-selector-butto
 html[data-theme="dark"] .dashboard-main input[type="file"]::file-selector-button{background:#1b2230;color:#f4f6f8;border:0}
 @media(max-width:991.98px){.dashboard-main{padding:26px 18px 94px}}
 @media(max-width:575.98px){.dashboard-main{padding:22px 14px 94px}.dashboard-main .row{--bs-gutter-x:.85rem;--bs-gutter-y:.85rem}.dashboard-main .dashboard-alert{margin-left:0;margin-right:0}.dashboard-main>*{width:100%}}
+
+@media(max-width:767.98px){
+ .activity-toast{top:82px;right:14px;bottom:auto;width:calc(100vw - 28px);transform:translateY(-12px) scale(.98)}
+ .activity-toast.show{transform:none}
+}
