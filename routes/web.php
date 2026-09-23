@@ -23,6 +23,7 @@ use App\Http\Controllers\SupportController;
 use App\Http\Controllers\TermsController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\LegacyController;
+use App\Http\Controllers\AdminUserController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -61,6 +62,8 @@ Route::middleware('admin.session')->prefix('admin')->name('admin.')->group(funct
     
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+    Route::get('/manager-user/{investor}', [AdminUserController::class, 'show'])->name('user.show');
+    Route::post('/manager-user/{investor}/action', [AdminUserController::class, 'action'])->name('user.action');
 
     foreach (array_keys(config('admin_pages.pages', [])) as $module) {
         Route::get('/modules/'.$module, [AdminController::class, 'page'])->name('module.'.$module);
