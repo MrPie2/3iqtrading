@@ -72,6 +72,8 @@ Route::middleware('auth:investor')->group(function(){
     Route::get('/dashboard/index/index',[DashboardController::class,'index'])->name('dashboard');
     Route::get('/account',[LegacyController::class,'account'])->name('account');
     Route::get('/deposit',[LegacyController::class,'deposit'])->name('deposit');
+    Route::get('/deposits',[DashboardController::class,'deposits'])->name('deposits');
+    Route::get('/withdrawals',[DashboardController::class,'withdrawals'])->name('withdrawals');
     Route::get('/wallet',[WalletController::class,'index'])->name('wallet');
     Route::get('/withdraw',[WithdrawalController::class,'index'])->name('withdraw');
     Route::post('/withdraw',[WithdrawalController::class,'store'])->name('withdraw.store');
