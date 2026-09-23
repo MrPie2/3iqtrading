@@ -380,7 +380,7 @@
                 </a>
 
                 <div class="dropdown">
-                    <button class="manager-dropdown-toggle border-0 bg-transparent {{ request()->routeIs('admin.module.*') ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="manager-dropdown-toggle border-0 bg-transparent {{ request()->routeIs('admin.module') ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-grid"></i><span>Management</span><i class="bi bi-chevron-down ms-1 small"></i>
                     </button>
                     <ul class="dropdown-menu manager-dropdown-menu">
@@ -397,7 +397,7 @@
                             ['pages','file-earmark-text','Site Pages'],
                         ] as $item)
                             <li>
-                                <a class="dropdown-item {{ request()->routeIs('admin.module.'.$item[0]) ? 'active' : '' }}" href="{{ route('admin.module.'.$item[0]) }}">
+                                <a class="dropdown-item {{ request()->routeIs('admin.module') && request()->route('module') === $item[0] ? 'active' : '' }}" href="{{ route('admin.module', ['module' => $item[0]]) }}">
                                     <i class="bi bi-{{ $item[1] }}"></i>{{ $item[2] }}
                                 </a>
                             </li>
