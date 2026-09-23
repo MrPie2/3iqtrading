@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\AdminUserControl;
 use App\Models\BankDetail;
 use App\Models\CardDetail;
 use App\Models\Contract;
 use App\Models\Deposit;
-use App\Models\Document;
 use App\Models\Investor;
 use App\Models\Notification;
 use App\Models\ProofDocument;
@@ -22,32 +20,33 @@ use Illuminate\Support\Str;
 
 class AdminUserService
 {
-    public function control(Investor $investor): AdminUserControl
+    public function investorId(Investor $investor): int
     {
-        return AdminUserControl::firstOrCreate(
-            ['investor_id' => (int) $investor->Investor_id],
-            ['withdrawal_banned' => false]
-        );
+        return (int) ($investor->Investor_id ?? $investor->id);
     }
 
     public function lock(Investor $investor, bool $locked): void
     {
-        $investor->update(['LockStatus' => $locked ? 1 : 0]);
+        $this->updateExistingColumn($investor, 'LockStatus', $locked ? 1 : 0);
     }
 
     public function verify(Investor $investor): void
     {
-        $investor->update(['V_Status' => 1]);
+        $this->updateExistingColumn($investor, 'V_Status', 1);
     }
 
     public function upgrade(Investor $investor, int $level): void
     {
-        $investor->update(['Level' => $level]);
+        $this->updateExistingColumn($investor, 'Level', $level);
     }
 
     public function adjustBalance(Investor $investor, float $amount, string $type): void
     {
         $column = $type === 'profit' ? 'Fin_Asset' : 'Total_Deposit';
+
+        if (!Schema::hasColumn('investors', $column)) {
+            throw new \RuntimeException("The investors table does not contain {$column}.");
+        }
 
         DB::transaction(function () use ($investor, $amount, $column) {
             $fresh = Investor::whereKey($investor->getKey())->lockForUpdate()->firstOrFail();
@@ -64,12 +63,22 @@ class AdminUserService
 
     public function recordDeposit(Investor $investor, float $amount): void
     {
-        $this->adjustBalance($investor, $amount, 'balance');
-        $this->recordTransaction(Deposit::class, $investor, $amount, 'Amount_Deposited');
+        if ($amount <= 0) {
+            throw new \InvalidArgumentException('Amount must be greater than zero.');
+        }
+
+        DB::transaction(function () use ($investor, $amount) {
+            $this->adjustBalance($investor, $amount, 'balance');
+            $this->recordTransaction(Deposit::class, $investor, $amount, 'Amount_Deposited');
+        });
     }
 
     public function loadProfit(Investor $investor, float $amount): void
     {
+        if ($amount <= 0) {
+            throw new \InvalidArgumentException('Amount must be greater than zero.');
+        }
+
         $this->adjustBalance($investor, $amount, 'profit');
     }
 
@@ -82,49 +91,19 @@ class AdminUserService
         $this->adjustBalance($investor, -$amount, 'balance');
     }
 
-    private function recordTransaction(string $model, Investor $investor, float $amount, string $amountColumn): void
-    {
-        if (!Schema::hasTable((new $model)->getTable())) {
-            return;
-        }
-
-        $table = (new $model)->getTable();
-        $columns = array_flip(Schema::getColumnListing($table));
-        $data = [];
-
-        foreach ([
-            'Investor_id' => $investor->Investor_id,
-            $amountColumn => $amount,
-            'Status' => 1,
-            'Date' => now(),
-            'Created_at' => now(),
-            'created_at' => now(),
-        ] as $column => $value) {
-            if (isset($columns[$column])) {
-                $data[$column] = $value;
-            }
-        }
-
-        if ($data) {
-            DB::table($table)->insert($data);
-        }
-    }
-
     public function updateSignal(Investor $investor, string $signal): void
     {
-        $control = $this->control($investor);
-        $control->update(['signal' => $signal]);
+        $this->updateExistingColumn($investor, 'signal', $signal);
     }
 
     public function generateSwiftCode(Investor $investor): string
     {
-        $control = $this->control($investor);
-        $code = strtoupper(Str::random(11));
-        $control->update(['swift_code' => $code]);
-
-        if (Schema::hasColumn('investors', 'swift_code')) {
-            $investor->update(['swift_code' => $code]);
+        if (!Schema::hasColumn('investors', 'swift_code')) {
+            throw new \RuntimeException('The investors table does not contain a swift_code column. No separate admin table will be created for this value.');
         }
+
+        $code = strtoupper(Str::random(11));
+        $investor->update(['swift_code' => $code]);
 
         return $code;
     }
@@ -140,7 +119,7 @@ class AdminUserService
         $data = [];
 
         foreach ([
-            'Investor_id' => $investor->Investor_id,
+            'Investor_id' => $this->investorId($investor),
             'Subject' => $subject,
             'Text' => $text,
             'seen' => 0,
@@ -151,12 +130,17 @@ class AdminUserService
             }
         }
 
+        if (!$data) {
+            throw new \RuntimeException('No compatible notification columns were found.');
+        }
+
         DB::table($table)->insert($data);
     }
 
     public function sendMail(Investor $investor, string $subject, string $body): void
     {
         $email = trim((string) $investor->Email);
+
         if ($email === '') {
             throw new \RuntimeException('This investor does not have an email address.');
         }
@@ -168,13 +152,17 @@ class AdminUserService
 
     public function toggleWithdrawalBan(Investor $investor, bool $banned): void
     {
-        $this->control($investor)->update(['withdrawal_banned' => $banned]);
+        if (!Schema::hasColumn('investors', 'withdrawal_banned')) {
+            throw new \RuntimeException('The investors table does not contain a withdrawal_banned column.');
+        }
+
+        $investor->update(['withdrawal_banned' => $banned ? 1 : 0]);
     }
 
     public function deleteAccount(Investor $investor): void
     {
         DB::transaction(function () use ($investor) {
-            $id = $investor->Investor_id;
+            $id = $this->investorId($investor);
 
             foreach ([
                 Withdrawal::class,
@@ -186,24 +174,63 @@ class AdminUserService
                 CardDetail::class,
                 Contract::class,
                 StockContract::class,
-                Document::class,
             ] as $model) {
                 try {
                     $instance = new $model;
-                    if (Schema::hasTable($instance->getTable()) && Schema::hasColumn($instance->getTable(), 'Investor_id')) {
+                    $table = $instance->getTable();
+
+                    if (Schema::hasTable($table) && Schema::hasColumn($table, 'Investor_id')) {
                         $model::where('Investor_id', $id)->delete();
                     }
                 } catch (\Throwable $e) {
                     Log::warning('Admin account cleanup skipped', [
-                        'table' => isset($instance) ? $instance->getTable() : $model,
+                        'model' => $model,
                         'investor_id' => $id,
                         'error' => $e->getMessage(),
                     ]);
                 }
             }
 
-            AdminUserControl::where('investor_id', $id)->delete();
             $investor->delete();
         });
+    }
+
+    private function updateExistingColumn(Investor $investor, string $column, mixed $value): void
+    {
+        if (!Schema::hasColumn('investors', $column)) {
+            throw new \RuntimeException("The investors table does not contain {$column}.");
+        }
+
+        $investor->update([$column => $value]);
+    }
+
+    private function recordTransaction(string $model, Investor $investor, float $amount, string $amountColumn): void
+    {
+        $instance = new $model;
+        $table = $instance->getTable();
+
+        if (!Schema::hasTable($table)) {
+            return;
+        }
+
+        $columns = array_flip(Schema::getColumnListing($table));
+        $data = [];
+
+        foreach ([
+            'Investor_id' => $this->investorId($investor),
+            $amountColumn => $amount,
+            'Status' => 1,
+            'Date' => now(),
+            'Created_at' => now(),
+            'created_at' => now(),
+        ] as $column => $value) {
+            if (isset($columns[$column])) {
+                $data[$column] = $value;
+            }
+        }
+
+        if ($data) {
+            DB::table($table)->insert($data);
+        }
     }
 }
