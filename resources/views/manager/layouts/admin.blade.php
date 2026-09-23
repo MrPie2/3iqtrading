@@ -289,72 +289,57 @@
         .legacy-note { background:#fffbeb; border:1px solid #fde68a; color:#92400e; padding:12px 14px; border-radius:12px; font-size:12px; margin-bottom:18px; }
 
         @media (min-width: 992px) {
+            .manager-navbar { display:none !important; }
+            .manager-mobilebar { display:none !important; }
             .manager-offcanvas {
-                visibility: visible !important;
-                transform: none !important;
-                width: 290px !important;
-                border-right: 1px solid var(--line);
+                visibility:visible !important;
+                transform:translateX(0) !important;
+                position:fixed !important;
+                top:0;
+                bottom:0;
+                left:0;
+                width:290px !important;
+                height:100vh;
+                z-index:1045;
+                border-right:1px solid #1e293b !important;
             }
             .manager-offcanvas .btn-close { display:none; }
             .manager-offcanvas .offcanvas-body { overflow-y:auto; }
-            .manager-page {
-                margin-left: 290px;
+            .manager-main {
+                margin-left:290px;
+                width:calc(100% - 290px);
+                min-width:0;
             }
-            .manager-mobilebar { display:none !important; }
-            .manager-backdrop { display:none !important; }
-        }
-
-        @media (max-width: 991.98px) {
-            .manager-offcanvas {
-                width:min(310px,86vw);
-            }
-        }
-
-        .manager-mobile-dropdown {
-            min-width:250px;
-            padding:8px;
-            margin-top:8px!important;
-            border:1px solid var(--line);
-            border-radius:14px;
-            box-shadow:0 18px 45px rgba(15,23,42,.12);
-        }
-        .manager-mobile-dropdown .dropdown-item {
-            display:flex;
-            align-items:center;
-            gap:10px;
-            padding:10px 11px;
-            border-radius:9px;
-            color:#475569;
-            font-size:12px;
-            font-weight:600;
-        }
-        .manager-mobile-dropdown .dropdown-item i { width:18px; text-align:center; }
-        .manager-mobile-dropdown .dropdown-item:hover,
-        .manager-mobile-dropdown .dropdown-item.active { background:#eff6ff; color:var(--blue); }
-
-        @media (max-width:1199.98px) {
-            .manager-user-name { display:none; }
-            .grid { grid-template-columns:repeat(2,1fr); }
-            .module-grid { grid-template-columns:repeat(2,1fr); }
+            .offcanvas-backdrop { display:none !important; }
         }
 
         @media (max-width:991.98px) {
-            .manager-navbar { display:none; }
-            .manager-mobilebar { display:block; }
-            .manager-topline { padding-top:14px; }
+            .manager-navbar { display:none !important; }
+            .manager-mobilebar { display:block !important; }
+            .manager-offcanvas { display:none !important; }
+            .manager-main { margin-left:0; width:100%; }
+            .manager-mobile-dropdown {
+                min-width:250px;
+                padding:8px;
+                margin-top:8px !important;
+                border:1px solid var(--line);
+                border-radius:14px;
+                box-shadow:0 18px 45px rgba(15,23,42,.12);
+            }
+            .manager-mobile-dropdown .dropdown-item {
+                display:flex;
+                align-items:center;
+                gap:10px;
+                padding:10px 11px;
+                border-radius:9px;
+                color:#475569;
+                font-size:12px;
+                font-weight:600;
+            }
+            .manager-mobile-dropdown .dropdown-item i { width:18px; text-align:center; }
+            .manager-mobile-dropdown .dropdown-item:hover,
+            .manager-mobile-dropdown .dropdown-item.active { background:#eff6ff; color:var(--blue); }
         }
-
-        @media (max-width:767.98px) {
-            .manager-topline { display:none; }
-            .manager-content { padding:22px 15px 34px; }
-            .heading { align-items:flex-start; flex-direction:column; margin-bottom:18px; }
-            .heading h1 { font-size:23px; }
-            .grid { grid-template-columns:1fr; gap:12px; }
-            .module-grid { grid-template-columns:1fr; }
-            .panel { padding:15px; }
-        }
-
-        @media (max-width:420px) {
 
         @media (max-width:767.98px) {
             .manager-topline { display:none; }
