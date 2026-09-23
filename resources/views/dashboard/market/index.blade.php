@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title','Stock Market')
 @section('heading','Stock Market')
 @section('content')
