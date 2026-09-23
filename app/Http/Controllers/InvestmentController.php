@@ -42,6 +42,15 @@ class InvestmentController extends Controller
         $investor=Auth::guard('investor')->user();
         return view('dashboard.ira.index',compact('investor'));
     }
+    public function iraSavings(){
+        $investor=Auth::guard('investor')->user();
+        $iraSavings=(float) ($investor->IRA_Savings ?? 0);
+        $iraContributions=(float) ($investor->IRA_Contributions ?? 0);
+        $iraGrowth=(float) ($investor->IRA_Growth ?? 0);
+        $iraGoal=(float) ($investor->IRA_Goal ?? 0);
+        $iraProgress=$iraGoal>0 ? min(100,($iraSavings/$iraGoal)*100) : 0;
+        return view('dashboard.ira.savings',compact('investor','iraSavings','iraContributions','iraGrowth','iraGoal','iraProgress'));
+    }
     public function stockMarket(){
         $investor=Auth::guard('investor')->user();
         $stocks=Stock::orderBy('CompanyName')->get();
