@@ -41,16 +41,16 @@
   <div class="nav-title">Management</div>
   <nav class="nav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a href="my_agents" class="navbar-link"><span>Agents</span></a></li>
-          <li class="nav-item"><a href="investment_plans" class="navbar-link"><span>Investment Plans</span></a></li>
-          <li class="nav-item"><a href="my_wallets" class="navbar-link"><span>My Wallets</span></a></li>
-          <li class="nav-item"><a  href="/bulk_email" class="navbar-link" ><span>Send Bulk Email</span></a></li>
-          <li class="nav-item"><a href="/verificaion" class="navbar-link"><span>Verification and Limits</span></a></li>
-          <li class="nav-item"><a href="/stocks" class="navbar-link"><span>Stocks</span></a></li>
-          <li class="nav-item"><a href="/resources" class="navbar-link"><span>Resources</span></a></li>
+          <li class="nav-item"><a href="{{ route('admin.module.myagents') }}" class="navbar-link"><span>Agents</span></a></li>
+          <li class="nav-item"><a href="{{ route('admin.module.investmentplan') }}" class="navbar-link"><span>Investment Plans</span></a></li>
+          <li class="nav-item"><a href="{{ route('admin.module.mywallets') }}" class="navbar-link"><span>My Wallets</span></a></li>
+          <li class="nav-item"><a  href="{{ route('admin.module.sendbulkmail') }}" class="navbar-link" ><span>Send Bulk Email</span></a></li>
+          <li class="nav-item"><a href="{{ route('admin.module.verification') }}" class="navbar-link"><span>Verification and Limits</span></a></li>
+          <li class="nav-item"><a href="{{ route('admin.module.mystocks') }}" class="navbar-link"><span>Stocks</span></a></li>
+          <li class="nav-item"><a href="{{ route('admin.module.resources') }}" class="navbar-link"><span>Resources</span></a></li>
           <li class="nav-item"><a hef="/chat" class="navbar-link"><span>Chat and Support</span></a></li>
-          <li class="nav-item"><a href="/faqs" class="navbar-link"><span>FAQs</span></a></li>
-          <li class="nav-item"><a href="/pages" class="navbar-link"><span>Site Pages</span></a></li>
+          <li class="nav-item"><a href="{{ route('admin.module.faqcontainer') }}" class="navbar-link"><span>FAQs</span></a></li>
+          <li class="nav-item"><a href="{{ route('admin.module.pages') }}" class="navbar-link"><span>Site Pages</span></a></li>
       </ul>
   </nav>
   
