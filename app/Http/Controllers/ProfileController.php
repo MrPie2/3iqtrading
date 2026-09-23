@@ -1,13 +1,12 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\BankDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    public function index(){ return view('profile.index',['investor'=>Auth::guard('investor')->user()]); }
+    public function index(){ return view('dashboard.profile.index',['investor'=>Auth::guard('investor')->user()]); }
     public function update(Request $request){
         $data=$request->validate(['full_name'=>'required|string|max:255','email'=>'required|email|max:255','phone'=>'required|string|max:255']);
         $investor=Auth::guard('investor')->user();
@@ -29,7 +28,7 @@ class ProfileController extends Controller
     public function changePassword(Request $request){
         $data=$request->validate(['password'=>'required|min:6','email'=>'required|email']);
         $investor=Auth::guard('investor')->user();
-        if(strcasecmp($investor->Email,$data['email'])!==0) return response()->json(['ok'=>false,'message'=>'Email does not match your account.'],422);
+        if(strcasecmp((string)$investor->Email,$data['email'])!==0) return response()->json(['ok'=>false,'message'=>'Email does not match your account.'],422);
         $investor->update(['Password'=>Hash::make($data['password'])]);
         return response()->json(['ok'=>true,'message'=>'Password updated successfully.']);
     }
