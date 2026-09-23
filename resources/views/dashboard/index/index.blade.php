@@ -46,4 +46,20 @@ async function load(){try{const r=await fetch(endpoint,{headers:{Accept:'applica
 refresh&&refresh.addEventListener('click',load);load();setInterval(load,60000);
 });
 </script>
-@endpush@endpush
+@endpush
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+const rows=@json($chart),labels=[],values=[],volumes=[];
+rows.forEach(function(row,index){const entries=Object.entries(row||{});let label=String(index+1),value=null,volume=null;entries.forEach(function(pair){const key=pair[0],raw=pair[1],lower=key.toLowerCase(),num=Number(raw);if(/date|time|created|label|day|month/.test(lower)&&raw!==null&&raw!=='')label=String(raw).slice(0,16);if(Number.isFinite(num)){if(/volume|qty|quantity|trade/.test(lower)&&volume===null)volume=num;if(/price|value|balance|portfolio|rate|close|amount/.test(lower)&&value===null)value=num;}});if(value===null){const nums=entries.map(function(p){return Number(p[1]);}).filter(Number.isFinite);if(nums.length)value=nums[nums.length-1];}if(value!==null){labels.push(label);values.push(value);volumes.push(volume===null?Math.abs(value):volume);}});
+const ctx=document.getElementById('portfolioChart'),vctx=document.getElementById('volumeChart');
+if(!ctx)return;
+const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,280);gradient.addColorStop(0,'rgba(31,199,148,.26)');gradient.addColorStop(1,'rgba(31,199,148,0)');
+const options={responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{displayColors:false}},scales:{x:{grid:{display:false},ticks:{color:'#7d8799',maxTicksLimit:8}},y:{grid:{color:'rgba(130,145,170,.10)'},ticks:{color:'#7d8799'}}}};
+new Chart(ctx,{type:'line',data:{labels:labels,datasets:[{data:values,borderColor:'#1fc794',backgroundColor:gradient,fill:true,borderWidth:2.5,pointRadius:0,pointHoverRadius:5,tension:.35}]},options:options});
+new Chart(vctx,{type:'bar',data:{labels:labels,datasets:[{data:volumes,backgroundColor:'rgba(125,135,153,.22)',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+if(values.length){const last=values[values.length-1],first=values[0],delta=first?((last-first)/Math.abs(first))*100:0;document.getElementById('chartLastValue').textContent=Number(last).toLocaleString(undefined,{maximumFractionDigits:2});document.getElementById('chartChange').textContent=(delta>=0?'+':'')+delta.toFixed(2)+'% over available history';if(delta<0)document.getElementById('chartChange').classList.add('down');}
+document.querySelectorAll('.chart-toolbar button').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('.chart-toolbar button').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');});});
+});
+</script>
+@endpush
