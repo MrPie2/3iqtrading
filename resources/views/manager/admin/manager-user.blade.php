@@ -61,10 +61,10 @@
     </div>
     <div class="admin-action"><h3><i class="bi bi-upc-scan me-1"></i> SWIFT code</h3><p>Generate and store an account SWIFT reference.</p>
         <form method="POST" action="{{ route('admin.user.action',$investor->id) }}">@csrf<input type="hidden" name="action" value="swift"><button class="btn btn-primary">Generate code</button></form>
-        @if($control->swift_code)<div class="mt-2 small text-muted">Current: <strong>{{ $control->swift_code }}</strong></div>@endif
     </div>
     <div class="admin-action"><h3><i class="bi bi-shield-x me-1"></i> Withdrawal access</h3><p>Control whether withdrawals can be initiated.</p>
-        <form method="POST" action="{{ route('admin.user.action',$investor->id) }}"><input type="hidden" name="action" value="{{ $control->withdrawal_banned ? 'withdrawal_unban':'withdrawal_ban' }}">@csrf<button class="btn {{ $control->withdrawal_banned ? 'btn-primary':'btn-danger' }}">{{ $control->withdrawal_banned ? 'Remove withdrawal ban':'Ban withdrawals' }}</button></form>
+        <form method="POST" action="{{ route('admin.user.action',$investor->id) }}">@csrf<input type="hidden" name="action" value="withdrawal_ban"><button class="btn btn-danger">Ban withdrawals</button></form>
+        <form method="POST" action="{{ route('admin.user.action',$investor->id) }}" class="mt-2">@csrf<input type="hidden" name="action" value="withdrawal_unban"><button class="btn btn-primary">Remove withdrawal ban</button></form>
     </div>
     <div class="admin-action"><h3><i class="bi bi-bell me-1"></i> Send notification</h3>
         <form method="POST" action="{{ route('admin.user.action',$investor->id) }}">@csrf<input type="hidden" name="action" value="notification"><input name="subject" class="form-control mb-2" placeholder="Subject" required><textarea name="message" class="form-control mb-2" rows="3" placeholder="Notification text" required></textarea><button class="btn btn-primary">Send notification</button></form>
