@@ -38,6 +38,10 @@ class InvestmentController extends Controller
         $contracts=Contract::where('Investor_id',$investor->Investor_id)->latest('id')->get();
         return view('dashboard.investments.contracts',compact('contracts','investor'));
     }
+    public function ira(){
+        $investor=Auth::guard('investor')->user();
+        return view('dashboard.ira.index',compact('investor'));
+    }
     public function stockMarket(){
         $investor=Auth::guard('investor')->user();
         $stocks=Stock::orderBy('CompanyName')->get();
