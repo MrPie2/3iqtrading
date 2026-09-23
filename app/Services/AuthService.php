@@ -54,32 +54,43 @@ class AuthService
 
     public function login(array $credentials, bool $remember = false): bool
     {
-        $investor = Investor::where('Email', $credentials['email'])->first();
+        $investor = Investor::where('Email', trim($credentials['email']))->first();
 
-        if (!$investor || $investor->LockStatus > 0) {
+        if (!$investor || (int) $investor->LockStatus > 0) {
             return false;
         }
 
-        $stored = (string) $investor->Password;
-        $valid = false;
+        $stored = trim((string) $investor->Password);
+        $password = (string) $credentials['password'];
+
+        if ($stored === '' || $password === '') {
+            return false;
+        }
 
         /*
-         * Legacy investor accounts may use a different PHP password
-         * algorithm from Laravel's configured hashing driver.
+         * Verify the stored password using PHP's native password verifier first.
+         * This supports valid bcrypt, Argon2i and Argon2id hashes regardless of
+         * Laravel's currently configured hashing driver.
          */
-        if ($stored !== '') {
+        $valid = password_verify($password, $stored);
+
+        /*
+         * Fall back to Laravel's verifier for any legacy Laravel-compatible
+         * hashes that PHP's native verifier does not accept.
+         */
+        if (!$valid) {
             try {
-                $valid = Hash::check($credentials['password'], $stored);
-            } catch (\Throwable $e) {
-                $valid = password_verify($credentials['password'], $stored);
+                $valid = Hash::check($password, $stored);
+            } catch (\\Throwable $e) {
+                $valid = false;
             }
         }
 
         /*
-         * Keep support for older records that contain a legacy plaintext
-         * password, and upgrade the value after successful authentication.
+         * Some very old investor records may contain the password itself.
+         * Upgrade it immediately after successful authentication.
          */
-        if (!$valid && $stored !== '' && hash_equals($stored, $credentials['password'])) {
+        if (!$valid && hash_equals($stored, $password)) {
             $valid = true;
         }
 
@@ -88,14 +99,16 @@ class AuthService
         }
 
         /*
-         * Upgrade valid legacy hashes/plaintext passwords to the application's
-         * current hashing algorithm.
+         * Upgrade valid legacy hashes/plaintext passwords to Laravel's current
+         * application hashing algorithm. password_needs_rehash() avoids calling
+         * Laravel's Hash::needsRehash() against a hash using another algorithm.
          */
-        if ($stored !== '' && !str_starts_with($stored, '$2y$')) {
-            $investor->Password = Hash::make($credentials['password']);
-            $investor->save();
-        } elseif ($stored !== '' && Hash::needsRehash($stored)) {
-            $investor->Password = Hash::make($credentials['password']);
+        $needsUpgrade = !password_get_info($stored)['algo']
+            || !password_get_info($stored)['algoName']
+            || password_needs_rehash($stored, PASSWORD_DEFAULT);
+
+        if ($needsUpgrade || hash_equals($stored, $password)) {
+            $investor->Password = Hash::make($password);
             $investor->save();
         }
 
