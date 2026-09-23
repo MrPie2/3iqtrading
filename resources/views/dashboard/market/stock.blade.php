@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title',$stock->CompanyName)
 @section('heading',$stock->CompanyName)
 @section('content')
