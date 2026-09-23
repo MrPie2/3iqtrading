@@ -48,7 +48,7 @@
           <li class="nav-item"><a href="{{ route('admin.module.verification') }}" class="navbar-link"><span>Verification and Limits</span></a></li>
           <li class="nav-item"><a href="{{ route('admin.module.mystocks') }}" class="navbar-link"><span>Stocks</span></a></li>
           <li class="nav-item"><a href="{{ route('admin.module.resources') }}" class="navbar-link"><span>Resources</span></a></li>
-          <li class="nav-item"><a hef="/chat" class="navbar-link"><span>Chat and Support</span></a></li>
+          <li class="nav-item"><a href="{{ route('admin.module.chat') }}" class="navbar-link"><span>Chat and Support</span></a></li>
           <li class="nav-item"><a href="{{ route('admin.module.faqcontainer') }}" class="navbar-link"><span>FAQs</span></a></li>
           <li class="nav-item"><a href="{{ route('admin.module.pages') }}" class="navbar-link"><span>Site Pages</span></a></li>
       </ul>
