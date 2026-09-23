@@ -38,7 +38,7 @@
 <a href="{{ route('wallet') }}"><i class="bi bi-wallet2"></i>Wallet</a>
 <a href="{{ route('transfer') }}"><i class="bi bi-arrow-left-right"></i>Transfer</a>
 <a href="{{ route('referrals') }}"><i class="bi bi-people-fill"></i>Referrals</a>
-<a href="{{ route('ira') }}" class="{{ request()->routeIs('ira') ? 'active' : '' }}"><i class="bi bi-safe2-fill"></i>IRA</a>
+<a href="{{ route('dashboard.ira') }}" class="{{ request()->routeIs('ira') ? 'active' : '' }}"><i class="bi bi-safe2-fill"></i>IRA</a>
 </nav>
 <div class="sidebar-label">Account</div>
 <nav class="dashboard-nav">
