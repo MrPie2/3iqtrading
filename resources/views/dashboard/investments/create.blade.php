@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title',$plan->Plan_Name)
 @section('heading',$plan->Plan_Name)
 @section('content')
