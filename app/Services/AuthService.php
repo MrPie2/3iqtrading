@@ -61,16 +61,52 @@ class AuthService
         }
 
         $stored = (string) $investor->Password;
-        $valid = Hash::check($credentials['password'], $stored);
+        $valid = false;
 
-        if (!$valid && hash_equals($stored, $credentials['password'])) {
-            $investor->Password = Hash::make($credentials['password']);
-            $investor->save();
+        /*
+         * Investor accounts come from a legacy table and may contain hashes
+         * generated with a different password algorithm (for example Argon2id).
+         * Hash::check() intentionally throws when the stored algorithm differs
+         * from Laravel's configured driver, so do not let a valid legacy hash
+         * become a login error.
+         */
+        if ($stored !== '') {
+            try {
+                $valid = Hash::check($credentials['password'], $stored);
+            } catch (\\Throwable) {
+                $valid = password_verify($credentials['password'], $stored);
+            }
+        }
+
+        /*
+         * Older investor records may still contain a legacy plaintext value.
+         * If it matches, immediately upgrade it to the application's current
+         * hashing algorithm.
+         */
+        if (!$valid && $stored !== '' && hash_equals($stored, $credentials['password'])) {
             $valid = true;
         }
 
         if (!$valid) {
             return false;
+        }
+
+        /*
+         * Upgrade a valid legacy hash/plaintext password to the current
+         * Laravel hashing algorithm after successful authentication.
+         */
+        if ($stored !== '' && !str_starts_with($stored, '$2y
+
+        Auth::guard('investor')->login($investor, $remember);
+
+        return true;
+    }
+})) {
+            $investor->Password = Hash::make($credentials['password']);
+            $investor->save();
+        } elseif ($stored !== '' && Hash::needsRehash($stored)) {
+            $investor->Password = Hash::make($credentials['password']);
+            $investor->save();
         }
 
         Auth::guard('investor')->login($investor, $remember);
