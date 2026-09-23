@@ -94,7 +94,6 @@ if(toggle){
 }
 
 const investors=[
-const investors=[
 {name:'Amara Okafor',country:'Nigeria',invested:4200,profit:756},{name:'Daniel Brooks',country:'United Kingdom',invested:8500,profit:1360},
 {name:'Sofia Martins',country:'Portugal',invested:3200,profit:544},{name:'Liam Carter',country:'Canada',invested:12750,profit:1912.5},
 {name:'Aisha Bello',country:'Nigeria',invested:6100,profit:976},{name:'Noah Williams',country:'United States',invested:9800,profit:1568},
