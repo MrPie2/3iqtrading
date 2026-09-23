@@ -192,3 +192,36 @@ html[data-theme="light"] .dashboard-main .table tbody tr:hover{background:#f8faf
  .market-price-grid{grid-template-columns:1fr}
  .rate-banner{grid-template-columns:1fr}
 }
+
+/* ===== Final dashboard viewport spacing + theme normalization ===== */
+.dashboard-main{width:100%;max-width:none;padding:32px clamp(20px,3.2vw,52px) 46px}
+.dashboard-main>*{max-width:1440px;margin-left:auto;margin-right:auto}
+.dashboard-main .row{--bs-gutter-x:1.25rem;--bs-gutter-y:1.25rem}
+.dashboard-main .dashboard-alert{margin-top:0;margin-bottom:24px}
+.stat-card,.trading-card,.market-watch-card,.dashboard-panel,.plan-card,.support-card{border-color:var(--db-border);color:var(--db-text)}
+.dashboard-panel,.trading-card,.market-watch-card{background:var(--db-panel)}
+.dashboard-main .text-white{color:var(--db-text)!important}
+.dashboard-main .text-black{color:var(--db-text)!important}
+.dashboard-main .bg-white{background:var(--db-panel)!important}
+.dashboard-main .border{border-color:var(--db-border)!important}
+.dashboard-main .border-bottom,.dashboard-main .border-top{border-color:var(--db-border)!important}
+.dashboard-main .list-group{--bs-list-group-bg:var(--db-panel);--bs-list-group-color:var(--db-text);--bs-list-group-border-color:var(--db-border)}
+.dashboard-main .list-group-item{background:var(--db-panel);color:var(--db-text);border-color:var(--db-border)}
+.dashboard-main .dropdown-menu{background:var(--db-panel);border-color:var(--db-border);box-shadow:0 16px 40px rgba(0,0,0,.18)}
+.dashboard-main .dropdown-item{color:var(--db-text)}
+.dashboard-main .dropdown-item:hover{background:rgba(40,100,255,.08);color:var(--db-text)}
+.dashboard-main .modal-content{background:var(--db-panel);color:var(--db-text);border-color:var(--db-border)}
+.dashboard-main .modal-header,.dashboard-main .modal-footer{border-color:var(--db-border)}
+.dashboard-main .btn-close{filter:var(--db-btn-close-filter,none)}
+html[data-theme="dark"] .dashboard-main .btn-close{filter:invert(1) grayscale(1) brightness(2)}
+html[data-theme="light"] .dashboard-main .btn-close{filter:none}
+html[data-theme="light"] .dashboard-main .alert-success{background:#ecfdf3;color:#067647;border-color:#abefc6}
+html[data-theme="dark"] .dashboard-main .alert-success{background:#10261d;color:#8ce3b5;border-color:#1c523b}
+html[data-theme="light"] .dashboard-main .alert-danger{background:#fef3f2;color:#b42318;border-color:#fecdca}
+html[data-theme="dark"] .dashboard-main .alert-danger{background:#2a1518;color:#ff9aa5;border-color:#5b262d}
+html[data-theme="light"] .dashboard-main .alert-warning{background:#fffaeb;color:#b54708;border-color:#fedf89}
+html[data-theme="dark"] .dashboard-main .alert-warning{background:#2b2111;color:#f6c66e;border-color:#614819}
+html[data-theme="light"] .dashboard-main input[type="file"]::file-selector-button{background:#eef3ff;color:#172033;border:0}
+html[data-theme="dark"] .dashboard-main input[type="file"]::file-selector-button{background:#1b2230;color:#f4f6f8;border:0}
+@media(max-width:991.98px){.dashboard-main{padding:26px 18px 94px}}
+@media(max-width:575.98px){.dashboard-main{padding:22px 14px 94px}.dashboard-main .row{--bs-gutter-x:.85rem;--bs-gutter-y:.85rem}.dashboard-main .dashboard-alert{margin-left:0;margin-right:0}.dashboard-main>*{width:100%}}
