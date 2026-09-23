@@ -288,6 +288,28 @@
         .badge { padding:5px 8px; border-radius:999px; font-size:10px; background:#eff6ff; color:#1d4ed8; }
         .legacy-note { background:#fffbeb; border:1px solid #fde68a; color:#92400e; padding:12px 14px; border-radius:12px; font-size:12px; margin-bottom:18px; }
 
+        @media (min-width: 992px) {
+            .manager-offcanvas {
+                visibility: visible !important;
+                transform: none !important;
+                width: 290px !important;
+                border-right: 1px solid var(--line);
+            }
+            .manager-offcanvas .btn-close { display:none; }
+            .manager-offcanvas .offcanvas-body { overflow-y:auto; }
+            .manager-page {
+                margin-left: 290px;
+            }
+            .manager-mobilebar { display:none !important; }
+            .manager-backdrop { display:none !important; }
+        }
+
+        @media (max-width: 991.98px) {
+            .manager-offcanvas {
+                width:min(310px,86vw);
+            }
+        }
+
         .manager-mobile-dropdown {
             min-width:250px;
             padding:8px;
