@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 @section('title','Deposit')
-@section('heading','Deposit')
 @section('content')
-<div class="card table-card"><div class="card-body"><h4>Deposit funds</h4><p class="text-muted">Use your configured funding instructions, then upload proof in Wallet for review.</p><a href="{{ route('wallet') }}" class="btn btn-brand">Open Wallet</a></div></div>
+<div class="dashboard-heading"><div><div class="eyebrow"><span class="live-pulse"></span>Wallet</div><h1>Deposit funds</h1><p>Follow your configured funding instructions and submit proof for review.</p></div><a href="{{ route('wallet') }}" class="btn dashboard-primary-btn"><i class="bi bi-wallet2 me-2"></i>Open wallet</a></div>
+<div class="row g-3"><div class="col-lg-8"><div class="trading-card"><div class="plan-hero-icon"><i class="bi bi-arrow-down-left"></i></div><h2 class="mt-3">Fund your account</h2><p class="text-muted mt-2">Use the funding instructions provided by the platform, then return to Wallet to upload your payment proof.</p><div class="info-callout mt-4"><i class="bi bi-info-circle"></i><div><strong>Proof required</strong><span>Deposit verification is handled through the Wallet workspace.</span></div></div><a href="{{ route('wallet') }}" class="btn dashboard-primary-btn mt-4">Continue to wallet <i class="bi bi-arrow-right ms-2"></i></a></div></div><div class="col-lg-4"><div class="dashboard-panel h-100"><div class="section-kicker">Funding flow</div><div class="step-list"><div><span>1</span><strong>Fund</strong><small>Complete your configured payment.</small></div><div><span>2</span><strong>Upload</strong><small>Submit deposit proof.</small></div><div><span>3</span><strong>Review</strong><small>Await account processing.</small></div></div></div></div></div>
 @endsection
