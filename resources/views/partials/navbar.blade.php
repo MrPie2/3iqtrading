@@ -27,7 +27,7 @@ window.smartsupp||(function(d) {
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('stocks') ? 'active' : '' }}" href="{{ route('stocks') }}">Stocks</a></li>
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('401k') ? 'active' : '' }}" href="{{ route('401k') }}">401(k)</a></li>
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('shares') ? 'active' : '' }}" href="{{ route('shares') }}">Shares</a></li>
-                @auth
+                @auth('investor')
                     <li class="nav-item ms-lg-2"><form method="POST" action="{{ route('logout') }}">@csrf<button class="btn btn-outline-dark rounded-pill px-4" type="submit">Logout</button></form></li>
                 @else
                     <li class="nav-item ms-lg-2"><a class="btn btn-outline-dark rounded-pill px-4" href="{{ route('login') }}">Login</a></li>
