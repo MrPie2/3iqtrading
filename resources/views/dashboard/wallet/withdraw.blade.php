@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title','Withdraw')
 @section('heading','Withdraw')
 @section('content')
