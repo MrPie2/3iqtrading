@@ -1,34 +1,37 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title','Dashboard')
-@section('heading','Dashboard')
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4"><div><h3 class="mb-1">Good to see you, {{ $investor->First_Name }}</h3><div class="text-muted">Account {{ $investor->Investor_id }}</div></div><a href="{{ route('investments.plans') }}" class="btn btn-brand">Start an investment</a></div>
-<div class="row">
-@foreach([['Available Balance',$stats['balance'],$investor->curAbbr],['Portfolio Value',$stats['portfolio'],$investor->curAbbr],['Active Investments',$stats['active_investments'],'positions'],['Referral Earnings',$stats['referral_earnings'],$investor->curAbbr]] as $m)
-<div class="col-md-6 col-xl-3 mb-4"><div class="card metric"><div class="card-body"><div class="text-muted small">{{ $m[0] }}</div><div class="value mt-2">{{ $m[2]==='positions' ? number_format($m[1]) : $m[2].number_format($m[1],2) }}</div></div></div></div>
-@endforeach
+<div class="container-fluid px-3 px-lg-4 py-4 py-lg-5">
+<div class="dashboard-heading"><div><div class="eyebrow"><span class="live-pulse"></span> Portfolio overview</div><h1>Welcome back, {{ $investor->First_Name ?? $investor->name ?? 'Trader' }}</h1><p>Monitor your portfolio, track market movement and manage your investments from one workspace.</p></div><a href="{{ route('investments.plans') }}" class="btn dashboard-primary-btn"><i class="bi bi-plus-lg me-2"></i>New investment</a></div>
+<div class="row g-3 mb-4">
+@php $metrics=[['Available Balance',$stats['balance'],$investor->curAbbr ?? '$','bi-wallet2'],['Portfolio Value',$stats['portfolio'],$investor->curAbbr ?? '$','bi-pie-chart-fill'],['Active Investments',$stats['active_investments'],'','bi-activity'],['Referral Earnings',$stats['referral_earnings'],$investor->curAbbr ?? '$','bi-people-fill']]; @endphp
+@foreach($metrics as $metric)<div class="col-6 col-xl-3"><div class="stat-card h-100"><div class="stat-icon"><i class="bi {{ $metric[3] }}"></i></div><div class="stat-label">{{ $metric[0] }}</div><div class="stat-value">{{ $metric[2] }}{{ $metric[2] === '' ? number_format($metric[1]) : number_format((float)$metric[1],2) }}</div><div class="stat-foot"><span class="status-dot"></span> Account data</div></div></div>@endforeach
 </div>
-<div class="row">
-<div class="col-xl-8 mb-4"><div class="card table-card"><div class="card-body"><div class="d-flex justify-content-between"><h5>Investment activity</h5><a href="{{ route('investments.contracts') }}">View all</a></div>
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead><tr><th>Plan</th><th>Amount</th><th>Start</th><th>Status</th></tr></thead>
-        <tbody>
-@forelse($contracts as $c)<tr><td>{{ $c->Plan_Type }}</td>
-<td>{{ $investor->curAbbr }}{{ number_format((float)$c->Amount*(float)$investor->exchangerate,2) }}</td><td>{{ $c->Contract_Start?->format('M d, Y') }}</td><td><span class="badge badge-soft">{{ $c->Status==1?'Active':($c->Status==2?'Completed':'Pending') }}</span></td></tr>@empty<tr><td colspan="4" class="text-muted">No investments yet.</td></tr>@endforelse
-</tbody>
-</table></div></div></div></div>
-<div class="col-xl-4 mb-4"><div class="card table-card">
-    <div class="card-body"><h5>Notifications</h5>@forelse($notifications as $n)<a href="{{ route('notifications') }}" class="d-block py-2 border-bottom text-dark"><strong>{{ $n->Subject }}</strong>
-    <div class="small text-muted">{{ Str::limit($n->Text,70) }}</div></a>@empty<p class="text-muted">You're all caught up.</p>@endforelse</div>
-</div></div>
+<div class="row g-3 mb-4">
+<div class="col-12 col-xl-9"><section class="trading-card"><div class="trading-card-header"><div><div class="section-kicker">Portfolio performance</div><h2>Market overview</h2></div><div class="chart-toolbar">@foreach(['1D','1W','1M','3M','1Y'] as $range)<button type="button" class="{{ $loop->first ? 'active' : '' }}">{{ $range }}</button>@endforeach</div></div><div class="chart-summary"><div><span class="price-label">Portfolio index</span><strong id="chartLastValue">—</strong></div><div class="chart-change" id="chartChange">Available account history</div></div><div class="main-chart-wrap"><canvas id="portfolioChart"></canvas></div><div class="volume-wrap"><canvas id="volumeChart"></canvas></div><div class="chart-legend"><span><i class="legend-line"></i> Portfolio movement</span><span><i class="legend-volume"></i> Activity</span></div></section></div>
+<div class="col-12 col-xl-3"><section class="market-watch-card h-100"><div class="section-kicker">Quick actions</div><h2>Trade center</h2><div class="quick-action-grid"><a href="{{ route('investments.plans') }}"><span><i class="bi bi-lightning-charge-fill"></i></span><strong>Invest</strong><small>Browse plans</small></a><a href="{{ route('deposit') }}"><span><i class="bi bi-arrow-down-left-circle-fill"></i></span><strong>Deposit</strong><small>Add funds</small></a><a href="{{ route('withdraw') }}"><span><i class="bi bi-arrow-up-right-circle-fill"></i></span><strong>Withdraw</strong><small>Move funds</small></a><a href="{{ route('transfer') }}"><span><i class="bi bi-send-fill"></i></span><strong>Transfer</strong><small>Send funds</small></a></div><div class="watchlist-title">Account status</div><div class="account-status"><div><span>Verification</span><strong><i class="bi bi-shield-check"></i> Active</strong></div><div><span>Open positions</span><strong>{{ number_format($stats['active_investments']) }}</strong></div><div><span>Notifications</span><strong>{{ ($notifications ?? collect())->count() }}</strong></div></div></section></div>
 </div>
-<div class="row"><div class="col-md-6 mb-4"><div class="card table-card"><div class="card-body">
-    <h5>Recent deposits</h5>@forelse($deposits as $d)<div class="d-flex justify-content-between py-2 border-bottom"><span>{{ $d->Date }}</span>
-    <strong>{{ $investor->curAbbr }}{{ number_format((float)$d->Amount_Deposited*(float)$investor->exchangerate,2) }}</strong>
-</div>@empty<p class="text-muted">No deposits found.</p>@endforelse</div></div></div>
-<div class="col-md-6 mb-4"><div class="card table-card"><div class="card-body">
-    <h5>Recent withdrawals</h5>@forelse($withdrawals as $w)<div class="d-flex justify-content-between py-2 border-bottom">
-        <span>{{ $w->Date }}</span><strong>{{ $investor->curAbbr }}{{ number_format((float)$w->Amount_Withdrawn*(float)$investor->exchangerate,2) }}</strong>
-    </div>@empty<p class="text-muted">No withdrawals found.</p>@endforelse</div></div></div></div>
+<div class="row g-3">
+<div class="col-12 col-xl-8"><section class="dashboard-panel"><div class="panel-heading"><div><div class="section-kicker">Positions</div><h2>Investment activity</h2></div><a href="{{ route('investments.contracts') }}" class="panel-link">View all <i class="bi bi-arrow-up-right"></i></a></div><div class="table-responsive"><table class="table trading-table align-middle"><thead><tr><th>Investment</th><th>Amount</th><th>Start date</th><th>Status</th></tr></thead><tbody>@forelse($contracts as $c)<tr><td><div class="asset-cell"><span class="asset-icon"><i class="bi bi-graph-up"></i></span><div><strong>{{ $c->Plan_Type }}</strong><small>Investment contract</small></div></div></td><td>{{ $investor->curAbbr ?? '$' }}{{ number_format((float)$c->Amount*(float)($investor->exchangerate ?? 1),2) }}</td><td>{{ $c->Contract_Start?->format('M d, Y') ?? '—' }}</td><td><span class="trade-status {{ $c->Status==1?'positive':($c->Status==2?'neutral':'pending') }}">{{ $c->Status==1?'Active':($c->Status==2?'Completed':'Pending') }}</span></td></tr>@empty<tr><td colspan="4" class="empty-state"><i class="bi bi-bar-chart-line"></i><strong>No investments yet</strong><span>Your positions will appear here.</span></td></tr>@endforelse</tbody></table></div></section></div>
+<div class="col-12 col-xl-4"><section class="dashboard-panel"><div class="panel-heading"><div><div class="section-kicker">Inbox</div><h2>Notifications</h2></div><a href="{{ route('notifications') }}" class="panel-link">See all</a></div><div class="notification-list">@forelse($notifications as $n)<a href="{{ route('notifications') }}" class="notification-item"><span class="notification-icon"><i class="bi bi-bell-fill"></i></span><span><strong>{{ $n->Subject }}</strong><small>{{ Str::limit($n->Text,80) }}</small></span><i class="bi bi-chevron-right"></i></a>@empty<div class="empty-mini"><i class="bi bi-check2-circle"></i>You're all caught up.</div>@endforelse</div></section></div>
+<div class="col-12 col-lg-6"><section class="dashboard-panel compact-panel"><div class="panel-heading"><div><div class="section-kicker">Cash flow</div><h2>Recent deposits</h2></div><a href="{{ route('deposit') }}" class="panel-link">Deposit</a></div>@forelse($deposits as $d)<div class="cash-row"><span class="cash-icon positive"><i class="bi bi-arrow-down-left"></i></span><div><strong>Deposit</strong><small>{{ $d->Date }}</small></div><b>{{ $investor->curAbbr ?? '$' }}{{ number_format((float)$d->Amount_Deposited*(float)($investor->exchangerate ?? 1),2) }}</b></div>@empty<div class="empty-mini">No deposits found.</div>@endforelse</section></div>
+<div class="col-12 col-lg-6"><section class="dashboard-panel compact-panel"><div class="panel-heading"><div><div class="section-kicker">Cash flow</div><h2>Recent withdrawals</h2></div><a href="{{ route('withdraw') }}" class="panel-link">Withdraw</a></div>@forelse($withdrawals as $w)<div class="cash-row"><span class="cash-icon negative"><i class="bi bi-arrow-up-right"></i></span><div><strong>Withdrawal</strong><small>{{ $w->Date }}</small></div><b>{{ $investor->curAbbr ?? '$' }}{{ number_format((float)$w->Amount_Withdrawn*(float)($investor->exchangerate ?? 1),2) }}</b></div>@empty<div class="empty-mini">No withdrawals found.</div>@endforelse</section></div>
+</div>
+</div>
 @endsection
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+const rows=@json($chart),labels=[],values=[],volumes=[];
+rows.forEach(function(row,index){const entries=Object.entries(row||{});let label=String(index+1),value=null,volume=null;entries.forEach(function(pair){const key=pair[0],raw=pair[1],lower=key.toLowerCase(),num=Number(raw);if(/date|time|created|label|day|month/.test(lower)&&raw!==null&&raw!=='')label=String(raw).slice(0,16);if(Number.isFinite(num)){if(/volume|qty|quantity|trade/.test(lower)&&volume===null)volume=num;if(/price|value|balance|portfolio|rate|close|amount/.test(lower)&&value===null)value=num;}});if(value===null){const nums=entries.map(function(p){return Number(p[1]);}).filter(Number.isFinite);if(nums.length)value=nums[nums.length-1];}if(value!==null){labels.push(label);values.push(value);volumes.push(volume===null?Math.abs(value):volume);}});
+const ctx=document.getElementById('portfolioChart'),vctx=document.getElementById('volumeChart');
+if(!ctx)return;
+const gradient=ctx.getContext('2d').createLinearGradient(0,0,0,280);gradient.addColorStop(0,'rgba(31,199,148,.26)');gradient.addColorStop(1,'rgba(31,199,148,0)');
+const options={responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{displayColors:false}},scales:{x:{grid:{display:false},ticks:{color:'#7d8799',maxTicksLimit:8}},y:{grid:{color:'rgba(130,145,170,.10)'},ticks:{color:'#7d8799'}}}};
+new Chart(ctx,{type:'line',data:{labels:labels,datasets:[{data:values,borderColor:'#1fc794',backgroundColor:gradient,fill:true,borderWidth:2.5,pointRadius:0,pointHoverRadius:5,tension:.35}]},options:options});
+new Chart(vctx,{type:'bar',data:{labels:labels,datasets:[{data:volumes,backgroundColor:'rgba(125,135,153,.22)',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+if(values.length){const last=values[values.length-1],first=values[0],delta=first?((last-first)/Math.abs(first))*100:0;document.getElementById('chartLastValue').textContent=Number(last).toLocaleString(undefined,{maximumFractionDigits:2});document.getElementById('chartChange').textContent=(delta>=0?'+':'')+delta.toFixed(2)+'% over available history';if(delta<0)document.getElementById('chartChange').classList.add('down');}
+document.querySelectorAll('.chart-toolbar button').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('.chart-toolbar button').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');});});
+});
+</script>
+@endpush
