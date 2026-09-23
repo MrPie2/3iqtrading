@@ -12,6 +12,17 @@ use App\Http\Controllers\ClientAuthController;
 use App\Http\Controllers\GetChildController;
 use App\Http\Controllers\GetallPagesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WalletController;
+use App\Http\Controllers\WithdrawalController;
+use App\Http\Controllers\InvestmentController;
+use App\Http\Controllers\TransferController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\TermsController;
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\LegacyController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -57,7 +68,7 @@ Route::middleware('admin.session')->prefix('admin')->name('admin.')->group(funct
     }
 });
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth:investor')->group(function(){
     Route::get('/dashboard/index/index',[DashboardController::class,'index'])->name('dashboard');
     Route::get('/account',[LegacyController::class,'account'])->name('account');
     Route::get('/deposit',[LegacyController::class,'deposit'])->name('deposit');
