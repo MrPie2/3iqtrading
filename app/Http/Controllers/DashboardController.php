@@ -12,6 +12,7 @@ use App\Models\StockContract;
 use App\Models\Withdrawal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DashboardController extends Controller
 {
@@ -34,11 +35,9 @@ class DashboardController extends Controller
             'referral_earnings' => (float) $referrals->sum('Refferal_Earnings'),
         ];
 
-        $chart = DB::table('data')
-            ->where('user_id', $investor->Investor_id)
-            ->orderBy('id')
-            ->limit(30)
-            ->get();
+        $chart = Schema::hasTable('data')
+            ? DB::table('data')->where('user_id', $investor->Investor_id)->orderBy('id')->limit(30)->get()
+            : collect();
 
         return view('dashboard.index.index', compact(
             'investor', 'contracts', 'stockContracts', 'deposits',
