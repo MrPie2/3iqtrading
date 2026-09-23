@@ -88,7 +88,7 @@ class AdminUserService
             throw new \InvalidArgumentException('Amount must be greater than zero.');
         }
 
-        $this->adjustBalance($investor, -$amount, 'balance');
+        // Available Balance is stored in Fin_Asset in the existing investors table.\n        $this->adjustBalance($investor, -$amount, 'profit');
     }
 
     public function updateSignal(Investor $investor, string $signal): void
