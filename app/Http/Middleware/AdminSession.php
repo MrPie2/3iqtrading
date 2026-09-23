@@ -11,7 +11,7 @@ class AdminSession
     public function handle(Request $request, Closure $next): Response
     {
         if (!$request->session()->has('Boss_id')) {
-            return redirect()->route('login')->with('error', 'Please sign in to continue.');
+            return redirect()->route('login.admin')->with('error', 'Please sign in to continue.');
         }
 
         return $next($request);
