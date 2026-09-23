@@ -65,10 +65,10 @@ Route::middleware('admin.session')->prefix('admin')->name('admin.')->group(funct
     Route::get('/manager-user/{investor}', [AdminUserController::class, 'show'])->name('user.show');
     Route::post('/manager-user/{investor}/action', [AdminUserController::class, 'action'])->name('user.action');
 
-    foreach (array_keys(config('admin_pages.pages', [])) as $module) {
-        Route::get('/modules/'.$module, [AdminController::class, 'page'])->name('module.'.$module);
-        Route::post('/operations/'.$module, [AdminController::class, 'operation'])->name('operation.'.$module);
-    }
+    // Generic module routes: the module/operation is a real route parameter.
+    // This prevents AdminController::page() from being invoked without its required argument.
+    Route::get('/modules/{module}', [AdminController::class, 'page'])->name('module');
+    Route::post('/operations/{operation}', [AdminController::class, 'operation'])->name('operation');
 });
 
 Route::middleware('auth:investor')->group(function(){
