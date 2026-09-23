@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title','Verification')
 @section('heading','Verification')
 @section('content')
