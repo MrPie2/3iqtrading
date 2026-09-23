@@ -1,73 +1,451 @@
 <!doctype html>
 <html lang="en">
 <head>
-      @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'Admin' }} 3IQTrading</title>
+    <title>{{ $title ?? 'Admin' }} · 3IQTrading</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <style>
-      :root{--blue:#2563eb;--blue2:#1d4ed8;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--surface:#fff;--bg:#f6f8fc;--green:#16a34a;--red:#dc2626}
-      *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif}
-      a{text-decoration:none;color:inherit}.shell{display:flex;min-height:100vh}.sidebar{width:260px;background:#0b1220;color:#cbd5e1;position:fixed;inset:0 auto 0 0;padding:22px 14px;overflow:auto}
-      .brand{display:flex;align-items:center;gap:12px;padding:5px 10px 24px;color:#fff;font-weight:800;font-size:18px}.brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:grid;place-items:center;color:#fff}
-      .nav-title{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#64748b;padding:14px 12px 8px}.nav a{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;margin:2px 0;font-size:13px}.nav a:hover,.nav a.active{background:#17233a;color:#fff}.nav i{font-size:16px;width:18px;text-align:center}
-      .main{margin-left:260px;flex:1;min-width:0}.topbar{height:74px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;position:sticky;top:0;z-index:5}.crumb{font-size:13px;color:var(--muted)}.user{display:flex;align-items:center;gap:10px;font-size:13px}.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#dbeafe;color:#1d4ed8;font-weight:700}
-      .content{padding:30px;max-width:1500px;margin:auto}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:24px}.heading h1{font-size:27px;margin:0 0 7px;font-weight:800;letter-spacing:-.03em}.heading p{margin:0;color:var(--muted);font-size:13px}
-      .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 18px rgba(15,23,42,.04)}.stat{padding:20px}.stat-top{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.stat i{font-size:19px;color:var(--blue)}.stat strong{display:block;font-size:28px;margin-top:12px;letter-spacing:-.04em}.stat small{color:var(--muted)}
-      .panel{padding:20px;margin-top:20px}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.panel-head h2{font-size:15px;margin:0}.module-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.module{padding:16px;border:1px solid var(--line);border-radius:12px;background:#fff;transition:.15s}.module:hover{border-color:#bfdbfe;box-shadow:0 5px 18px rgba(37,99,235,.08);transform:translateY(-1px)}.module .icon{width:34px;height:34px;border-radius:10px;background:#eff6ff;color:var(--blue);display:grid;place-items:center;margin-bottom:12px}.module b{font-size:13px}.module span{display:block;font-size:11px;color:var(--muted);margin-top:4px}
-      .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}.data{width:100%;border-collapse:collapse;font-size:12px;background:#fff}.data th{background:#f8fafc;color:#64748b;text-align:left;font-weight:600;white-space:nowrap}.data th,.data td{padding:12px 14px;border-bottom:1px solid var(--line);max-width:280px}.data td{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.empty{padding:35px;text-align:center;color:var(--muted);font-size:13px}.btn{border:0;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:600;cursor:pointer}.btn-primary{background:var(--blue);color:#fff}.btn-light{background:#f1f5f9;color:#334155}.btn-danger{background:#fee2e2;color:#991b1b}.toolbar{display:flex;gap:8px;align-items:center}.badge{padding:5px 8px;border-radius:999px;font-size:10px;background:#eff6ff;color:#1d4ed8}.legacy-note{background:#fffbeb;border:1px solid #fde68a;color:#92400e;padding:12px 14px;border-radius:12px;font-size:12px;margin-bottom:18px}
-      .login-page{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 20% 10%,#dbeafe,transparent 30%),#f8fafc}.login-card{width:min(430px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:32px;box-shadow:0 25px 70px rgba(15,23,42,.12)}.login-logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#2563eb,#60a5fa);display:grid;place-items:center;color:#fff;font-size:21px;margin-bottom:20px}.login-card h1{margin:0;font-size:24px}.login-card p{color:var(--muted);font-size:13px;line-height:1.6}.field{margin:16px 0}.field label{display:block;font-size:12px;font-weight:600;margin-bottom:7px}.field input{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px 13px;font:inherit;font-size:13px;outline:none}.field input:focus{border-color:#93c5fd;box-shadow:0 0 0 4px #eff6ff}.login-card .btn{width:100%;padding:13px}.alert{padding:11px 13px;border-radius:10px;font-size:12px;margin:12px 0}.alert-error{background:#fef2f2;color:#991b1b}.alert-success{background:#f0fdf4;color:#166534}
-      @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}.module-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:800px){.sidebar{width:76px;padding:18px 8px}.brand span,.nav a span,.nav-title{display:none}.brand{justify-content:center}.nav a{justify-content:center}.main{margin-left:76px}.topbar{padding:0 18px}.content{padding:20px}.module-grid{grid-template-columns:1fr}}@media(max-width:520px){.grid{grid-template-columns:1fr}.heading{align-items:flex-start;flex-direction:column}}
-    </style>
-    	<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
+    <style>
+        :root {
+            --blue:#2563eb;
+            --blue-dark:#1d4ed8;
+            --ink:#111827;
+            --muted:#64748b;
+            --line:#e5e7eb;
+            --surface:#fff;
+            --bg:#f6f8fc;
+        }
+
+        * { box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body {
+            margin:0;
+            background:var(--bg);
+            color:var(--ink);
+            font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+        }
+        a { text-decoration:none; color:inherit; }
+
+        .manager-shell { min-height:100vh; }
+
+        /* Desktop navigation */
+        .manager-navbar {
+            position:sticky;
+            top:0;
+            z-index:1030;
+            min-height:72px;
+            background:rgba(255,255,255,.96);
+            border-bottom:1px solid var(--line);
+            box-shadow:0 4px 18px rgba(15,23,42,.04);
+            backdrop-filter:blur(14px);
+        }
+        .manager-navbar .container-fluid { min-height:72px; }
+        .manager-brand {
+            display:flex;
+            align-items:center;
+            gap:11px;
+            font-size:17px;
+            font-weight:800;
+            letter-spacing:-.03em;
+        }
+        .manager-brand-mark {
+            width:38px;
+            height:38px;
+            border-radius:12px;
+            display:grid;
+            place-items:center;
+            color:#fff;
+            background:linear-gradient(135deg,#2563eb,#60a5fa);
+            box-shadow:0 8px 20px rgba(37,99,235,.22);
+        }
+        .manager-nav {
+            display:flex;
+            align-items:center;
+            gap:4px;
+            margin-left:24px;
+        }
+        .manager-nav-link,
+        .manager-dropdown-toggle {
+            display:flex;
+            align-items:center;
+            gap:8px;
+            min-height:42px;
+            padding:9px 12px;
+            border-radius:10px;
+            color:#475569;
+            font-size:12px;
+            font-weight:600;
+            transition:.18s ease;
+        }
+        .manager-nav-link:hover,
+        .manager-nav-link.active,
+        .manager-dropdown-toggle:hover,
+        .manager-dropdown-toggle.active {
+            color:var(--blue);
+            background:#eff6ff;
+        }
+        .manager-dropdown-menu {
+            min-width:245px;
+            padding:8px;
+            margin-top:8px!important;
+            border:1px solid var(--line);
+            border-radius:14px;
+            box-shadow:0 18px 45px rgba(15,23,42,.12);
+        }
+        .manager-dropdown-menu .dropdown-item {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:10px 11px;
+            border-radius:9px;
+            color:#475569;
+            font-size:12px;
+            font-weight:600;
+        }
+        .manager-dropdown-menu .dropdown-item:hover,
+        .manager-dropdown-menu .dropdown-item.active {
+            background:#eff6ff;
+            color:var(--blue);
+        }
+
+        .manager-user {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin-left:auto;
+        }
+        .manager-user-name {
+            max-width:150px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            color:#334155;
+            font-size:12px;
+            font-weight:600;
+        }
+        .manager-avatar {
+            width:38px;
+            height:38px;
+            border-radius:50%;
+            display:grid;
+            place-items:center;
+            background:#dbeafe;
+            color:var(--blue-dark);
+            font-size:13px;
+            font-weight:800;
+        }
+        .manager-logout {
+            width:38px;
+            height:38px;
+            border:1px solid var(--line);
+            border-radius:10px;
+            background:#fff;
+            color:#64748b;
+            display:grid;
+            place-items:center;
+            transition:.18s ease;
+        }
+        .manager-logout:hover {
+            color:#dc2626;
+            border-color:#fecaca;
+            background:#fef2f2;
+        }
+
+        /* Mobile topbar + offcanvas */
+        .manager-mobilebar {
+            display:none;
+            position:sticky;
+            top:0;
+            z-index:1030;
+            min-height:64px;
+            background:rgba(255,255,255,.96);
+            border-bottom:1px solid var(--line);
+            box-shadow:0 3px 14px rgba(15,23,42,.05);
+            backdrop-filter:blur(14px);
+        }
+        .manager-menu-btn {
+            width:40px;
+            height:40px;
+            border:1px solid var(--line);
+            border-radius:10px;
+            background:#fff;
+            color:#334155;
+            display:grid;
+            place-items:center;
+            font-size:19px;
+        }
+        .manager-offcanvas {
+            width:min(310px,86vw)!important;
+            border:0!important;
+            background:#0b1220!important;
+            color:#cbd5e1;
+        }
+        .manager-offcanvas .offcanvas-header {
+            padding:20px 18px;
+            border-bottom:1px solid rgba(255,255,255,.08);
+        }
+        .manager-offcanvas .btn-close {
+            filter:invert(1) grayscale(1);
+            opacity:.8;
+        }
+        .manager-offcanvas .manager-brand { color:#fff; }
+        .manager-offcanvas .manager-nav-mobile {
+            padding:16px 12px 28px;
+        }
+        .manager-mobile-section {
+            padding:13px 10px 7px;
+            color:#64748b;
+            font-size:10px;
+            font-weight:700;
+            letter-spacing:.12em;
+            text-transform:uppercase;
+        }
+        .manager-mobile-link {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            width:100%;
+            padding:11px 12px;
+            margin:2px 0;
+            border-radius:10px;
+            color:#cbd5e1;
+            font-size:12px;
+            font-weight:600;
+        }
+        .manager-mobile-link i {
+            width:18px;
+            text-align:center;
+            font-size:16px;
+        }
+        .manager-mobile-link:hover,
+        .manager-mobile-link.active {
+            color:#fff;
+            background:#17233a;
+        }
+        .manager-mobile-link.active i { color:#60a5fa; }
+
+        /* Content */
+        .manager-main { min-width:0; }
+        .manager-topline {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:20px;
+            padding:18px clamp(18px,3vw,38px) 0;
+            color:var(--muted);
+            font-size:12px;
+        }
+        .manager-content {
+            width:100%;
+            max-width:1500px;
+            margin:0 auto;
+            padding:20px clamp(18px,3vw,38px) 42px;
+        }
+        .heading {
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-between;
+            gap:20px;
+            margin-bottom:24px;
+        }
+        .heading h1 { font-size:27px; margin:0 0 7px; font-weight:800; letter-spacing:-.03em; }
+        .heading p { margin:0; color:var(--muted); font-size:13px; }
+        .grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+        .card { background:var(--surface); border:1px solid var(--line); border-radius:16px; box-shadow:0 4px 18px rgba(15,23,42,.04); }
+        .stat { padding:20px; }
+        .stat-top { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; }
+        .stat i { font-size:19px; color:var(--blue); }
+        .stat strong { display:block; font-size:28px; margin-top:12px; letter-spacing:-.04em; }
+        .stat small { color:var(--muted); }
+        .panel { padding:20px; margin-top:20px; }
+        .panel-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+        .panel-head h2 { font-size:15px; margin:0; }
+        .module-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+        .module { padding:16px; border:1px solid var(--line); border-radius:12px; background:#fff; transition:.15s; }
+        .module:hover { border-color:#bfdbfe; box-shadow:0 5px 18px rgba(37,99,235,.08); transform:translateY(-1px); }
+        .module .icon { width:34px; height:34px; border-radius:10px; background:#eff6ff; color:var(--blue); display:grid; place-items:center; margin-bottom:12px; }
+        .module b { font-size:13px; }
+        .module span { display:block; font-size:11px; color:var(--muted); margin-top:4px; }
+        .table-wrap { overflow:auto; border:1px solid var(--line); border-radius:12px; }
+        .data { width:100%; border-collapse:collapse; font-size:12px; background:#fff; }
+        .data th { background:#f8fafc; color:#64748b; text-align:left; font-weight:600; white-space:nowrap; }
+        .data th,.data td { padding:12px 14px; border-bottom:1px solid var(--line); max-width:280px; }
+        .data td { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .empty { padding:35px; text-align:center; color:var(--muted); font-size:13px; }
+        .btn { border:0; border-radius:10px; padding:10px 14px; font-size:12px; font-weight:600; cursor:pointer; }
+        .btn-primary { background:var(--blue); color:#fff; }
+        .btn-light { background:#f1f5f9; color:#334155; }
+        .btn-danger { background:#fee2e2; color:#991b1b; }
+        .toolbar { display:flex; gap:8px; align-items:center; }
+        .badge { padding:5px 8px; border-radius:999px; font-size:10px; background:#eff6ff; color:#1d4ed8; }
+        .legacy-note { background:#fffbeb; border:1px solid #fde68a; color:#92400e; padding:12px 14px; border-radius:12px; font-size:12px; margin-bottom:18px; }
+
+        @media (max-width:1199.98px) {
+            .manager-nav { margin-left:10px; }
+            .manager-nav-link,.manager-dropdown-toggle { padding-left:9px; padding-right:9px; }
+            .manager-user-name { display:none; }
+            .grid { grid-template-columns:repeat(2,1fr); }
+            .module-grid { grid-template-columns:repeat(2,1fr); }
+        }
+
+        @media (max-width:991.98px) {
+            .manager-navbar { display:none; }
+            .manager-mobilebar { display:block; }
+            .manager-topline { padding-top:14px; }
+        }
+
+        @media (max-width:767.98px) {
+            .manager-topline { display:none; }
+            .manager-content { padding:22px 15px 34px; }
+            .heading { align-items:flex-start; flex-direction:column; margin-bottom:18px; }
+            .heading h1 { font-size:23px; }
+            .grid { grid-template-columns:1fr; gap:12px; }
+            .module-grid { grid-template-columns:1fr; }
+            .panel { padding:15px; }
+        }
+
+        @media (max-width:420px) {
+            .manager-content { padding-left:12px; padding-right:12px; }
+            .manager-mobilebar .container-fluid { padding-left:12px; padding-right:12px; }
+        }
+    </style>
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    @stack('head')
 </head>
 <body>
-<div class="shell">
-<aside class="sidebar">
-  <a class="brand" href="{{ route('admin.dashboard') }}"><span class="brand-mark"><i class="bi bi-grid-1x2-fill"></i></span><span>3iQ Admin</span></a>
-  <div class="nav-title">Overview</div>
-  <nav class="nav">
-    <a href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
-  </nav>
-  <div class="nav-title">Management</div>
-  <nav class="nav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a href="{{ route('admin.module.myagents') }}" class="navbar-link"><span>Agents</span></a></li>
-          <li class="nav-item"><a href="{{ route('admin.module.investmentplan') }}" class="navbar-link"><span>Investment Plans</span></a></li>
-          <li class="nav-item"><a href="{{ route('admin.module.mywallets') }}" class="navbar-link"><span>My Wallets</span></a></li>
-          <li class="nav-item"><a  href="{{ route('admin.module.sendbulkmail') }}" class="navbar-link" ><span>Send Bulk Email</span></a></li>
-          <li class="nav-item"><a href="{{ route('admin.module.verification') }}" class="navbar-link"><span>Verification and Limits</span></a></li>
-          <li class="nav-item"><a href="{{ route('admin.module.mystocks') }}" class="navbar-link"><span>Stocks</span></a></li>
-          <li class="nav-item"><a href="{{ route('admin.module.resources') }}" class="navbar-link"><span>Resources</span></a></li>
-          <li class="nav-item"><a href="{{ route('admin.module.chat') }}" class="navbar-link"><span>Chat and Support</span></a></li>
-          <li class="nav-item"><a href="{{ route('admin.module.faqcontainer') }}" class="navbar-link"><span>FAQs</span></a></li>
-          <li class="nav-item"><a href="{{ route('admin.module.pages') }}" class="navbar-link"><span>Site Pages</span></a></li>
-      </ul>
-  </nav>
-  
-  <div class="nav-title">System</div>
-  <nav class="nav">
-    <form method="POST" action="{{ route('admin.logout') }}">
-      @csrf <button class="nav a" style="width:100%;background:transparent;border:0;color:inherit;text-align:left;cursor:pointer"><i class="bi bi-box-arrow-right"></i><span>Sign out</span></button>
-    </form>
-  </nav>
-</aside>
-<main class="main">
-  <header class="topbar">
-    <div class="crumb">Administration / {{ $title ?? 'Dashboard' }}</div>
-    <div class="user"><span>{{ session('Boss_Name','Administrator') }}</span><span class="avatar">{{ strtoupper(substr(session('Boss_Name','A'),0,1)) }}</span></div>
-  </header>
-  <section class="content">@yield('content')</section>
-</main>
+<div class="manager-shell">
+
+    <!-- Desktop: full horizontal navbar -->
+    <nav class="manager-navbar">
+        <div class="container-fluid px-4 d-flex align-items-center">
+            <a class="manager-brand" href="{{ route('admin.dashboard') }}">
+                <span class="manager-brand-mark"><i class="bi bi-grid-1x2-fill"></i></span>
+                <span>3iQ Admin</span>
+            </a>
+
+            <div class="manager-nav">
+                <a class="manager-nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+                </a>
+
+                <div class="dropdown">
+                    <button class="manager-dropdown-toggle border-0 bg-transparent {{ request()->routeIs('admin.module.*') ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-grid"></i><span>Management</span><i class="bi bi-chevron-down ms-1 small"></i>
+                    </button>
+                    <ul class="dropdown-menu manager-dropdown-menu">
+                        @foreach([
+                            ['myagents','people','Agents'],
+                            ['investmentplan','layers','Investment Plans'],
+                            ['mywallets','wallet2','My Wallets'],
+                            ['sendbulkmail','envelope-paper','Send Bulk Email'],
+                            ['verification','shield-check','Verification & Limits'],
+                            ['mystocks','bar-chart-line','Stocks'],
+                            ['resources','folder2-open','Resources'],
+                            ['chat','chat-dots','Chat & Support'],
+                            ['faqcontainer','question-circle','FAQs'],
+                            ['pages','file-earmark-text','Site Pages'],
+                        ] as $item)
+                            <li>
+                                <a class="dropdown-item {{ request()->routeIs('admin.module.'.$item[0]) ? 'active' : '' }}" href="{{ route('admin.module.'.$item[0]) }}">
+                                    <i class="bi bi-{{ $item[1] }}"></i>{{ $item[2] }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            <div class="manager-user">
+                <span class="manager-user-name">{{ session('Boss_Name','Administrator') }}</span>
+                <span class="manager-avatar">{{ strtoupper(substr(session('Boss_Name','A'),0,1)) }}</span>
+                <form method="POST" action="{{ route('admin.logout') }}">
+                    @csrf
+                    <button class="manager-logout" type="submit" title="Sign out" aria-label="Sign out">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile/tablet: compact navbar + Bootstrap offcanvas -->
+    <nav class="manager-mobilebar">
+        <div class="container-fluid px-3 d-flex align-items-center justify-content-between">
+            <button class="manager-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#managerOffcanvas" aria-controls="managerOffcanvas" aria-label="Open administration menu">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <a class="manager-brand" href="{{ route('admin.dashboard') }}">
+                <span class="manager-brand-mark"><i class="bi bi-grid-1x2-fill"></i></span>
+                <span>3iQ Admin</span>
+            </a>
+
+            <div class="manager-avatar">{{ strtoupper(substr(session('Boss_Name','A'),0,1)) }}</div>
+        </div>
+    </nav>
+
+    <div class="offcanvas offcanvas-start manager-offcanvas" tabindex="-1" id="managerOffcanvas" aria-labelledby="managerOffcanvasLabel">
+        <div class="offcanvas-header">
+            <a class="manager-brand" href="{{ route('admin.dashboard') }}" data-bs-dismiss="offcanvas">
+                <span class="manager-brand-mark"><i class="bi bi-grid-1x2-fill"></i></span>
+                <span id="managerOffcanvasLabel">3iQ Admin</span>
+            </a>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <div class="manager-nav-mobile">
+            <div class="manager-mobile-section">Overview</div>
+            <a class="manager-mobile-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+            </a>
+
+            <div class="manager-mobile-section">Management</div>
+            @foreach([
+                ['myagents','people','Agents'],
+                ['investmentplan','layers','Investment Plans'],
+                ['mywallets','wallet2','My Wallets'],
+                ['sendbulkmail','envelope-paper','Send Bulk Email'],
+                ['verification','shield-check','Verification & Limits'],
+                ['mystocks','bar-chart-line','Stocks'],
+                ['resources','folder2-open','Resources'],
+                ['chat','chat-dots','Chat & Support'],
+                ['faqcontainer','question-circle','FAQs'],
+                ['pages','file-earmark-text','Site Pages'],
+            ] as $item)
+                <a class="manager-mobile-link {{ request()->routeIs('admin.module.'.$item[0]) ? 'active' : '' }}" href="{{ route('admin.module.'.$item[0]) }}">
+                    <i class="bi bi-{{ $item[1] }}"></i><span>{{ $item[2] }}</span>
+                </a>
+            @endforeach
+
+            <div class="manager-mobile-section">System</div>
+            <form method="POST" action="{{ route('admin.logout') }}">
+                @csrf
+                <button class="manager-mobile-link border-0 bg-transparent text-start" type="submit">
+                    <i class="bi bi-box-arrow-right"></i><span>Sign out</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <main class="manager-main">
+        <div class="manager-topline">
+            <span>Administration / {{ $title ?? 'Dashboard' }}</span>
+            <span><i class="bi bi-shield-check me-1"></i>Secure manager workspace</span>
+        </div>
+        <section class="manager-content">
+            @yield('content')
+        </section>
+    </main>
 </div>
+
+@stack('scripts')
 </body>
 </html>
