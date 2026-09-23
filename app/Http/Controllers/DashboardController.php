@@ -45,6 +45,20 @@ class DashboardController extends Controller
         ));
     }
 
+    public function deposits()
+    {
+        $investor = Auth::guard('investor')->user();
+        $deposits = Deposit::where('Investor_id', $investor->Investor_id)->latest('id')->paginate(15);
+        return view('dashboard.transactions.deposits', compact('investor', 'deposits'));
+    }
+
+    public function withdrawals()
+    {
+        $investor = Auth::guard('investor')->user();
+        $withdrawals = Withdrawal::where('Investor_id', $investor->Investor_id)->latest('id')->paginate(15);
+        return view('dashboard.transactions.withdrawals', compact('investor', 'withdrawals'));
+    }
+
     public function balance()
     {
         $investor = Auth::guard('investor')->user();
