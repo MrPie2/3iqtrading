@@ -64,24 +64,20 @@ class AuthService
         $valid = false;
 
         /*
-         * Investor accounts come from a legacy table and may contain hashes
-         * generated with a different password algorithm (for example Argon2id).
-         * Hash::check() intentionally throws when the stored algorithm differs
-         * from Laravel's configured driver, so do not let a valid legacy hash
-         * become a login error.
+         * Legacy investor accounts may use a different PHP password
+         * algorithm from Laravel's configured hashing driver.
          */
         if ($stored !== '') {
             try {
                 $valid = Hash::check($credentials['password'], $stored);
-            } catch (\\Throwable) {
+            } catch (\Throwable $e) {
                 $valid = password_verify($credentials['password'], $stored);
             }
         }
 
         /*
-         * Older investor records may still contain a legacy plaintext value.
-         * If it matches, immediately upgrade it to the application's current
-         * hashing algorithm.
+         * Keep support for older records that contain a legacy plaintext
+         * password, and upgrade the value after successful authentication.
          */
         if (!$valid && $stored !== '' && hash_equals($stored, $credentials['password'])) {
             $valid = true;
@@ -92,16 +88,10 @@ class AuthService
         }
 
         /*
-         * Upgrade a valid legacy hash/plaintext password to the current
-         * Laravel hashing algorithm after successful authentication.
+         * Upgrade valid legacy hashes/plaintext passwords to the application's
+         * current hashing algorithm.
          */
-        if ($stored !== '' && !str_starts_with($stored, '$2y
-
-        Auth::guard('investor')->login($investor, $remember);
-
-        return true;
-    }
-})) {
+        if ($stored !== '' && !str_starts_with($stored, '$2y$')) {
             $investor->Password = Hash::make($credentials['password']);
             $investor->save();
         } elseif ($stored !== '' && Hash::needsRehash($stored)) {
