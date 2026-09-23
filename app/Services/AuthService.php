@@ -22,6 +22,7 @@ class AuthService
             'Investor_id' => random_int(10000000, 999999999),
             'First_Name' => $data['name'],
             'Email' => $data['email'],
+            'Username' => $data['email'],
             'Password' => Hash::make($data['password']),
             'Phone' => '',
             'Nationality' => '',
