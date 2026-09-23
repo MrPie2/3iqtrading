@@ -441,7 +441,7 @@
                         ['faqcontainer','question-circle','FAQs'],
                         ['pages','file-earmark-text','Site Pages'],
                     ] as $item)
-                        <a class="dropdown-item {{ request()->routeIs('admin.module.'.$item[0]) ? 'active' : '' }}" href="{{ route('admin.module.'.$item[0]) }}">
+                        <a class="dropdown-item {{ request()->routeIs('admin.module') && request()->route('module') === $item[0] ? 'active' : '' }}" href="{{ route('admin.module', ['module' => $item[0]]) }}">
                             <i class="bi bi-{{ $item[1] }}"></i>{{ $item[2] }}
                         </a>
                     @endforeach
@@ -490,7 +490,7 @@
                 ['faqcontainer','question-circle','FAQs'],
                 ['pages','file-earmark-text','Site Pages'],
             ] as $item)
-                <a class="manager-mobile-link {{ request()->routeIs('admin.module.'.$item[0]) ? 'active' : '' }}" href="{{ route('admin.module.'.$item[0]) }}">
+                <a class="manager-mobile-link {{ request()->routeIs('admin.module') && request()->route('module') === $item[0] ? 'active' : '' }}" href="{{ route('admin.module', ['module' => $item[0]]) }}">
                     <i class="bi bi-{{ $item[1] }}"></i><span>{{ $item[2] }}</span>
                 </a>
             @endforeach
