@@ -17,7 +17,7 @@
 </div>
 @endif
 <div class="card panel"><div class="panel-head"><h2>Module endpoint</h2></div>
-<form method="POST" action="{{ route('admin.operation.'.$key) }}">
+<form method="POST" action="{{ route('admin.operation', ['operation' => $key]) }}">
 @csrf
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
 <div><label style="font-size:12px;font-weight:600">Operation</label>
