@@ -6,7 +6,6 @@ use App\Models\BankDetail;
 use App\Models\CardDetail;
 use App\Models\Contract;
 use App\Models\Deposit;
-use App\Models\Document;
 use App\Models\Investor;
 use App\Models\ProofDocument;
 use App\Models\StockContract;
@@ -22,10 +21,10 @@ class AdminUserController extends Controller
 
     public function show(Investor $investor)
     {
-        $id = $investor->Investor_id;
+        $id = $this->service->investorId($investor);
 
         $documents = $this->forInvestor(VerificationDocument::class, $id);
-        $documents = $documents->merge($this->forInvestor(ProofDocument::class, $id))->merge($this->forInvestor(Document::class, $id));
+        $documents = $documents->merge($this->forInvestor(ProofDocument::class, $id));
         $bankDetails = $this->forInvestor(BankDetail::class, $id);
         $cards = $this->forInvestor(CardDetail::class, $id);
         $deposits = $this->forInvestor(Deposit::class, $id);
@@ -36,7 +35,6 @@ class AdminUserController extends Controller
 
         return view('manager.admin.manager-user', [
             'investor' => $investor,
-            'control' => $this->service->control($investor),
             'documents' => $documents,
             'bankDetails' => $bankDetails,
             'cards' => $cards,
