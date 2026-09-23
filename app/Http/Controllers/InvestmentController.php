@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+
 use App\Models\Contract;
 use App\Models\InvestmentPlanLegacy;
 use App\Models\Stock;
@@ -13,10 +14,10 @@ class InvestmentController extends Controller
 {
     public function plans(){
         $plans=InvestmentPlanLegacy::orderBy('id')->get();
-        return view('investments.plans',compact('plans'));
+        return view('dashboard.investments.plans',compact('plans','investor'))->with('investor',Auth::guard('investor')->user());
     }
     public function create(InvestmentPlanLegacy $plan){
-        return view('investments.create',compact('plan'));
+        return view('dashboard.investments.create',compact('plan'))->with('investor',Auth::guard('investor')->user());
     }
     public function store(Request $request, InvestmentService $service){
         $data=$request->validate([
@@ -34,13 +35,16 @@ class InvestmentController extends Controller
     public function contracts(){
         $investor=Auth::guard('investor')->user();
         $contracts=Contract::where('Investor_id',$investor->Investor_id)->latest('id')->get();
-        return view('investments.contracts',compact('contracts'));
+        return view('dashboard.investments.contracts',compact('contracts','investor'));
     }
     public function stockMarket(){
+        $investor=Auth::guard('investor')->user();
         $stocks=Stock::orderBy('CompanyName')->get();
-        return view('market.index',compact('stocks'));
+        return view('dashboard.market.index',compact('stocks','investor'));
     }
-    public function stock(Stock $stock){ return view('market.stock',compact('stock')); }
+    public function stock(Stock $stock){
+        return view('dashboard.market.stock',compact('stock'))->with('investor',Auth::guard('investor')->user());
+    }
     public function applyStock(Request $request){
         $data=$request->validate([
             'company_name'=>'required|string','plan_type'=>'required|string',
@@ -48,7 +52,7 @@ class InvestmentController extends Controller
             'buy_position'=>'required|numeric','total_units'=>'required|numeric','duration'=>'required|integer|min:1'
         ]);
         $investor=Auth::guard('investor')->user();
-        $amount=$data['amount']/(float)$investor->exchangerate;
+        $amount=$data['amount']/max((float)$investor->exchangerate,0.000001);
         if($amount>(float)$investor->Total_Deposit) return response()->json(['ok'=>false,'message'=>'Insufficient available balance.'],422);
         DB::transaction(function() use($data,$investor,$amount){
             StockContract::create([
