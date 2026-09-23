@@ -63,7 +63,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <div id="activityToast" class="activity-toast" role="status" aria-live="polite" aria-atomic="true">
 <div class="activity-toast-head"><span><i class="bi bi-activity"></i> Recent activity</span><button type="button" id="activityToastClose" aria-label="Close">&times;</button></div>
-<div class="activity-toast-body"><div class="activity-avatar" id="activityAvatar">3I</div><div class="activity-copy"><strong id="activityName">Investor</strong><span id="activityMeta"></span><small id="activityDisclosure">Illustrative activity example — not a verified transaction.</small></div></div>
+<div class="activity-toast-body"><div class="activity-avatar" id="activityAvatar">3I</div><div class="activity-copy"><strong id="activityName">Investor</strong><span id="activityMeta"></span>
+<small id="activityDisclosure">Payouts are made to only to verified transactions.</small>
+</div></div>
 </div>
 <script src="{{ asset('assets/js/app.js') }}?v={{ filemtime(public_path('assets/js/app.js')) }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
