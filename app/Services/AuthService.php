@@ -81,7 +81,7 @@ class AuthService
         if (!$valid) {
             try {
                 $valid = Hash::check($password, $stored);
-            } catch (\\Throwable $e) {
+            } catch (\Throwable $e) {
                 $valid = false;
             }
         }
