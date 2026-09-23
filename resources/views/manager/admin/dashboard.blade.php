@@ -27,7 +27,7 @@
         <tbody>
               @foreach($clients as $client)
 
-            <tr><td>{{$loop->iteration}}</td><td>{{$client->First_Name}}</td><td>{{$client->Email}}</td><td>@if($client->LockStatus>0) <span class="badge badge-danger">Locked</span> @else <span class="badge text-bg-primary">Active</span> @endif</td><td><a class="btn btn-primary"href="/action/{{$client->id}}">Manage</a></td></tr>
+            <tr><td>{{$loop->iteration}}</td><td>{{$client->First_Name}}</td><td>{{$client->Email}}</td><td>@if($client->LockStatus>0) <span class="badge badge-danger">Locked</span> @else <span class="badge text-bg-primary">Active</span> @endif</td><td><a class="btn btn-primary"href="{{ route('admin.user.show', $client->id) }}">Manage</a></td></tr>
               @endforeach
 
         </tbody>
