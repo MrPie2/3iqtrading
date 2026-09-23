@@ -68,7 +68,32 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
 (function(){
-const root=document.documentElement,toggle=document.getElementById('themeToggle'),icon=document.getElementById('themeIcon');const saved=localStorage.getItem('3iq-theme');if(saved)root.setAttribute('data-theme',saved);function sync(){const light=root.getAttribute('data-theme')==='light';icon.className=light?'bi bi-sun':'bi bi-moon-stars';}sync();toggle.addEventListener('click',()=>{const light=root.getAttribute('data-theme')!=='light';root.setAttribute('data-theme',light?'light':'dark');localStorage.setItem('3iq-theme',light?'light':'dark');sync();});
+const root=document.documentElement;
+const body=document.body;
+const toggle=document.getElementById('themeToggle');
+const icon=document.getElementById('themeIcon');
+
+function applyTheme(theme){
+    const value=theme==='light'?'light':'dark';
+    root.setAttribute('data-theme',value);
+    body.setAttribute('data-theme',value);
+    if(icon) icon.className=value==='light'?'bi bi-sun':'bi bi-moon-stars';
+    if(toggle) toggle.setAttribute('aria-pressed',value==='light'?'true':'false');
+}
+
+let saved='dark';
+try { saved=localStorage.getItem('3iq-theme') || 'dark'; } catch(e) {}
+applyTheme(saved);
+
+if(toggle){
+    toggle.addEventListener('click',function(){
+        const next=root.getAttribute('data-theme')==='light'?'dark':'light';
+        applyTheme(next);
+        try { localStorage.setItem('3iq-theme',next); } catch(e) {}
+    });
+}
+
+const investors=[
 const investors=[
 {name:'Amara Okafor',country:'Nigeria',invested:4200,profit:756},{name:'Daniel Brooks',country:'United Kingdom',invested:8500,profit:1360},
 {name:'Sofia Martins',country:'Portugal',invested:3200,profit:544},{name:'Liam Carter',country:'Canada',invested:12750,profit:1912.5},
@@ -96,21 +121,23 @@ const investors=[
 {name:'Amina Sule',country:'Nigeria',invested:5700,profit:912},{name:'Elias Weber',country:'Germany',invested:11600,profit:1856},
 {name:'Victoria Brown',country:'New Zealand',invested:6800,profit:1088},{name:'Ahmed Farouk',country:'Egypt',invested:8200,profit:1312}
 ];
-const toast=document.getElementById('activityToast'); if(!toast)return;
-const money=n=>new Intl.NumberFormat(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
-function showActivity(){
-const x=investors[Math.floor(Math.random()*investors.length)];
-document.getElementById('activityAvatar').textContent=x.name.split(' ').map(v=>v[0]).join('').slice(0,2).toUpperCase();
-document.getElementById('activityName').textContent=x.name;
-document.getElementById('activityMeta').textContent=x.country+' · Invested 
-</body>
-</html>+money(x.invested)+' · Profit 
-</body>
-</html>+money(x.profit);
-toast.classList.add('show'); clearTimeout(window.activityToastTimer); window.activityToastTimer=setTimeout(()=>toast.classList.remove('show'),10000);
+const toast=document.getElementById('activityToast');
+if(toast){
+    const money=n=>new Intl.NumberFormat(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+    function showActivity(){
+        const x=investors[Math.floor(Math.random()*investors.length)];
+        document.getElementById('activityAvatar').textContent=x.name.split(' ').map(v=>v[0]).join('').slice(0,2).toUpperCase();
+        document.getElementById('activityName').textContent=x.name;
+        document.getElementById('activityMeta').textContent=x.country+' · Invested '+money(x.invested)+' · Profit '+money(x.profit);
+        toast.classList.add('show');
+        clearTimeout(window.activityToastTimer);
+        window.activityToastTimer=setTimeout(()=>toast.classList.remove('show'),10000);
+    }
+    const close=document.getElementById('activityToastClose');
+    if(close) close.addEventListener('click',()=>toast.classList.remove('show'));
+    setTimeout(showActivity,3000);
+    setInterval(showActivity,30000);
 }
-document.getElementById('activityToastClose').addEventListener('click',()=>toast.classList.remove('show'));
-setTimeout(showActivity,3000); setInterval(showActivity,30000);
 })();
 </script>
 @stack('scripts')
