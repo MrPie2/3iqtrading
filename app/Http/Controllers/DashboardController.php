@@ -29,8 +29,9 @@ class DashboardController extends Controller
         $referrals = Referral::where('Refferer', $investor->Investor_id)->get();
 
         $stats = [
-            'balance' => (float) $investor->Total_Deposit,
-            'portfolio' => (float) $investor->Fin_Asset,
+            'balance' => (float) $investor->Fin_Asset,
+            'deposit' => (float) $investor->Total_Deposit,
+            'portfolio' => (float) $investor->Fin_Asset + (float) $investor->Total_Deposit + (float) $referrals->sum('Refferal_Earnings'),
             'active_investments' => $contracts->where('Status', 1)->count() + $stockContracts->where('Status', 1)->count(),
             'referral_earnings' => (float) $referrals->sum('Refferal_Earnings'),
         ];
@@ -64,7 +65,7 @@ class DashboardController extends Controller
         $investor = Auth::guard('investor')->user();
 
         return response()->json([
-            'balance' => (float) $investor->Total_Deposit * (float) $investor->exchangerate,
+            'balance' => (float) $investor->Fin_Asset * (float) $investor->exchangerate,
             'currency' => $investor->curAbbr,
         ]);
     }
