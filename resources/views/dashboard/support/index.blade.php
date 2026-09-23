@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title','Support')
 @section('heading','Help & Support')
 @section('content')
