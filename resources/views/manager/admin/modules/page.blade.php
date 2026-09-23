@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('manager.layouts.admin')
 @section('content')
 @php($title=$meta['title'])
 <div class="heading">
