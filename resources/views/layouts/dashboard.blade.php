@@ -97,18 +97,18 @@ if(toggle){
 }
 
 const investors=[
-{name:'Amara Okafor',country:'Nigeria',invested:4200,profit:756},{name:'Daniel Brooks',country:'United Kingdom',invested:8500,profit:1360},
+{name:'Amara Okafor',country:'Sweden',invested:4200,profit:756},{name:'Daniel Brooks',country:'United Kingdom',invested:8500,profit:1360},
 {name:'Sofia Martins',country:'Portugal',invested:3200,profit:544},{name:'Liam Carter',country:'Canada',invested:12750,profit:1912.5},
-{name:'Aisha Bello',country:'Nigeria',invested:6100,profit:976},{name:'Noah Williams',country:'United States',invested:9800,profit:1568},
+{name:'Aisha Bello',country:'Netherlands',invested:6100,profit:976},{name:'Noah Williams',country:'United States',invested:9800,profit:1568},
 {name:'Mia Rossi',country:'Italy',invested:5400,profit:918},{name:'Ethan Smith',country:'Australia',invested:15000,profit:2400},
 {name:'Chloe Martin',country:'France',invested:7300,profit:1095},{name:'Samuel Adeyemi',country:'Ghana',invested:4600,profit:736},
 {name:'Elena Garcia',country:'Spain',invested:11800,profit:1770},{name:'Owen Jones',country:'Ireland',invested:3900,profit:624},
-{name:'Fatima Yusuf',country:'Nigeria',invested:6800,profit:1088},{name:'Lucas Silva',country:'Brazil',invested:9200,profit:1472},
+{name:'Fatima Yusuf',country:'Belgium',invested:6800,profit:1088},{name:'Lucas Silva',country:'Brazil',invested:9200,profit:1472},
 {name:'Grace Kim',country:'South Korea',invested:7600,profit:1216},{name:'James Wilson',country:'New Zealand',invested:13400,profit:2144},
 {name:'Nora Ahmed',country:'Egypt',invested:5100,profit:816},{name:'Benjamin Clark',country:'United States',invested:11200,profit:1680},
 {name:'Yuki Tanaka',country:'Japan',invested:6400,profit:1024},{name:'Oliver Brown',country:'South Africa',invested:8700,profit:1305},
 {name:'Layla Hassan',country:'United Arab Emirates',invested:14500,profit:2320},{name:'Henry Evans',country:'Germany',invested:5800,profit:928},
-{name:'Zainab Musa',country:'Nigeria',invested:3500,profit:560},{name:'Jack Taylor',country:'United Kingdom',invested:10100,profit:1616},
+{name:'Zainab Musa',country:'Austria',invested:3500,profit:560},{name:'Jack Taylor',country:'United Kingdom',invested:10100,profit:1616},
 {name:'Isabella Costa',country:'Portugal',invested:4700,profit:752},{name:'Michael King',country:'Canada',invested:12600,profit:1890},
 {name:'Sarah White',country:'Australia',invested:7900,profit:1264},{name:'David Mensah',country:'Ghana',invested:4300,profit:688},
 {name:'Clara Dubois',country:'France',invested:9600,profit:1536},{name:'Adam Rossi',country:'Italy',invested:6200,profit:992},
@@ -118,9 +118,9 @@ const investors=[
 {name:'Nadia Khan',country:'Pakistan',invested:4100,profit:656},{name:'William Scott',country:'United Kingdom',invested:9400,profit:1504},
 {name:'Aya Nakamura',country:'Japan',invested:13800,profit:2208},{name:'Daniel Mensah',country:'Ghana',invested:5600,profit:896},
 {name:'Maya Patel',country:'India',invested:8300,profit:1328},{name:'Alex Turner',country:'Canada',invested:10800,profit:1728},
-{name:'Sarah Adams',country:'United States',invested:7100,profit:1136},{name:'Emeka Nwosu',country:'Nigeria',invested:12400,profit:1984},
+{name:'Sarah Adams',country:'United States',invested:7100,profit:1136},{name:'Emeka Nwosu',country:'Switzerland',invested:12400,profit:1984},
 {name:'Sophie Laurent',country:'France',invested:4800,profit:768},{name:'Marco Bianchi',country:'Italy',invested:9900,profit:1584},
-{name:'Amina Sule',country:'Nigeria',invested:5700,profit:912},{name:'Elias Weber',country:'Germany',invested:11600,profit:1856},
+{name:'Amina Sule',country:'Denmark',invested:5700,profit:912},{name:'Elias Weber',country:'Germany',invested:11600,profit:1856},
 {name:'Victoria Brown',country:'New Zealand',invested:6800,profit:1088},{name:'Ahmed Farouk',country:'Egypt',invested:8200,profit:1312}
 ];
 const toast=document.getElementById('activityToast');
