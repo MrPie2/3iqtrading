@@ -84,7 +84,7 @@ class AdminController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('success', 'You have been signed out.');
+        return redirect()->route('login.admin')->with('success', 'You have been signed out.');
     }
 
     private function countTable(string $table): int
