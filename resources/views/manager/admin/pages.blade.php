@@ -18,7 +18,7 @@
     </div>
     
 
-@endsection('content')
+@endsection
     <script>
         
         $(document).on('click', '.DeletePage', function(){
