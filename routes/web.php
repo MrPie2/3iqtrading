@@ -81,6 +81,7 @@ Route::middleware('auth:investor')->group(function(){
     Route::post('/investments',[InvestmentController::class,'store'])->name('investments.store');
     Route::get('/investments/contracts',[InvestmentController::class,'contracts'])->name('investments.contracts');
     Route::get('/market',[InvestmentController::class,'stockMarket'])->name('market');
+    Route::get('/dashboard/ira',[InvestmentController::class,'ira'])->name('dashboard.ira');
     Route::get('/market/{stock}',[InvestmentController::class,'stock'])->name('market.stock');
     Route::post('/market/invest',[InvestmentController::class,'applyStock'])->name('market.invest');
 
