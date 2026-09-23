@@ -21,7 +21,7 @@
 <a href="{{ route('dashboard') }}" class="dashboard-brand"><span class="brand-symbol"><i class="bi bi-graph-up-arrow"></i></span><span>3IQ <strong>Trading</strong></span></a>
 </div>
 <div class="d-flex align-items-center gap-2">
-<button type="button" class="topbar-icon theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="bi bi-moon-stars" id="themeIcon"></i></button><a href="{{ route('notifications') }}" class="topbar-icon" aria-label="Notifications"><i class="bi bi-bell"></i>@if(($notifications ?? collect())->count())<span class="notification-dot"></span>@endif</a>
+<button type="button" class="topbar-icon theme-toggle" style="background: none; border: none;" id="themeToggle" aria-label="Toggle theme"><i class="bi bi-moon-stars" id="themeIcon"></i></button><a href="{{ route('notifications') }}" class="topbar-icon" aria-label="Notifications"><i class="bi bi-bell"></i>@if(($notifications ?? collect())->count())<span class="notification-dot"></span>@endif</a>
 <a href="{{ route('profile') }}" class="profile-chip"><span class="profile-avatar">{{ strtoupper(substr($investor->First_Name ?? $investor->name ?? 'U',0,1)) }}</span><span class="d-none d-md-inline">{{ $investor->First_Name ?? $investor->name ?? 'Account' }}</span><i class="bi bi-chevron-down d-none d-md-inline"></i></a>
 </div>
 </div>
