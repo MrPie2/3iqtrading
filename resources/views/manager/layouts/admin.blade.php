@@ -159,9 +159,9 @@
             background:#fef2f2;
         }
 
-        /* Topbar + offcanvas navigation */
+        /* Mobile topbar + dropdown navigation */
         .manager-mobilebar {
-            display:block;
+            display:none;
             position:sticky;
             top:0;
             z-index:1030;
@@ -288,9 +288,38 @@
         .badge { padding:5px 8px; border-radius:999px; font-size:10px; background:#eff6ff; color:#1d4ed8; }
         .legacy-note { background:#fffbeb; border:1px solid #fde68a; color:#92400e; padding:12px 14px; border-radius:12px; font-size:12px; margin-bottom:18px; }
 
+        .manager-mobile-dropdown {
+            min-width:250px;
+            padding:8px;
+            margin-top:8px!important;
+            border:1px solid var(--line);
+            border-radius:14px;
+            box-shadow:0 18px 45px rgba(15,23,42,.12);
+        }
+        .manager-mobile-dropdown .dropdown-item {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:10px 11px;
+            border-radius:9px;
+            color:#475569;
+            font-size:12px;
+            font-weight:600;
+        }
+        .manager-mobile-dropdown .dropdown-item i { width:18px; text-align:center; }
+        .manager-mobile-dropdown .dropdown-item:hover,
+        .manager-mobile-dropdown .dropdown-item.active { background:#eff6ff; color:var(--blue); }
+
         @media (max-width:1199.98px) {
+            .manager-user-name { display:none; }
             .grid { grid-template-columns:repeat(2,1fr); }
             .module-grid { grid-template-columns:repeat(2,1fr); }
+        }
+
+        @media (max-width:991.98px) {
+            .manager-navbar { display:none; }
+            .manager-mobilebar { display:block; }
+            .manager-topline { padding-top:14px; }
         }
 
         @media (max-width:767.98px) {
@@ -329,6 +358,10 @@
     <!-- All screen sizes: compact top navbar + offcanvas manager menu -->
     <nav class="manager-navbar">
         <div class="container-fluid px-4 d-flex align-items-center">
+            <button class="manager-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#managerOffcanvas" aria-controls="managerOffcanvas" aria-label="Open administration menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
             <a class="manager-brand" href="{{ route('admin.dashboard') }}">
                 <span class="manager-brand-mark"><i class="bi bi-grid-1x2-fill"></i></span>
                 <span>3iQ Admin</span>
@@ -382,9 +415,36 @@
     <!-- Bootstrap offcanvas manager menu -->
     <nav class="manager-mobilebar">
         <div class="container-fluid px-3 d-flex align-items-center justify-content-between">
-            <button class="manager-menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#managerOffcanvas" aria-controls="managerOffcanvas" aria-label="Open administration menu">
-                <i class="bi bi-list"></i>
-            </button>
+            <div class="dropdown">
+                <button class="manager-menu-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Open administration menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="dropdown-menu manager-mobile-dropdown">
+                    <a class="dropdown-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <div class="dropdown-divider"></div>
+                    @foreach([
+                        ['myagents','people','Agents'],
+                        ['investmentplan','layers','Investment Plans'],
+                        ['mywallets','wallet2','My Wallets'],
+                        ['sendbulkmail','envelope-paper','Send Bulk Email'],
+                        ['verification','shield-check','Verification & Limits'],
+                        ['mystocks','bar-chart-line','Stocks'],
+                        ['resources','folder2-open','Resources'],
+                        ['chat','chat-dots','Chat & Support'],
+                        ['faqcontainer','question-circle','FAQs'],
+                        ['pages','file-earmark-text','Site Pages'],
+                    ] as $item)
+                        <a class="dropdown-item {{ request()->routeIs('admin.module.'.$item[0]) ? 'active' : '' }}" href="{{ route('admin.module.'.$item[0]) }}">
+                            <i class="bi bi-{{ $item[1] }}"></i>{{ $item[2] }}
+                        </a>
+                    @endforeach
+                    <div class="dropdown-divider"></div>
+                    <form method="POST" action="{{ route('admin.logout') }}">
+                        @csrf
+                        <button class="dropdown-item text-danger" type="submit"><i class="bi bi-box-arrow-right"></i> Sign out</button>
+                    </form>
+                </div>
+            </div>
 
             <a class="manager-brand" href="{{ route('admin.dashboard') }}">
                 <span class="manager-brand-mark"><i class="bi bi-grid-1x2-fill"></i></span>
