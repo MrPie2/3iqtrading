@@ -10,7 +10,7 @@ window.smartsupp||(function(d) {
 })(document);
 </script>
 <noscript>Powered by <a href="https://www.smartsupp.com" target="_blank">Smartsupp</a></noscript>
-<nav class="navbar navbar-expand-lg iq-galaxy-nav sticky-top">
+<nav class="navbar navbar-expand-lg iq-galaxy-nav {{ request()->routeIs('home') ? 'iq-home-nav' : 'sticky-top' }}">
     <div class="iq-nav-glow"></div><div class="container position-relative">
         <a class="navbar-brand fw-800 d-flex align-items-center gap-2 iq-brand" href="{{ route('home') }}">
             <span class="iq-brand-orbit"><i class="bi bi-bar-chart-fill"></i></span>
@@ -60,7 +60,7 @@ window.smartsupp||(function(d) {
     padding:8px;
     border:1px solid rgba(100,190,255,.2);
     border-radius:18px;
-    background:rgba(4,13,32,.72);
+    background:rgba(10,13,17,.94);
     box-shadow:0 24px 60px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.08),0 0 35px rgba(24,130,255,.1);
     backdrop-filter:blur(24px) saturate(160%);
     -webkit-backdrop-filter:blur(24px) saturate(160%);
@@ -71,6 +71,27 @@ window.smartsupp||(function(d) {
 .iq-nav-login,.iq-nav-start{width:100%;justify-content:center;display:flex;align-items:center}
 }
 body{overflow-x:hidden}
+
+.iq-home-nav{position:absolute!important;top:0;left:0;width:100%}
+@media(max-width:991.98px){
+.iq-galaxy-nav .navbar-collapse.collapsing,
+.iq-galaxy-nav .navbar-collapse.show{
+    position:absolute!important;
+    top:calc(100% + 8px)!important;
+    left:12px!important;
+    right:12px!important;
+    width:auto!important;
+    height:auto!important;
+}
+.iq-galaxy-nav .navbar-collapse.collapsing{
+    display:block!important;
+    overflow:visible!important;
+    transition:none!important;
+}
+.iq-galaxy-nav .navbar-collapse.show{
+    display:block!important;
+}
+}
 </style>
 
 
