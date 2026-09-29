@@ -174,25 +174,8 @@
             <h2 class="section-title mt-2">Choose a plan that fits your goals.</h2>
             <p class="section-lead mx-auto mt-3">These are demo plan records seeded into the database. Replace rates, terms and disclosures with your approved product data.</p>
         </div>
-        <div class="row g-4">
-            @foreach($plans as $plan)
-                <div class="col-md-6 col-lg-4">
-                    <div class="plan-card {{ $plan->featured ? 'featured' : '' }}">
-                        @if($plan->featured)<span class="plan-badge">Popular</span>@endif
-                        <div class="icon-box"><i class="bi bi-pie-chart"></i></div>
-                        <h4 class="fw-bold">{{ $plan->name }}</h4>
-                        <p class="text-secondary">{{ $plan->description }}</p>
-                        <div class="price mt-4">${{ number_format($plan->minimum_amount, 0) }}<span class="fs-6 text-secondary fw-normal"> minimum</span></div>
-                        <div class="small text-secondary mt-1">{{ $plan->term_label }} · {{ $plan->risk_level }} risk</div>
-                        <ul class="plan-list">
-                            @foreach(($plan->features ?? []) as $feature)<li><i class="bi bi-check-circle-fill"></i>{{ $feature }}</li>@endforeach
-                        </ul>
-                        <a href="{{ route('register') }}" class="btn {{ $plan->featured ? 'btn-primary' : 'btn-outline-primary' }} rounded-pill w-100">Select plan</a>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
+        @include('partials.investment-plans')
+   </div>
 </section>
 <section class="iq-trading-section py-5">
     <div class="contai">
