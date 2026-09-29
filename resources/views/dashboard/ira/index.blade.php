@@ -62,6 +62,18 @@
     </div></div>
 </div>
 
+<div class="section-kicker mb-2">Investment plans</div>
+<div class="row g-4 mb-4">
+@foreach($plans as $plan)
+<div class="col-md-6 col-xl-4"><div class="plan-card h-100 {{ $plan->featured ? 'featured' : '' }}">
+@if($plan->featured)<span class="plan-badge">Popular</span>@endif
+<div class="icon-box"><i class="bi bi-pie-chart"></i></div><h4 class="fw-bold">{{ $plan->name }}</h4>
+<p class="text-muted">{{ $plan->description }}</p><div class="price mt-4">${{ number_format($plan->minimum_amount, 0) }}<span class="fs-6 text-muted fw-normal"> minimum</span></div>
+<div class="small text-muted mt-1">{{ $plan->term_label }} · {{ $plan->risk_level }} risk</div><ul class="plan-list">@foreach(($plan->features ?? []) as $feature)<li><i class="bi bi-check-circle-fill"></i>{{ $feature }}</li>@endforeach</ul>
+<a href="{{ route('investments.plans') }}" class="btn {{ $plan->featured ? 'btn-primary' : 'btn-outline-primary' }} rounded-pill w-100">View plan</a>
+</div></div>
+@endforeach
+</div>
 <div class="row g-4 mb-4">
     <div class="col-lg-7"><div class="dashboard-panel h-100">
         <div class="panel-heading mb-3"><div><div class="section-kicker">Potential benefits</div><h2>Why people use retirement accounts</h2></div><div class="security-icon"><i class="bi bi-stars"></i></div></div>
