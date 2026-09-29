@@ -1,31 +1,24 @@
 @extends('layouts.app', ['title' => '3IQ Trading — Business & Investment'])
 @section('content')
 <x-ticker-tape></x-ticker-tape>
-<section class="hero-wrap" >
-    <div class="container-fluid">
-        <div class="hero-card row g-0 align-items-center overflow-hidden" >
-            <div class="col-lg-6" >
-                <div class="hero-copy">
-                    <div class="eyebrow"><i class="bi bi-stars"></i> Business & investment</div>
-                    <h1 class="hero-title">Build toward your <span>financial goals.</span></h1>
-                    <p>Explore investment, stock, share and retirement account solutions through a clean, modern platform designed to make the next step easy to understand.</p>
-                    <div class="d-flex flex-wrap gap-3 mt-4">
-                        <a href="{{ route('register') }}" class="btn btn-primary btn-lg rounded-pill px-4">Get started <i class="bi bi-arrow-right ms-2"></i></a>
-                        <a href="/login" class="btn btn-light btn-lg rounded-pill px-4 border">Login</a>
-                    </div>
-                    <div class="d-flex gap-4 mt-5 small text-secondary">
-                        <span><i class="bi bi-shield-check text-primary me-1"></i> Secure account flow</span>
-                        <span><i class="bi bi-phone text-primary me-1"></i> Responsive design</span>
-                    </div>
-                </div>
+<section class="hero-wrap iq-hero" aria-label="3IQ Trading investment solutions">
+    <div class="container-fluid px-0">
+        <div id="iqHeroCarousel" class="iq-hero-carousel">
+            <div class="iq-hero-track">
+                <article class="iq-hero-slide is-active"><div class="iq-hero-inner"><div class="iq-hero-copy"><span class="iq-hero-eyebrow"><i class="bi bi-stars"></i> Investment solutions</span><h1 class="iq-hero-title">Build toward your <span>financial goals.</span></h1><p>Explore investment opportunities through a modern platform designed to help you understand markets, products and your next financial decision.</p><div class="d-flex flex-wrap gap-3 mt-4"><a href="{{ route('register') }}" class="btn btn-primary btn-lg rounded-pill px-4">Get started <i class="bi bi-arrow-right ms-2"></i></a><a href="/login" class="btn btn-light btn-lg rounded-pill px-4 border">Login</a></div></div><div class="iq-hero-art"><img src="{{ asset('assets/images/hero-investment.svg') }}" alt="Investment growth illustration"></div></div></article>
+                <article class="iq-hero-slide"><div class="iq-hero-inner"><div class="iq-hero-copy"><span class="iq-hero-eyebrow"><i class="bi bi-currency-bitcoin"></i> Digital assets</span><h2 class="iq-hero-title">Explore the <span>crypto market.</span></h2><p>Follow digital assets with a clean market experience built around discovery, analysis and informed decision-making.</p><div class="d-flex flex-wrap gap-3 mt-4"><a href="{{ route('register') }}" class="btn btn-primary btn-lg rounded-pill px-4">Explore markets <i class="bi bi-arrow-right ms-2"></i></a><a href="#charts" class="btn btn-light btn-lg rounded-pill px-4 border">View snapshot</a></div></div><div class="iq-hero-art"><img src="{{ asset('assets/images/hero-crypto.svg') }}" alt="Cryptocurrency market illustration"></div></div></article>
+                <article class="iq-hero-slide"><div class="iq-hero-inner"><div class="iq-hero-copy"><span class="iq-hero-eyebrow"><i class="bi bi-bar-chart-line"></i> Global equities</span><h2 class="iq-hero-title">Stay close to <span>stock markets.</span></h2><p>Discover global equities and keep market movements within reach from a responsive trading experience.</p><div class="d-flex flex-wrap gap-3 mt-4"><a href="{{ route('register') }}" class="btn btn-primary btn-lg rounded-pill px-4">Start exploring <i class="bi bi-arrow-right ms-2"></i></a><a href="{{ url('/stocks') }}" class="btn btn-light btn-lg rounded-pill px-4 border">View stocks</a></div></div><div class="iq-hero-art"><img src="{{ asset('assets/images/hero-stock.svg') }}" alt="Global stock market illustration"></div></div></article>
+                <article class="iq-hero-slide"><div class="iq-hero-inner"><div class="iq-hero-copy"><span class="iq-hero-eyebrow"><i class="bi bi-piggy-bank"></i> Retirement planning</span><h2 class="iq-hero-title">Plan for a <span>stronger tomorrow.</span></h2><p>Learn about IRA concepts and retirement-focused investing with information designed to make long-term planning easier to understand.</p><div class="d-flex flex-wrap gap-3 mt-4"><a href="{{ route('ira') }}" class="btn btn-primary btn-lg rounded-pill px-4">Explore IRA <i class="bi bi-arrow-right ms-2"></i></a><a href="{{ route('register') }}" class="btn btn-light btn-lg rounded-pill px-4 border">Create account</a></div></div><div class="iq-hero-art"><img src="{{ asset('assets/images/hero-ira.svg') }}" alt="IRA and retirement planning illustration"></div></div></article>
             </div>
-            <div class="col-lg-6 hero-visual">
-                <img src="{{ asset('assets/images/20260914_135802.png') }}" style="width: 600px"alt="Investment illustration">
-            </div>
+            <button class="iq-hero-control iq-hero-prev" type="button" aria-label="Previous slide"><i class="bi bi-arrow-left"></i></button>
+            <button class="iq-hero-control iq-hero-next" type="button" aria-label="Next slide"><i class="bi bi-arrow-right"></i></button>
+            <div class="iq-hero-dots" aria-label="Hero slides"><button class="active" type="button" aria-label="Investment slide"></button><button type="button" aria-label="Crypto slide"></button><button type="button" aria-label="Stock slide"></button><button type="button" aria-label="IRA slide"></button></div>
         </div>
     </div>
 </section>
-
+<style>
+.iq-hero{padding:0 0 28px;background:#f5f8fd;overflow:hidden}.iq-hero-carousel{position:relative;min-height:590px;background:#071a3b}.iq-hero-track{position:relative;min-height:590px}.iq-hero-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transform:translateX(28px);transition:opacity .6s ease,transform .6s ease,visibility .6s}.iq-hero-slide.is-active{opacity:1;visibility:visible;transform:none;z-index:2}.iq-hero-inner{width:min(1400px,100%);min-height:590px;margin:auto;padding:58px clamp(24px,5vw,78px);display:grid;grid-template-columns:46% 54%;align-items:center;gap:20px}.iq-hero-copy{position:relative;z-index:3;max-width:610px}.iq-hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:999px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);color:#bfe8ff;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.iq-hero-title{margin:20px 0 0;color:#fff;font-size:clamp(42px,5vw,72px);line-height:1.04;letter-spacing:-.045em;font-weight:800}.iq-hero-title span{color:#56d8ff}.iq-hero-copy p{max-width:570px;margin:24px 0 0;color:#cbd8ed;font-size:17px;line-height:1.75}.iq-hero-art{height:100%;min-height:500px;display:flex;align-items:center;justify-content:center}.iq-hero-art img{width:min(100%,720px);max-height:530px;object-fit:contain;filter:drop-shadow(0 30px 55px rgba(0,0,0,.28));animation:iqHeroFloat 6s ease-in-out infinite}.iq-hero-control{position:absolute;z-index:5;top:50%;transform:translateY(-50%);width:46px;height:46px;border:1px solid rgba(255,255,255,.2);border-radius:50%;background:rgba(255,255,255,.09);color:#fff;backdrop-filter:blur(10px);display:grid;place-items:center;transition:.2s}.iq-hero-control:hover{background:#fff;color:#0d5bd7}.iq-hero-prev{left:24px}.iq-hero-next{right:24px}.iq-hero-dots{position:absolute;z-index:6;bottom:25px;left:50%;transform:translateX(-50%);display:flex;gap:8px}.iq-hero-dots button{width:28px;height:4px;border:0;border-radius:20px;background:rgba(255,255,255,.35);padding:0;transition:.3s}.iq-hero-dots button.active{width:52px;background:#56d8ff}@keyframes iqHeroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}@media(max-width:991px){.iq-hero-carousel,.iq-hero-track,.iq-hero-inner{min-height:720px}.iq-hero-inner{grid-template-columns:1fr;padding:52px 34px 72px}.iq-hero-copy{max-width:680px}.iq-hero-art{min-height:330px}.iq-hero-art img{max-height:360px}.iq-hero-title{font-size:clamp(40px,8vw,60px)}}@media(max-width:575px){.iq-hero-carousel,.iq-hero-track,.iq-hero-inner{min-height:700px}.iq-hero-inner{padding:38px 22px 68px;gap:0}.iq-hero-title{font-size:42px}.iq-hero-copy p{font-size:15px;line-height:1.65}.iq-hero-art{min-height:280px}.iq-hero-art img{max-height:285px}.iq-hero-control{width:40px;height:40px}.iq-hero-prev{left:14px}.iq-hero-next{right:14px}.iq-hero-eyebrow{font-size:11px}.iq-hero-dots{bottom:18px}}@media(prefers-reduced-motion:reduce){.iq-hero-slide{transition:none}.iq-hero-art img{animation:none}}
+</style>
 <section class="services-section py-5">
     <div class="container">
 
@@ -656,6 +649,9 @@
 @endsection
 
 @push('scripts')
+<script>
+(function(){const root=document.getElementById('iqHeroCarousel');if(!root)return;const slides=[...root.querySelectorAll('.iq-hero-slide')],dots=[...root.querySelectorAll('.iq-hero-dots button')];let index=0,timer;function show(i){index=(i+slides.length)%slides.length;slides.forEach((s,n)=>s.classList.toggle('is-active',n===index));dots.forEach((d,n)=>d.classList.toggle('active',n===index));}function restart(){clearInterval(timer);timer=setInterval(()=>show(index+1),6500)}root.querySelector('.iq-hero-next').addEventListener('click',()=>{show(index+1);restart()});root.querySelector('.iq-hero-prev').addEventListener('click',()=>{show(index-1);restart()});dots.forEach((d,n)=>d.addEventListener('click',()=>{show(n);restart()}));show(0);restart();root.addEventListener('mouseenter',()=>clearInterval(timer));root.addEventListener('mouseleave',restart)})();
+</script>
 <script>
 const chartData = @json($chart);
 new Chart(document.getElementById('marketChart'), {
