@@ -22,7 +22,8 @@ document.getElementById('investForm').addEventListener('submit',async function(e
     try{
         const d=await api('{{ route('investments.store') }}',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(this))});
         overlay.classList.add('is-success');
-        const delay=900;
+        document.querySelector('.investment-processing-text').textContent='Investment confirmed. Preparing your portfolio...';
+        const delay=3000;
         setTimeout(()=>location.href=d.redirect,delay);
     }catch(x){
         overlay.classList.remove('is-visible');
