@@ -13,19 +13,19 @@ class DatabaseSeeder extends Seeder
     {
         InvestmentPlan::query()->create([
             'name' => 'Starter Growth', 'minimum_amount' => 500, 'maximum_amount' => 4999,
-            'term_label' => 'Flexible', 'risk_level' => 'Moderate', 'illustrative_rate' => 0,
+            'term_label' => 'Flexible', 'duration_days' => 30, 'risk_level' => 'Moderate', 'illustrative_rate' => 0,
             'description' => 'A starter plan layout for smaller investment goals.',
             'features' => ['Flexible presentation', 'Goal-oriented education', 'Online account access'], 'featured' => false,
         ]);
         InvestmentPlan::query()->create([
             'name' => 'Balanced Portfolio', 'minimum_amount' => 5000, 'maximum_amount' => 24999,
-            'term_label' => 'Medium term', 'risk_level' => 'Moderate', 'illustrative_rate' => 0,
+            'term_label' => 'Medium term', 'duration_days' => 90, 'risk_level' => 'Moderate', 'illustrative_rate' => 0,
             'description' => 'A balanced product card for a diversified investment offering.',
             'features' => ['Diversification focus', 'Portfolio education', 'Account support'], 'featured' => true,
         ]);
         InvestmentPlan::query()->create([
             'name' => 'Long-Term Select', 'minimum_amount' => 25000, 'maximum_amount' => null,
-            'term_label' => 'Long term', 'risk_level' => 'Higher', 'illustrative_rate' => 0,
+            'term_label' => 'Long term', 'duration_days' => 365, 'risk_level' => 'Higher', 'illustrative_rate' => 0,
             'description' => 'A premium layout for long-term investment products.',
             'features' => ['Long-term focus', 'Research-ready', 'Future dashboard integration'], 'featured' => false,
         ]);
