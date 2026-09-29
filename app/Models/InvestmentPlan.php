@@ -14,6 +14,7 @@ class InvestmentPlan extends Model
         'id' => 'integer',
         'minimum_amount' => 'float',
         'maximum_amount' => 'float',
+        'duration_days' => 'integer',
         'illustrative_rate' => 'float',
         'featured' => 'boolean',
         'features' => 'array',
