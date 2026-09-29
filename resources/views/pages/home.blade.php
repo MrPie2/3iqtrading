@@ -665,11 +665,14 @@
 (function(){const root=document.getElementById('iqHeroCarousel');if(!root)return;const slides=[...root.querySelectorAll('.iq-hero-slide')],dots=[...root.querySelectorAll('.iq-hero-dots button')];let index=0,timer;function show(i){index=(i+slides.length)%slides.length;slides.forEach((s,n)=>s.classList.toggle('is-active',n===index));dots.forEach((d,n)=>d.classList.toggle('active',n===index));}function restart(){clearInterval(timer);timer=setInterval(()=>show(index+1),6500)}root.querySelector('.iq-hero-next').addEventListener('click',()=>{show(index+1);restart()});root.querySelector('.iq-hero-prev').addEventListener('click',()=>{show(index-1);restart()});dots.forEach((d,n)=>d.addEventListener('click',()=>{show(n);restart()}));show(0);restart();root.addEventListener('mouseenter',()=>clearInterval(timer));root.addEventListener('mouseleave',restart)})();
 </script>
 <script>
-const chartData = @json($chart);
-new Chart(document.getElementById('marketChart'), {
-    type: 'line',
-    data: { labels: chartData.labels, datasets: [{ label: 'Demo price', data: chartData.values, borderWidth: 3, pointRadius: 3, tension: .35, fill: true }] },
-    options: { responsive:true, plugins:{legend:{display:false}}, scales:{y:{grid:{color:'#eef2f7'}},x:{grid:{display:false}}} }
-});
+const chartCanvas = document.getElementById('marketChart');
+if (chartCanvas && typeof Chart !== 'undefined') {
+    const chartData = @json($chart);
+    new Chart(chartCanvas, {
+        type: 'line',
+        data: { labels: chartData.labels, datasets: [{ label: 'Demo price', data: chartData.values, borderWidth: 3, pointRadius: 3, tension: .35, fill: true }] },
+        options: { responsive:true, plugins:{legend:{display:false}}, scales:{y:{grid:{color:'#eef2f7'}},x:{grid:{display:false}}} }
+    });
+}
 </script>
 @endpush
