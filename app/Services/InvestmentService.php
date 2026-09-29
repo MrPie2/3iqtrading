@@ -3,31 +3,50 @@
 namespace App\Services;
 
 use App\Models\Contract;
+use App\Models\InvestmentPlan;
 use App\Models\Investor;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class InvestmentService
 {
-    public function createPlanInvestment(Investor $investor, array $data): Contract
+    public function createPlanInvestment(Investor $investor, InvestmentPlan $plan, float $displayAmount): Contract
     {
-        return DB::transaction(function () use ($investor, $data) {
-            $amount = round((float) $data['amount'] / max((float) $investor->exchangerate, 0.000001), 2);
+        return DB::transaction(function () use ($investor, $plan, $displayAmount) {
+            $investor = Investor::query()
+                ->where('Investor_id', $investor->Investor_id)
+                ->lockForUpdate()
+                ->firstOrFail();
 
-            if ($amount <= 0 || $amount > (float) $investor->Total_Deposit) {
+            $displayAmount = round($displayAmount, 2);
+            $exchangeRate = max((float) $investor->exchangerate, 0.000001);
+            $amount = round($displayAmount / $exchangeRate, 2);
+
+            $minimum = (float) $plan->minimum_amount;
+            $maximum = $plan->maximum_amount !== null ? (float) $plan->maximum_amount : null;
+            $available = (float) $investor->Total_Deposit;
+
+            if ($displayAmount < $minimum) {
+                throw new \RuntimeException('The minimum investment for this plan is $' . number_format($minimum, 2) . '.');
+            }
+
+            if ($maximum !== null && $displayAmount > $maximum) {
+                throw new \RuntimeException('The maximum investment for this plan is $' . number_format($maximum, 2) . '.');
+            }
+
+            if ($amount <= 0 || $amount > $available) {
                 throw new \RuntimeException('Insufficient available balance.');
             }
 
-            $duration = max(1, (int) $data['duration']);
-            $interest = (float) ($data['percentage'] ?? 0);
+            $duration = max(1, (int) ($plan->duration_days ?: 30));
+            $interest = (float) ($plan->illustrative_rate ?? 0);
             $roi = round($amount + ($amount * $interest / 100), 2);
 
             $contract = Contract::create([
                 'Investor_id' => $investor->Investor_id,
                 'Investor_Name' => $investor->First_Name,
-                'Plan_Type' => $data['plan_type'],
+                'Plan_Type' => $plan->name,
                 'Country' => $investor->Nationality,
-                'Contract_id' => $data['contract_id'] ?? random_int(10000000, 999999999),
+                'Contract_id' => random_int(10000000, 999999999),
                 'Amount' => $amount,
                 'Interest' => $interest,
                 'Date_Entered' => now()->format('l d F Y'),
