@@ -7,7 +7,6 @@ use App\Models\Stock;
 use App\Models\StockContract;
 use App\Services\InvestmentService;
 use App\Services\InvestmentPlanService;
-use App\Services\InvestmentPlanService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
