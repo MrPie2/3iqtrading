@@ -18,7 +18,7 @@ class HomeController extends Controller
     public function index(): View
     {
         return view('pages.home', [
-            'plans' => $this->plans->featured(),
+            'plans' => $this->plans->all(),
             'faqs' => $this->faqs->active(),
             'market' => $this->market->snapshot(),
             'chart' => $this->market->chartSeries(),
