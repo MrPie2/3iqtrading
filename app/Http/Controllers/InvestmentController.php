@@ -6,6 +6,7 @@ use App\Models\InvestmentPlanLegacy;
 use App\Models\Stock;
 use App\Models\StockContract;
 use App\Services\InvestmentService;
+use App\Services\InvestmentPlanService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -38,9 +39,10 @@ class InvestmentController extends Controller
         $contracts=Contract::where('Investor_id',$investor->Investor_id)->latest('id')->get();
         return view('dashboard.investments.contracts',compact('contracts','investor'));
     }
-    public function ira(){
+    public function ira(InvestmentPlanService $planService){
         $investor=Auth::guard('investor')->user();
-        return view('dashboard.ira.index',compact('investor'));
+        $plans=$planService->all();
+        return view('dashboard.ira.index',compact('investor','plans'));
     }
     public function iraSavings(){
         $investor=Auth::guard('investor')->user();
