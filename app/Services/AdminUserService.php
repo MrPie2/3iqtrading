@@ -72,6 +72,9 @@ class AdminUserService
             $this->adjustBalance($investor, $amount, 'balance');
             $this->recordTransaction(Deposit::class, $investor, $amount, 'Amount_Deposited');
         });
+
+        $fresh = Investor::findOrFail($investor->getKey());
+        $this->sendTransactionMail($fresh, $amount, 'deposit', (float) ($fresh->Total_Deposit ?? 0));
     }
 
     public function loadProfit(Investor $investor, float $amount): void
@@ -81,6 +84,9 @@ class AdminUserService
         }
 
         $this->adjustBalance($investor, $amount, 'profit');
+
+        $fresh = Investor::findOrFail($investor->getKey());
+        $this->sendTransactionMail($fresh, $amount, 'profit', (float) ($fresh->Fin_Asset ?? 0));
     }
 
     public function reduceBalance(Investor $investor, float $amount): void
@@ -138,7 +144,7 @@ class AdminUserService
         DB::table($table)->insert($data);
     }
 
-    public function sendMail(Investor $investor, string $subject, string $body, ?float $investmentFee = null): void
+    public function sendMail(Investor $investor, string $subject, string $body): void
     {
         $email = trim((string) $investor->Email);
 
@@ -157,6 +163,57 @@ class AdminUserService
             'recipientName' => trim($recipientName) ?: 'Investor',
             'reference' => '3IQ-' . strtoupper(substr(sha1($this->investorId($investor) . now()->format('YmdHisv')), 0, 10)),
         ]);
+    }
+
+    private function sendTransactionMail(Investor $investor, float $amount, string $type, float $balance): void
+    {
+        $email = trim((string) $investor->Email);
+
+        if ($email === '') {
+            Log::warning('Transaction email skipped: investor has no email address.', [
+                'investor_id' => $this->investorId($investor),
+                'type' => $type,
+            ]);
+            return;
+        }
+
+        $recipientName = trim((string) (
+            $investor->Username
+            ?? $investor->Name
+            ?? $investor->First_Name
+            ?? 'Investor'
+        )) ?: 'Investor';
+
+        $currency = trim((string) ($investor->curAbbr ?? 'USD'));
+        $reference = '3IQ-' . strtoupper(substr(sha1($this->investorId($investor) . $type . now()->format('YmdHisv')), 0, 10));
+        $isDeposit = $type === 'deposit';
+
+        $subject = $isDeposit
+            ? 'Deposit credited to your 3IQTrading account'
+            : 'Profit loaded into your 3IQTrading account';
+
+        $body = $isDeposit
+            ? "A deposit of {$currency} " . number_format($amount, 2) . " has been credited to your account. Your updated deposit balance is {$currency} " . number_format($balance, 2) . "."
+            : "A profit of {$currency} " . number_format($amount, 2) . " has been loaded into your account. Your updated profit balance is {$currency} " . number_format($balance, 2) . ".";
+
+        try {
+            $this->mailer->send($email, $subject, $body, [
+                'recipientName' => $recipientName,
+                'reference' => $reference,
+                'transactionType' => $isDeposit ? 'Deposit' : 'Profit',
+                'transactionAmount' => $amount,
+                'transactionBalance' => $balance,
+                'transactionCurrency' => $currency,
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Automatic transaction email failed.', [
+                'investor_id' => $this->investorId($investor),
+                'email' => $email,
+                'type' => $type,
+                'amount' => $amount,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     public function toggleWithdrawalBan(Investor $investor, bool $banned): void
