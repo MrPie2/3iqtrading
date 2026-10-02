@@ -54,8 +54,8 @@ class AdminUserController extends Controller
             'amount' => 'nullable|numeric|min:0.01',
             'level' => 'nullable|integer|min:0|max:100',
             'signal' => 'nullable|string|max:100',
-            'subject' => 'nullable|string|max:255',
-            'message' => 'nullable|string|max:10000',
+            'subject' => 'required_if:action,notification,mail|nullable|string|max:255',
+            'message' => 'required_if:action,notification,mail|nullable|string|max:10000',
         ]);
 
         try {
