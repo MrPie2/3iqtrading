@@ -89,57 +89,27 @@
                 Your investment communication is shown below. Please review the details carefully and use your dashboard for your latest account information.
             </p>
 
-            <!-- Fee centerpiece -->
+            <!-- Investment feel card -->
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-radius:16px;overflow:hidden;background:#f5f9ff;border:1px solid #dce9f8;">
-                <tr>
-                    <td style="background:#eaf3ff;padding:17px 20px;border-bottom:1px solid #dce9f8;">
-                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-                            <tr>
-                                <td>
-                                    <div style="font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:#3973b8;font-weight:700;">Investment fee</div>
-                                    @if($investmentFee !== null)
-                                        <div style="font-size:29px;line-height:1.2;color:#0d3770;font-weight:800;margin-top:6px;">
-                                            {{ $currency }}{{ number_format((float)$investmentFee, 2) }}
-                                        </div>
-                                    @else
-                                        <div style="font-size:20px;color:#0d3770;font-weight:800;margin-top:8px;">See investment details</div>
-                                    @endif
-                                </td>
-                                <td align="right" valign="middle">
-                                    <div style="width:46px;height:46px;line-height:46px;text-align:center;border-radius:50%;background:#d8ebff;color:#1663aa;font-size:23px;font-weight:700;">
-                                        ↗
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding:17px 20px;">
-                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-                            <tr>
-                                <td width="50%" style="padding-bottom:14px;">
-                                    <div style="font-size:10px;color:#8a97aa;text-transform:uppercase;letter-spacing:.8px;">Status</div>
-                                    <div style="font-size:13px;color:#16804a;font-weight:700;margin-top:5px;">PROCESSING</div>
-                                </td>
-                                <td width="50%" style="padding-bottom:14px;">
-                                    <div style="font-size:10px;color:#8a97aa;text-transform:uppercase;letter-spacing:.8px;">Reference</div>
-                                    <div style="font-size:13px;color:#263a57;font-weight:700;margin-top:5px;">{{ $reference }}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div style="font-size:10px;color:#8a97aa;text-transform:uppercase;letter-spacing:.8px;">Date</div>
-                                    <div style="font-size:13px;color:#263a57;font-weight:700;margin-top:5px;">{{ now()->format('M d, Y') }}</div>
-                                </td>
-                                <td>
-                                    <div style="font-size:10px;color:#8a97aa;text-transform:uppercase;letter-spacing:.8px;">Account</div>
-                                    <div style="font-size:13px;color:#263a57;font-weight:700;margin-top:5px;">Level {{ $accountLevel ?? '—' }}</div>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                <tr><td style="background:#eaf3ff;padding:18px 20px;border-bottom:1px solid #dce9f8;">
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr>
+                        <td><div style="font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:#3973b8;font-weight:700;">Investment update</div>
+                            <div style="font-size:22px;color:#0d3770;font-weight:800;margin-top:7px;">Your portfolio, in focus</div>
+                            <div style="font-size:12px;line-height:1.6;color:#64748b;margin-top:5px;">A clear view of your latest 3IQTrading communication.</div></td>
+                        <td align="right"><div style="width:46px;height:46px;line-height:46px;text-align:center;border-radius:50%;background:#d8ebff;color:#1663aa;font-size:23px;font-weight:700;">↗</div></td>
+                    </tr></table>
+                </td></tr>
+                <tr><td style="padding:18px 20px;">
+                    <div style="height:7px;background:#dbe9f8;border-radius:10px;"><div style="width:78%;height:7px;background:#287de0;border-radius:10px;"></div></div>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:12px;"><tr>
+                        <td style="font-size:10px;color:#718096;letter-spacing:.8px;">MARKET ACTIVITY</td><td align="right" style="font-size:10px;color:#287de0;font-weight:700;">GROWTH TRACK</td>
+                    </tr></table>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:17px;"><tr>
+                        <td width="33%" style="font-size:10px;color:#8a97aa;text-transform:uppercase;">Status<br><strong style="font-size:12px;color:#16804a;">READY</strong></td>
+                        <td width="34%" style="font-size:10px;color:#8a97aa;text-transform:uppercase;">Reference<br><strong style="font-size:12px;color:#263a57;">{{ $reference }}</strong></td>
+                        <td width="33%" style="font-size:10px;color:#8a97aa;text-transform:uppercase;">Account<br><strong style="font-size:12px;color:#263a57;">Level {{ $accountLevel ?? '—' }}</strong></td>
+                    </tr></table>
+                </td></tr>
             </table>
 
             <!-- Message -->
