@@ -155,8 +155,6 @@ class AdminUserService
 
         $this->mailer->send($email, $subject, $body, [
             'recipientName' => trim($recipientName) ?: 'Investor',
-            'investmentFee' => $investmentFee,
-            'currency' => (string) ($investor->curAbbr ?? '$'),
             'reference' => '3IQ-' . strtoupper(substr(sha1($this->investorId($investor) . now()->format('YmdHisv')), 0, 10)),
         ]);
     }
