@@ -43,4 +43,35 @@ class MailerService
             $message->to($recipient)->subject($subject);
         });
     }
+
+    /**
+     * Send the dedicated account verification email.
+     */
+    public function sendVerificationEmail(
+        string $recipient,
+        string $recipientName,
+        string $verificationUrl,
+        string $reference
+    ): void {
+        $recipient = trim($recipient);
+        $recipientName = trim($recipientName) ?: 'Investor';
+        $verificationUrl = trim($verificationUrl);
+        $reference = trim($reference);
+
+        if ($recipient === '' || !filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
+            throw new RuntimeException('A valid recipient email address is required.');
+        }
+
+        if ($verificationUrl === '') {
+            throw new RuntimeException('A verification URL is required.');
+        }
+
+        Mail::mailer('smtp')->send('emails.verify-account', [
+            'recipientName' => $recipientName,
+            'verificationUrl' => $verificationUrl,
+            'reference' => $reference,
+        ], function ($message) use ($recipient): void {
+            $message->to($recipient)->subject('Verify your 3IQTrading account');
+        });
+    }
 }
