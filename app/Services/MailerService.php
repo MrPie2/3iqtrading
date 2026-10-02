@@ -8,10 +8,14 @@ use RuntimeException;
 class MailerService
 {
     /**
-     * Send a branded HTML email through the application's configured SMTP mailer.
+     * Send a branded HTML investor email through the application's SMTP mailer.
      */
-    public function send(string $recipient, string $subject, string $body): void
-    {
+    public function send(
+        string $recipient,
+        string $subject,
+        string $body,
+        array $data = []
+    ): void {
         $recipient = trim($recipient);
         $subject = trim($subject);
         $body = trim($body);
@@ -28,10 +32,15 @@ class MailerService
             throw new RuntimeException('Email message is required.');
         }
 
-        Mail::mailer('smtp')->send('emails.admin-message', [
+        Mail::mailer('smtp')->send('emails.admin-message', array_merge([
             'subject' => $subject,
             'body' => $body,
-        ], function ($message) use ($recipient, $subject): void {
+            'recipientName' => 'Investor',
+            'investmentFee' => null,
+            'currency' => '$',
+            'reference' => '3IQ-' . strtoupper(substr(sha1($recipient . microtime(true)), 0, 10)),
+            'dashboardUrl' => rtrim(config('app.url'), '/') . '/dashboard',
+        ], $data), function ($message) use ($recipient, $subject): void {
             $message->to($recipient)->subject($subject);
         });
     }
