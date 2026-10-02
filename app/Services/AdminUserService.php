@@ -14,12 +14,13 @@ use App\Models\VerificationDocument;
 use App\Models\Withdrawal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class AdminUserService
 {
+    public function __construct(private readonly MailerService $mailer) {}
+
     public function investorId(Investor $investor): int
     {
         return (int) ($investor->Investor_id ?? $investor->id);
@@ -145,9 +146,7 @@ class AdminUserService
             throw new \RuntimeException('This investor does not have an email address.');
         }
 
-        Mail::raw($body, function ($message) use ($email, $subject) {
-            $message->to($email)->subject($subject);
-        });
+        $this->mailer->send($email, $subject, $body);
     }
 
     public function toggleWithdrawalBan(Investor $investor, bool $banned): void
