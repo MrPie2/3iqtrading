@@ -8,7 +8,7 @@ use RuntimeException;
 class MailerService
 {
     /**
-     * Send a plain-text email through the application's configured SMTP mailer.
+     * Send a branded HTML email through the application's configured SMTP mailer.
      */
     public function send(string $recipient, string $subject, string $body): void
     {
@@ -28,7 +28,10 @@ class MailerService
             throw new RuntimeException('Email message is required.');
         }
 
-        Mail::mailer('smtp')->raw($body, function ($message) use ($recipient, $subject): void {
+        Mail::mailer('smtp')->send('emails.admin-message', [
+            'subject' => $subject,
+            'body' => $body,
+        ], function ($message) use ($recipient, $subject): void {
             $message->to($recipient)->subject($subject);
         });
     }
