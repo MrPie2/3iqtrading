@@ -68,6 +68,21 @@
                 </td></tr>
             </table>
 
+            @if(!empty($transactionType))
+            <!-- Transaction details -->
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:27px;border-radius:14px;background:#f5f9ff;border:1px solid #dce9f8;">
+                <tr><td style="padding:18px 20px;">
+                    <div style="font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:#6d7d93;font-weight:700;margin-bottom:13px;">Transaction details</div>
+                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr>
+                        <td width="50%"><div style="font-size:9px;color:#8a97aa;text-transform:uppercase;letter-spacing:.8px;">Transaction</div><div style="font-size:13px;color:#263a57;font-weight:700;margin-top:4px;">{{ $transactionType }}</div></td>
+                        <td width="50%" align="right"><div style="font-size:9px;color:#8a97aa;text-transform:uppercase;letter-spacing:.8px;">Amount</div><div style="font-size:16px;color:#1769d1;font-weight:800;margin-top:4px;">{{ $transactionCurrency }} {{ number_format((float) $transactionAmount, 2) }}</div></td>
+                    </tr><tr>
+                        <td colspan="2" style="padding-top:14px;border-top:1px solid #e2eaf4;"><div style="font-size:9px;color:#8a97aa;text-transform:uppercase;letter-spacing:.8px;">Updated balance</div><div style="font-size:13px;color:#263a57;font-weight:700;margin-top:4px;">{{ $transactionCurrency }} {{ number_format((float) $transactionBalance, 2) }}</div></td>
+                    </tr></table>
+                </td></tr>
+            </table>
+            @endif
+
             <!-- Message -->
             <div style="margin-top:27px;padding:20px;border-left:4px solid #287de0;background:#f8fafc;border-radius:0 10px 10px 0;">
                 <div style="font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#6d7d93;font-weight:700;margin-bottom:9px;">
