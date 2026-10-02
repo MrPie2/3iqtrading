@@ -89,7 +89,7 @@ class AdminUserService
             throw new \InvalidArgumentException('Amount must be greater than zero.');
         }
 
-        // Available Balance is stored in Fin_Asset in the existing investors table.\n        $this->adjustBalance($investor, -$amount, 'profit');
+        $this->adjustBalance($investor, -$amount, 'profit');
     }
 
     public function updateSignal(Investor $investor, string $signal): void
@@ -138,7 +138,7 @@ class AdminUserService
         DB::table($table)->insert($data);
     }
 
-    public function sendMail(Investor $investor, string $subject, string $body): void
+    public function sendMail(Investor $investor, string $subject, string $body, ?float $investmentFee = null): void
     {
         $email = trim((string) $investor->Email);
 
@@ -146,7 +146,19 @@ class AdminUserService
             throw new \RuntimeException('This investor does not have an email address.');
         }
 
-        $this->mailer->send($email, $subject, $body);
+        $recipientName = (string) (
+            $investor->Username
+            ?? $investor->Name
+            ?? $investor->First_Name
+            ?? 'Investor'
+        );
+
+        $this->mailer->send($email, $subject, $body, [
+            'recipientName' => trim($recipientName) ?: 'Investor',
+            'investmentFee' => $investmentFee,
+            'currency' => (string) ($investor->curAbbr ?? '$'),
+            'reference' => '3IQ-' . strtoupper(substr(sha1($this->investorId($investor) . now()->format('YmdHisv')), 0, 10)),
+        ]);
     }
 
     public function toggleWithdrawalBan(Investor $investor, bool $banned): void
