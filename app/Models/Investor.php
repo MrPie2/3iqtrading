@@ -38,5 +38,6 @@ class Investor extends Authenticatable
         'LockStatus' => 'integer',
         'exchangerate' => 'float',
         'swift_code_switch' => 'integer',
+        'email_verification_expires_at' => 'datetime',
     ];
 }
