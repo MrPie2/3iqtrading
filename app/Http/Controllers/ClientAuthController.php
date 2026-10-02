@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 
 class ClientAuthController extends Controller
 {
@@ -56,10 +57,24 @@ class ClientAuthController extends Controller
                 ->withErrors(['email' => $e->getMessage()]);
         }
 
-        Auth::guard('investor')->login($investor);
-        $request->session()->regenerate();
+        $token = $this->authService->createVerificationToken($investor);
+        try {
+            app(\App\Services\MailerService::class)->send((string) $investor->Email, 'Verify your 3IQTrading account', 'Please verify your email address to activate your 3IQTrading account.', [
+                'recipientName' => $investor->First_Name ?: 'Investor',
+                'reference' => '3IQ-' . strtoupper(substr(sha1($investor->id . now()->format('YmdHisv')), 0, 10)),
+                'verificationUrl' => route('verification.email', ['token' => $token]),
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Account verification email failed.', ['investor_id' => $investor->id, 'error' => $e->getMessage()]);
+            return redirect()->route('login')->with('error', 'Your account was created, but the verification email could not be sent. Please contact support.');
+        }
+        return redirect()->route('login')->with('success', 'Account created. Please check your email and verify your account before signing in.');
+    }
 
-        return redirect()->route('dashboard')->with('success', 'Your 3IQ Trading account has been created.');
+    public function verifyEmail(string $token): RedirectResponse
+    {
+        if (!$this->authService->verifyEmail($token)) return redirect()->route('login')->with('error', 'This verification link is invalid or has expired.');
+        return redirect()->route('login')->with('success', 'Your email has been verified. You can now sign in.');
     }
 
     public function logout(Request $request): RedirectResponse
