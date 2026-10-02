@@ -6,6 +6,7 @@ use App\Models\Investor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class AuthService
 {
@@ -53,6 +54,22 @@ class AuthService
         return $investor;
     }
 
+    public function createVerificationToken(Investor $investor): string
+    {
+        $token = Str::random(64);
+        $investor->forceFill(['email_verification_token' => hash('sha256', $token), 'email_verification_expires_at' => now()->addHours(24)])->save();
+        return $token;
+    }
+
+    public function verifyEmail(string $token): ?Investor
+    {
+        $investor = Investor::where('email_verification_token', hash('sha256', $token))
+            ->where('email_verification_expires_at', '>', now())->first();
+        if (!$investor) return null;
+        $investor->forceFill(['V_Status' => 1, 'email_verification_token' => null, 'email_verification_expires_at' => null])->save();
+        return $investor;
+    }
+
     public function login(array $credentials, bool $remember = false): bool
     {
         $email = trim((string) ($credentials['email'] ?? ''));
@@ -68,7 +85,7 @@ class AuthService
          */
         $investor = Investor::whereRaw('LOWER(TRIM(Email)) = LOWER(?)', [$email])->first();
 
-        if (!$investor || (int) $investor->LockStatus > 0) {
+        if (!$investor || (int) $investor->LockStatus > 0 || (int) $investor->V_Status !== 1) {
             return false;
         }
 
