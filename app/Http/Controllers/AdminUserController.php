@@ -70,7 +70,7 @@ class AdminUserController extends Controller
                 case 'signal': $this->service->updateSignal($investor, (string) $action['signal']); $message='Signal updated.'; break;
                 case 'swift': $message='SWIFT code generated: '.$this->service->generateSwiftCode($investor); break;
                 case 'notification': $this->service->sendNotification($investor, (string) $action['subject'], (string) $action['message']); $message='Notification sent.'; break;
-                case 'mail': $this->service->sendMail($investor, (string) $action['subject'], (string) $action['message']); $message='Email sent.'; break;
+                case 'mail': $this->service->sendMail($investor, (string) $action['subject'], (string) $action['message'], isset($action['amount']) ? (float) $action['amount'] : null); $message='Email sent.'; break;
                 case 'withdrawal_ban': $this->service->toggleWithdrawalBan($investor, true); $message='Withdrawals banned for this account.'; break;
                 case 'withdrawal_unban': $this->service->toggleWithdrawalBan($investor, false); $message='Withdrawal ban removed.'; break;
                 case 'delete': $this->service->deleteAccount($investor); return redirect()->route('admin.dashboard')->with('success', 'Investor account deleted.');
