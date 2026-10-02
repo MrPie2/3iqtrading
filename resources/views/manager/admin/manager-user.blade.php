@@ -70,7 +70,7 @@
         <form method="POST" action="{{ route('admin.user.action',$investor->id) }}">@csrf<input type="hidden" name="action" value="notification"><input name="subject" class="form-control mb-2" placeholder="Subject" required><textarea name="message" class="form-control mb-2" rows="3" placeholder="Notification text" required></textarea><button class="btn btn-primary">Send notification</button></form>
     </div>
     <div class="admin-action"><h3><i class="bi bi-envelope me-1"></i> Send mail</h3>
-        <form method="POST" action="{{ route('admin.user.action',$investor->id) }}">@csrf<input type="hidden" name="action" value="mail"><input name="subject" class="form-control mb-2" placeholder="Subject" required><textarea name="message" class="form-control mb-2" rows="3" placeholder="Email message" required></textarea><button class="btn btn-primary">Send mail</button></form>
+        <form method="POST" action="{{ route('admin.user.action',$investor->id) }}">@csrf<input type="hidden" name="action" value="mail"><input name="subject" class="form-control mb-2" placeholder="Subject" required><input name="amount" type="number" min="0.01" step="0.01" class="form-control mb-2" placeholder="Investment fee (optional)"><textarea name="message" class="form-control mb-2" rows="3" placeholder="Email message" required></textarea><button class="btn btn-primary">Send mail</button></form>
     </div>
 </div>
 
