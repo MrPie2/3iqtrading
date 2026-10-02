@@ -38,6 +38,7 @@ Route::post('/login', [ClientAuthController::class, 'login'])->name('login.store
 
 Route::get('/register', [ClientAuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [ClientAuthController::class, 'register'])->name('register.store');
+Route::get('/verify-email/{token}', [ClientAuthController::class, 'verifyEmail'])->name('verification.email');
 
 Route::post('/logout', [ClientAuthController::class, 'logout'])->name('logout');
 
