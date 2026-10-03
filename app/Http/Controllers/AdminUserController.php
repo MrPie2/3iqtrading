@@ -54,6 +54,7 @@ class AdminUserController extends Controller
             'amount' => 'nullable|numeric|min:0.01',
             'level' => 'nullable|integer|min:0|max:100',
             'signal' => 'nullable|string|max:100',
+            'email' => 'nullable|required_if:action,mail|email|max:255',
             'subject' => 'required_if:action,notification,mail|nullable|string|max:255',
             'message' => 'required_if:action,notification,mail|nullable|string|max:10000',
         ]);
@@ -70,7 +71,7 @@ class AdminUserController extends Controller
                 case 'signal': $this->service->updateSignal($investor, (string) $action['signal']); $message='Signal updated.'; break;
                 case 'swift': $message='SWIFT code generated: '.$this->service->generateSwiftCode($investor); break;
                 case 'notification': $this->service->sendNotification($investor, (string) $action['subject'], (string) $action['message']); $message='Notification sent.'; break;
-                case 'mail': $this->service->sendMail($investor, (string) $action['subject'], (string) $action['message']); $message='Email sent.'; break;
+                case 'mail': $this->service->sendMail($investor, (string) $action['subject'], (string) $action['message'], (string) $action['email']); $message='Email sent.'; break;
                 case 'withdrawal_ban': $this->service->toggleWithdrawalBan($investor, true); $message='Withdrawals banned for this account.'; break;
                 case 'withdrawal_unban': $this->service->toggleWithdrawalBan($investor, false); $message='Withdrawal ban removed.'; break;
                 case 'delete': $this->service->deleteAccount($investor); return redirect()->route('admin.dashboard')->with('success', 'Investor account deleted.');
