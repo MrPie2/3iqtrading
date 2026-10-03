@@ -49,21 +49,11 @@
 
     <!-- Main content -->
     <tr>
-        <td style="padding:30px;">  
-
-            <!-- Account snapshot -->
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-radius:14px;background:#f5f9ff;border:1px solid #dce9f8;">
-                <tr><td style="padding:17px 20px;">
-                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr>
-                        <td width="50%"><div style="font-size:9px;color:#8a97aa;text-transform:uppercase;letter-spacing:.8px;">Status</div><div style="font-size:12px;color:#16804a;font-weight:700;margin-top:4px;">READY</div></td>
-                        <td width="50%"><div style="font-size:9px;color:#8a97aa;text-transform:uppercase;letter-spacing:.8px;">Reference</div><div style="font-size:12px;color:#263a57;font-weight:700;margin-top:4px;">{{ $reference }}</div></td>
-                    </tr></table>
-                </td></tr>
-            </table>
+        <td style="padding:30px;">
 
             @if(!empty($transactionType))
             <!-- Transaction details -->
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:27px;border-radius:14px;background:#f5f9ff;border:1px solid #dce9f8;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-radius:14px;background:#f5f9ff;border:1px solid #dce9f8;">
                 <tr><td style="padding:18px 20px;">
                     <div style="font-size:10px;letter-spacing:1.3px;text-transform:uppercase;color:#6d7d93;font-weight:700;margin-bottom:13px;">Transaction details</div>
                     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr>
