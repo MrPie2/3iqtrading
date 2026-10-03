@@ -37,7 +37,7 @@ class MailerService
             'body' => $body,
             'recipientName' => 'Investor',
             'reference' => '3IQ-' . strtoupper(substr(sha1($recipient . microtime(true)), 0, 10)),
-            'dashboardUrl' => rtrim(config('app.url'), '/') . '/dashboard',
+            'dashboardUrl' => route('dashboard'),
             'accountLevel' => null,
         ], $data), function ($message) use ($recipient, $subject): void {
             $message->to($recipient)->subject($subject);
