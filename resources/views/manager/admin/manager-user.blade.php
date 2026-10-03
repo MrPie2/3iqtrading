@@ -70,7 +70,16 @@
         <form method="POST" action="{{ route('admin.user.action',$investor->id) }}">@csrf<input type="hidden" name="action" value="notification"><input name="subject" class="form-control mb-2" placeholder="Subject" required><textarea name="message" class="form-control mb-2" rows="3" placeholder="Notification text" required></textarea><button class="btn btn-primary">Send notification</button></form>
     </div>
     <div class="admin-action"><h3><i class="bi bi-envelope me-1"></i> Send mail</h3>
-        <form method="POST" action="{{ route('admin.user.action',$investor->id) }}">@csrf<input type="hidden" name="action" value="mail"><input name="subject" class="form-control mb-2" placeholder="Subject" required><textarea name="message" class="form-control mb-2" rows="3" placeholder="Email message" required></textarea><button class="btn btn-primary">Send mail</button></form>
+        <form method="POST" action="{{ route('admin.user.action',$investor->id) }}">
+            @csrf
+            <input type="hidden" name="action" value="mail">
+            <label class="form-label mb-1" style="font-size:11px;font-weight:700;">Recipient email</label>
+            <input name="email" type="email" class="form-control mb-2" value="{{ old('email', $investor->Email) }}" placeholder="recipient@example.com" required>
+            <input name="subject" class="form-control mb-2" value="{{ old('subject') }}" placeholder="Subject" required>
+            <textarea name="message" class="form-control mb-2" rows="3" placeholder="Email message" required>{{ old('message') }}</textarea>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:8px;">You can replace the default investor email with any valid email address.</div>
+            <button class="btn btn-primary">Send mail</button>
+        </form>
     </div>
 </div>
 
