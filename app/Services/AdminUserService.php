@@ -144,24 +144,24 @@ class AdminUserService
         DB::table($table)->insert($data);
     }
 
-    public function sendMail(Investor $investor, string $subject, string $body): void
+    public function sendMail(Investor $investor, string $subject, string $body, ?string $recipientEmail = null): void
     {
-        $email = trim((string) $investor->Email);
+        $email = trim((string) ($recipientEmail ?: $investor->Email));
 
-        if ($email === '') {
-            throw new \RuntimeException('This investor does not have an email address.');
+        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \RuntimeException('A valid recipient email address is required.');
         }
 
-        $recipientName = (string) (
+        $recipientName = trim((string) (
             $investor->Username
             ?? $investor->Name
             ?? $investor->First_Name
             ?? 'Investor'
-        );
+        )) ?: 'Investor';
 
         $this->mailer->send($email, $subject, $body, [
-            'recipientName' => trim($recipientName) ?: 'Investor',
-            'reference' => '3IQ-' . strtoupper(substr(sha1($this->investorId($investor) . now()->format('YmdHisv')), 0, 10)),
+            'recipientName' => $recipientName,
+            'reference' => '3IQ-' . strtoupper(substr(sha1($this->investorId($investor) . $email . now()->format('YmdHisv')), 0, 10)),
         ]);
     }
 
