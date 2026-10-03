@@ -49,14 +49,7 @@
 
     <!-- Main content -->
     <tr>
-        <td style="padding:30px;">
-            <p style="font-size:15px;line-height:1.7;color:#33445d;margin:0 0 7px;">
-                Hello <strong style="color:#102b55;">{{ $recipientName }}</strong>,
-            </p>
-
-            <p style="font-size:14px;line-height:1.75;color:#64748b;margin:0 0 22px;">
-                Your investment communication is shown below. Please review the details carefully and use your dashboard for your latest account information.
-            </p>
+        <td style="padding:30px;">  
 
             <!-- Account snapshot -->
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-radius:14px;background:#f5f9ff;border:1px solid #dce9f8;">
